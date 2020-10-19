@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, useState } from 'react'
+import NavBar from './components/NavBar'
+import TextInput from './components/TextInput'
+import Box from '@material-ui/core/Box'
+import { Container, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 
-function App() {
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      
+    },
+  },
+  test: {
+    backgroundColor: 'purple',
+   
+  }
+}));
+
+
+const App = () => {
+  const classes = useStyles();
+
+  const [inLineAes, setinLineAes] = useState();
+
+  let inLineAesSubmit = (e) => {
+    e.preventDefault()
+    console.log('text')
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <div >
+    <NavBar/>
+  
+    <Container className={classes.root}>
+       {/* <Box className={classes.test}>kmkk</Box> */}
+      <TextInput
+      inLineAesSubmit = {inLineAesSubmit}/>
+    </Container>
+  </div>
+  )
+
+
+      
 }
 
-export default App;
+
+
+export default App
