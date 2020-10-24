@@ -23,6 +23,7 @@ const passPhraseConfirmBuffer = (e) => {
     setPassPhrase(e.target.value)
     console.log(e.target.value)
 }
+const label = props.confirmError ? "Please Try Again" : "PassPhrase Confirmation";
 
   return (
     <div>
@@ -34,11 +35,12 @@ const passPhraseConfirmBuffer = (e) => {
           </DialogContentText>
           <TextField
             autoFocus
-            onChange = {passPhraseBuffer}
+            error = {props.confirmError}
+            onChange = {props.passPhraseConfirmBuffer}
             margin="dense"
             id="name"
-            label="PassPhrase Confirmation"
-            type="email"
+            label={label}
+            type="password"
             fullWidth
           />
         </DialogContent>
