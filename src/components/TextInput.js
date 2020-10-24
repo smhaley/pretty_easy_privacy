@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TextInput = (props) => {
+  const didMountRef = useRef(false)
   const classes = useStyles();
 
   const noAlert = {
@@ -118,10 +119,18 @@ const TextInput = (props) => {
     });
   }
 
-  useEffect(() => {
-    // props.setAlert(noAlert);
-    console.log("testing");
-  }, []);
+  // useEffect(() => {
+  //   if (didMountRef.current) {
+  //     props.alert = {
+  //       show: false,
+  //       message: null,
+  //       severity: null,
+  //     }
+
+  //   } else didMountRef.current = true
+  // }
+// );
+
 
   return (
     <Grid container wrap="nowrap" spacing={0}>

@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
+import Expire from "./components/Expire";
 import TextInput from "./components/TextInput";
 import Box from "@material-ui/core/Box";
 import { Container, Grid } from "@material-ui/core";
@@ -39,11 +40,10 @@ const App = () => {
 
       <div className={classes.alert}>
         {alert.show ? (
-          <Alert severity={alert.severity}>{alert.message}</Alert>
+          <Expire><Alert severity={alert.severity}>{alert.message}</Alert></Expire>
         ) : null}
       </div>
       <Container className={classes.root}>
-        {/* <Box className={classes.test}>kmkk</Box> */}
         <TextInput inLineAesSubmit={inLineAesSubmit} setAlert={setAlert} />
       </Container>
     </div>
