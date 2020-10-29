@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Expire from "./components/Expire";
 import TextInput from "./components/TextInput";
+import Symmetric from "./components/Symmetric";
 import Box from "@material-ui/core/Box";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -44,7 +45,12 @@ const App = () => {
         ) : null}
       </div>
       <Container className={classes.root}>
-        <TextInput inLineAesSubmit={inLineAesSubmit} setAlert={setAlert} />
+      <Symmetric
+      inLineAesSubmit={inLineAesSubmit}
+      setAlert={setAlert}
+      
+      />
+        {/* <TextInput inLineAesSubmit={inLineAesSubmit} setAlert={setAlert} /> */}
       </Container>
     </div>
   );
