@@ -1,9 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
-import Expire from "./components/Expire";
-import TextInput from "./components/TextInput";
+import Expire from "./components/utils/Expire";
 import Symmetric from "./components/Symmetric";
-import Box from "@material-ui/core/Box";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
@@ -50,7 +48,6 @@ const App = () => {
       setAlert={setAlert}
       
       />
-        {/* <TextInput inLineAesSubmit={inLineAesSubmit} setAlert={setAlert} /> */}
       </Container>
     </div>
   );

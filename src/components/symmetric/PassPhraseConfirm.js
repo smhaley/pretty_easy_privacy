@@ -48,7 +48,7 @@ const label = props.confirmError ? "Please Try Again" : "PassPhrase Confirmation
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick= {props.handleConfirm} color="primary">
+          <Button onClick= {() => props.handleConfirm(1)} color="primary">
             Encrypt
           </Button>
         </DialogActions>

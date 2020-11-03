@@ -1,18 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-import TextField from "@material-ui/core/TextField";
-
-import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import PassPhraseConfirm from "./PassPhraseConfirm";
 import Result from "./Result";
 import AesIlForm from "./AesIlForm";
-import FileInput from "./FileInput";
-import Symmetric from "./Symmetric";
 
 const openpgp = require("openpgp");
 
@@ -58,9 +51,9 @@ const TextInput = (props) => {
   //files
   const [fileLoader, setFilerLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState();
-  const [byteFileType, setByteFileType] = useState()
+  const [byteFileType, setByteFileType] = useState();
 
-
+  const [inputTypeSelect, setInputTypeSelect] = useState(0);
 
   const readFile = (e) => {
     setFilerLoader(true);
@@ -68,7 +61,7 @@ const TextInput = (props) => {
     if (!file) return;
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
-    setByteFileType(file.type.replace('/', '_'))
+    setByteFileType(file.type.replace("/", "_"));
 
     reader.onload = function () {
       // console.log(typeof reader.result);
@@ -84,6 +77,7 @@ const TextInput = (props) => {
   };
 
   const byteEncrypt = async (outputHandler) => {
+    console.log("run byte");
     const { message } = await openpgp.encrypt({
       message: openpgp.message.fromBinary(uploadedFile), // input as Message object
       passwords: [passPhrase], // multiple passwords possible
@@ -93,7 +87,6 @@ const TextInput = (props) => {
     console.log(message.armor());
     outputHandler(message.armor(), byteFileType);
   };
-
 
   const handleInput = (e) => {
     console.log(e.target.value);
@@ -106,13 +99,13 @@ const TextInput = (props) => {
 
   const inLineAesSubmit = async (outputHandler) => {
     setLoader(true);
-    console.log("run enc");
+    console.log("run inline");
     const { message } = await openpgp.encrypt({
       message: openpgp.message.fromText(aesInput),
       passwords: [passPhrase],
       armor: false,
     });
-    outputHandler(message.armor(), 'txt');
+    outputHandler(message.armor(), "txt");
   };
 
   let handleSubmit = (e) => {
@@ -126,7 +119,7 @@ const TextInput = (props) => {
     const element = document.createElement("a");
     const file = new Blob([output], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = element.href.split("/")[3] + '_' + ext + '_' +  ".aes"; //make random name
+    element.download = element.href.split("/")[3] + "_" + ext + "_" + ".aes"; //make random name
     setOutputTag(element);
     console.log(element);
     props.setAlert({
@@ -142,10 +135,17 @@ const TextInput = (props) => {
     setOpen(false);
   };
 
-  const handleConfirm = (encrytionMethod) => {
+  const handleConfirm = (inputTypeSelect) => {
     console.log("test");
+    console.log('input = ' + inputTypeSelect)
     if (confirmPassPhrase === passPhrase) {
-      encrytionMethod(outputHandler);
+      if (inputTypeSelect == 'text') {
+        console.log('in;ine')
+        inLineAesSubmit(outputHandler);
+      } else if (inputTypeSelect == 'byte') {
+        console.log('btye')
+        byteEncrypt(outputHandler);
+      }
       setOpen(false);
       setSuccess(true);
     } else {
@@ -159,6 +159,10 @@ const TextInput = (props) => {
   };
 
   const reset = () => {
+    setByteFileType(null);
+    setFilerLoader(false);
+    setUploadedFile(null);
+    setByteFileType(null);
     aesInputState(null);
     setConfirmPassPhrase(null);
     passPhraseState(null);
@@ -170,53 +174,22 @@ const TextInput = (props) => {
     });
   };
 
-  // useEffect(() => {
-  //   if (didMountRef.current) {
-  //     props.alert = {
-  //       show: false,
-  //       message: null,
-  //       severity: null,
-  //     }
-
-  //   } else didMountRef.current = true
-  // }
-  // );
-
-  let form;
-  if (props.inputType == 0) {
-    form = (
-      <AesIlForm
-      inputType = {props.inputType}
-        handleSubmit={handleSubmit}
-        handlePassPhrase={handlePassPhrase}
-        handleInput={handleInput}
-        open={open}
-        handleClose={handleClose}
-        handleConfirm={() => handleConfirm(inLineAesSubmit)}
-        passPhraseConfirmBuffer={passPhraseConfirmBuffer}
-        confirmError={confirmError}
-      />
-    )
-  } else {
-    form = (
-      <AesIlForm
-      inputType = {props.inputType}
-        handleSubmit={handleSubmit}
-        handlePassPhrase={handlePassPhrase}
-        handleInput={handleInput}
-        open={open}
-        handleClose={handleClose}
-        handleConfirm={() => handleConfirm(byteEncrypt)}
-        passPhraseConfirmBuffer={passPhraseConfirmBuffer}
-        confirmError={confirmError}
-        //
-        readFile = {readFile}
-
-      />
-    )
-  }
-    
-  
+  let form = (
+    <AesIlForm
+      handleSubmit={handleSubmit}
+      handlePassPhrase={handlePassPhrase}
+      handleInput={handleInput}
+      open={open}
+      handleClose={handleClose}
+      handleConfirm={handleConfirm}
+      passPhraseConfirmBuffer={passPhraseConfirmBuffer}
+      confirmError={confirmError}
+      readFile={readFile}
+      inLineAesSubmit={inLineAesSubmit}
+      byteEncrypt={byteEncrypt}
+      setInputTypeSelect = {setInputTypeSelect}
+    />
+  );
 
   return (
     <>
@@ -227,11 +200,7 @@ const TextInput = (props) => {
           <Typography className={classes.heading} variant="h5" gutterBottom>
             AES 256 File Encryption
           </Typography>
-          {success ? (
-            <Result outputTag={outputTag} reset={reset} />
-          ) : (
-            form
-          )}
+          {success ? <Result outputTag={outputTag} reset={reset} /> : form}
         </Grid>
       </Grid>
     </>

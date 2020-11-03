@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import TextInput from "./TextInput";
-import FileInput from "./FileInput";
+import TextInput from "./symmetric/TextInput";
+// import FileInput from "./FileInput";
 
 const AntTabs = withStyles({
   root: {
@@ -90,6 +90,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Symmetric(props) {
+
+//lift up to reset on load of new tab
+
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -98,12 +102,11 @@ export default function Symmetric(props) {
     console.log(value)
   };
 
-
   return (
     <div className={classes.root}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-          <AntTab label="In Browser Encryption" />
-          <AntTab label="In File Encryption" />
+          <AntTab label="Symmetric (PassPhrase)" />
+          <AntTab label="Asymmetric (Public Key)" />
         </AntTabs>
         <Typography className={classes.padding} />
         <TextInput inLineAesSubmit={props.inLineAesSubmit} setAlert={props.setAlert} inputType = {value}/>
