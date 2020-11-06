@@ -9,20 +9,20 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const PassPhraseConfirm = (props) => {
     const status = props.open
-  const [passPhrase, setPassPhrase] = React.useState();
+//   const [passPhrase, setPassPhrase] = React.useState();
 
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
+// //   const handleClickOpen = () => {
+// //     setOpen(true);
+// //   };
 
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
+// //   const handleClose = () => {
+// //     setOpen(false);
+// //   };
 
-const passPhraseConfirmBuffer = (e) => {
-    setPassPhrase(e.target.value)
-    console.log(e.target.value)
-}
+// const passPhraseConfirmBuffer = (e) => {
+//     setPassPhrase(e.target.value)
+//     console.log(e.target.value)
+// }
 const label = props.confirmError ? "Please Try Again" : "PassPhrase Confirmation";
 
   return (
@@ -48,7 +48,7 @@ const label = props.confirmError ? "Please Try Again" : "PassPhrase Confirmation
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick= {() => props.handleConfirm(1)} color="primary">
+          <Button onClick= {props.handleConfirm} color="primary">
             Encrypt
           </Button>
         </DialogActions>

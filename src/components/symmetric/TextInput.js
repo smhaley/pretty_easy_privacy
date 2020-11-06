@@ -46,8 +46,13 @@ const TextInput = (props) => {
   const [open, setOpen] = useState(false);
   const [confirmPassPhrase, setConfirmPassPhrase] = useState();
   const [confirmError, setConfirmError] = useState();
+
+  const [passPhraseMissingError, setPassPhraseMissingError] = useState();
+  const [formInputError, setFormInputError] = useState();
+
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [formError, setFormError] = useState(false);
   //files
   const [fileLoader, setFilerLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState();
@@ -108,9 +113,29 @@ const TextInput = (props) => {
     outputHandler(message.armor(), "txt");
   };
 
-  let handleSubmit = (e) => {
+  let handleSubmit = (e, inputType) => {
     e.preventDefault();
-    setOpen(true);
+    setPassPhraseMissingError(false);
+    setFormInputError(false);
+
+    if (!passPhrase) {
+      console.log("passPhraseError");
+      setPassPhraseMissingError(true);
+    }
+    
+    if (inputType === "text") {
+      if (!aesInput) {
+        console.log("err");
+        setFormInputError(true);
+      }
+    } else if (inputType === "byte") {
+      if (!uploadedFile) {
+        console.log("err");
+        setFormInputError(true);
+      }
+    } else {
+      setOpen(true);
+    }
   };
 
   const outputHandler = (output, ext) => {
@@ -137,13 +162,13 @@ const TextInput = (props) => {
 
   const handleConfirm = (inputTypeSelect) => {
     console.log("test");
-    console.log('input = ' + inputTypeSelect)
+    console.log("input = " + inputTypeSelect);
     if (confirmPassPhrase === passPhrase) {
-      if (inputTypeSelect == 'text') {
-        console.log('in;ine')
+      if (inputTypeSelect == "text") {
+        console.log("in;ine");
         inLineAesSubmit(outputHandler);
-      } else if (inputTypeSelect == 'byte') {
-        console.log('btye')
+      } else if (inputTypeSelect == "byte") {
+        console.log("btye");
         byteEncrypt(outputHandler);
       }
       setOpen(false);
@@ -176,7 +201,10 @@ const TextInput = (props) => {
 
   let form = (
     <AesIlForm
+      formInputError={formInputError}
+      passPhraseMissingError={passPhraseMissingError}
       handleSubmit={handleSubmit}
+      formError={formError}
       handlePassPhrase={handlePassPhrase}
       handleInput={handleInput}
       open={open}
@@ -187,10 +215,13 @@ const TextInput = (props) => {
       readFile={readFile}
       inLineAesSubmit={inLineAesSubmit}
       byteEncrypt={byteEncrypt}
-      setInputTypeSelect = {setInputTypeSelect}
+      setInputTypeSelect={setInputTypeSelect}
     />
   );
 
+  // console.log('s',  passPhrase.length==0)
+
+  console.log("testing", passPhrase);
   return (
     <>
       <Grid container wrap="nowrap" spacing={0}>

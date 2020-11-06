@@ -24,17 +24,17 @@ const useStyles = makeStyles((theme) => ({
 const InLine = (props) => {
   const classes = useStyles();
 
-  useEffect(() => {
-    // window.addEventListener("mousemove", logMousePosition);
-    console.log("Created");
-  });
+  const label = props.formInputError
+  ? "Please Enter some Text to Encrypt!"
+  : "Text to Encrypt";
 
   return (
     <TextField
       className={classes.textBox}
       fullWidth={true}
+      error = {props.formInputError}
       id="outlined-multiline-static"
-      label="AES 256"
+      label={label}
       multiline
       rows={10}
       onChange={props.handleInput}
@@ -45,8 +45,13 @@ const InLine = (props) => {
 
 const InFile = (props) => {
   const classes = useStyles();
+  const label = props.formInputError
+  ? "Please Select a file object:!"
+  : "Select a file object:";
   return (
-    <>
+    <Box> 
+      <FormLabel component="legend" error = {props.formInputError}>{label}</FormLabel>
+      <Box mt={1}>
       <Button
         // onClick={test2}
         onClick={() => document.getElementById("inp").click()}
@@ -61,136 +66,96 @@ const InFile = (props) => {
         style={{ visibility: "hidden" }}
         onChange={props.readFile}
       />
-    </>
+       </Box>
+    </Box>
   );
 };
 
 const AesIlForm = (props) => {
   const classes = useStyles();
 
-  const [inputTypeSelect, setInputTypeSelect] = useState('text');
+  const [inputTypeSelect, setInputTypeSelect] = useState("text");
 
-  // const inputHandleConfirm = (inputTypeSelect) => {
-  //   if (inputTypeSelect == 0) {
-  //     console.log('inline form')
-  //    props.handleConfirm(0);
-  //   } else {
-  //     console.log('byte form')
-  //     props.handleConfirm(1);
-  //   }
-  // };
-
-const handleChange = e => {
-  console.log(typeof e.target.value)
-  setInputTypeSelect(e.target.value)
-}
-
-
-// const handleEncrypt = () =>{
-//   console.log('ddddd')
-//  return  props.handleConfirm(inputTypeSelect)
-// }
+  const handleChange = (e) => {
+    console.log(typeof e.target.value);
+    setInputTypeSelect(e.target.value);
+  };
 
   let inputType;
-  if (inputTypeSelect == 'text') {
+  if (inputTypeSelect == "text") {
     inputType = (
-      <InLine handleInput={props.handleInput} />
-
-      // <TextField
-      //   className={classes.textBox}
-      //   fullWidth={true}
-      //   id="outlined-multiline-static"
-      //   label="AES 256"
-      //   multiline
-      //   rows={10}
-      //   onChange={props.handleInput}
-      //   variant="outlined"
-      // />
+      <InLine
+        formInputError={props.formInputError}
+        handleInput={props.handleInput}
+      />
     );
   } else {
     inputType = (
-      <>
-        <Button
-          // onClick={test2}
-          onClick={() => document.getElementById("inp").click()}
-          variant="contained"
-        >
-          browse
-        </Button>
-
-        <input
-          id="inp"
-          type="file"
-          style={{ visibility: "hidden" }}
-          onChange={props.readFile}
-        />
-      </>
+      <InFile formInputError={props.formInputError} readFile={props.readFile} />
     );
   }
 
+  console.log("form erros? " + props.formError);
+
+  // props.passPhraseMissingError
+  const passPhraseLabel = props.passPhraseMissingError
+    ? "Please Enter a PassPhrase"
+    : "PassPhrase";
+
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
       <Box mb={2}>
         <TextField
           onChange={props.handlePassPhrase}
           className={classes.pwText}
+          error={props.passPhraseMissingError}
           id="pw-in"
           type="password"
-          label="Pass Phrase"
+          label={passPhraseLabel}
           variant="outlined"
         />
       </Box>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Input Format</FormLabel>
-        <RadioGroup
-          row
-          aria-label="position"
-          name="position"
-          value = {inputTypeSelect}
-          defaultValue="top"
-          onChange={handleChange}
-        >
-          <FormControlLabel
-            value= 'text'
-            control={<Radio color="primary" />}
-            label="Text Input"
-            labelPlacement="start"
-            // onChange={() => setInputTypeSelect(0)}
-          />
-          <FormControlLabel
-            value='byte'
-            control={<Radio color="secondary" />}
-            label="File Input"
-            labelPlacement="start"
-            // onChange={() => setInputTypeSelect(1)}
-          />
-        </RadioGroup>
-      </FormControl>
+      <Box mt={4} mb={4}>
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Input Format</FormLabel>
+          <RadioGroup
+            row
+            aria-label="position"
+            name="position"
+            value={inputTypeSelect}
+            defaultValue="top"
+            onChange={handleChange}
+          >
+            <FormControlLabel
+              value="text"
+              control={<Radio color="primary" />}
+              label="Text Input"
+              labelPlacement="start"
+              // onChange={() => setInputTypeSelect(0)}
+            />
+            <FormControlLabel
+              value="byte"
+              control={<Radio color="secondary" />}
+              label="File Input"
+              labelPlacement="start"
+              // onChange={() => setInputTypeSelect(1)}
+            />
+          </RadioGroup>
+        </FormControl>
+      </Box>
       {inputType}
-      {/* <Box mb={2} mr={2}>
-        <TextField
-          className={classes.textBox}
-          fullWidth={true}
-          id="outlined-multiline-static"
-          label="AES 256"
-          multiline
-          rows={10}
-          onChange={props.handleInput}
-          variant="outlined"
-        />
-      </Box> */}
-      <Box mb={2}>
+
+      <Box mt={2}>
         <Button type="submit" variant="contained">
           Encrypt
         </Button>
       </Box>
-      <Box></Box>
+
       <PassPhraseConfirm
         open={props.open}
         handleClose={props.handleClose}
         handleConfirm={() => props.handleConfirm(inputTypeSelect)}
         passPhraseConfirmBuffer={props.passPhraseConfirmBuffer}
-
         confirmError={props.confirmError}
       />
     </form>
