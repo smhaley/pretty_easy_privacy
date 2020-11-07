@@ -99,7 +99,7 @@ export default function Symmetric(props) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log(value)
+    // console.log(value)
   };
 
   return (

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const InLine = (props) => {
   const classes = useStyles();
 
-  const label = props.formInputError
+  const label = props.formTextInputError
   ? "Please Enter some Text to Encrypt!"
   : "Text to Encrypt";
 
@@ -32,7 +32,7 @@ const InLine = (props) => {
     <TextField
       className={classes.textBox}
       fullWidth={true}
-      error = {props.formInputError}
+      error = {props.formTextInputError}
       id="outlined-multiline-static"
       label={label}
       multiline
@@ -45,12 +45,14 @@ const InLine = (props) => {
 
 const InFile = (props) => {
   const classes = useStyles();
-  const label = props.formInputError
-  ? "Please Select a file object:!"
+  const label = props.formByteInputError
+  ? "Please Select a file object!:"
   : "Select a file object:";
+
+  const selectedFile = props.fileMetaData && <FormLabel>{`Selected file: ${props.fileMetaData.name}`}</FormLabel>
   return (
     <Box> 
-      <FormLabel component="legend" error = {props.formInputError}>{label}</FormLabel>
+      <FormLabel component="legend" error = {props.formByteInputError}>{label}</FormLabel>
       <Box mt={1}>
       <Button
         // onClick={test2}
@@ -58,7 +60,9 @@ const InFile = (props) => {
         variant="contained"
       >
         browse
-      </Button>
+      </Button> {selectedFile}
+
+
 
       <input
         id="inp"
@@ -77,7 +81,7 @@ const AesIlForm = (props) => {
   const [inputTypeSelect, setInputTypeSelect] = useState("text");
 
   const handleChange = (e) => {
-    console.log(typeof e.target.value);
+    // console.log(typeof e.target.value);
     setInputTypeSelect(e.target.value);
   };
 
@@ -85,17 +89,18 @@ const AesIlForm = (props) => {
   if (inputTypeSelect == "text") {
     inputType = (
       <InLine
-        formInputError={props.formInputError}
+      formTextInputError = {props.formTextInputError}
+        
         handleInput={props.handleInput}
       />
     );
   } else {
     inputType = (
-      <InFile formInputError={props.formInputError} readFile={props.readFile} />
+      <InFile fileMetaData = {props.fileMetaData} formByteInputError = {props.formByteInputError} readFile={props.readFile} />
     );
   }
 
-  console.log("form erros? " + props.formError);
+  // console.log("form erros? " + props.formError);
 
   // props.passPhraseMissingError
   const passPhraseLabel = props.passPhraseMissingError

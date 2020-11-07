@@ -20,12 +20,12 @@ const FileInput = (props) => {
 
     reader.onload = function () {
       // console.log(typeof reader.result);
-      console.log(reader.result);
+      // console.log(reader.result);
       setUploadedFile(new Uint8Array(reader.result));
     };
 
     reader.onerror = function () {
-      console.log(reader.error);
+      // console.log(reader.error);
     };
     setFilerLoader(false);
     // reader.readAsText(file);

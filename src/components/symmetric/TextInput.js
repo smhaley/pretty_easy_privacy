@@ -48,6 +48,9 @@ const TextInput = (props) => {
   const [confirmError, setConfirmError] = useState();
 
   const [passPhraseMissingError, setPassPhraseMissingError] = useState();
+  const [formTextInputError, setFormTextInputError] = useState();
+  const [formByteInputError, setFormByteInputError] = useState();
+
   const [formInputError, setFormInputError] = useState();
 
   const [success, setSuccess] = useState(false);
@@ -57,32 +60,31 @@ const TextInput = (props) => {
   const [fileLoader, setFilerLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState();
   const [byteFileType, setByteFileType] = useState();
+  const [fileMetaData, setFileMetaData] = useState();
 
   const [inputTypeSelect, setInputTypeSelect] = useState(0);
 
   const readFile = (e) => {
+    console.log("reading");
     setFilerLoader(true);
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
+    //TODO transition to metadata
     setByteFileType(file.type.replace("/", "_"));
+    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
 
+    console.log(file);
     reader.onload = function () {
-      // console.log(typeof reader.result);
-      console.log(reader.result);
       setUploadedFile(new Uint8Array(reader.result));
     };
 
-    reader.onerror = function () {
-      console.log(reader.error);
-    };
+    reader.onerror = function () {};
     setFilerLoader(false);
-    // reader.readAsText(file);
   };
 
   const byteEncrypt = async (outputHandler) => {
-    console.log("run byte");
     const { message } = await openpgp.encrypt({
       message: openpgp.message.fromBinary(uploadedFile), // input as Message object
       passwords: [passPhrase], // multiple passwords possible
@@ -94,7 +96,7 @@ const TextInput = (props) => {
   };
 
   const handleInput = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     aesInputState(e.target.value);
   };
 
@@ -104,7 +106,7 @@ const TextInput = (props) => {
 
   const inLineAesSubmit = async (outputHandler) => {
     setLoader(true);
-    console.log("run inline");
+
     const { message } = await openpgp.encrypt({
       message: openpgp.message.fromText(aesInput),
       passwords: [passPhrase],
@@ -116,23 +118,27 @@ const TextInput = (props) => {
   let handleSubmit = (e, inputType) => {
     e.preventDefault();
     setPassPhraseMissingError(false);
-    setFormInputError(false);
+    setFormTextInputError(false);
+    setFormByteInputError(false);
 
     if (!passPhrase) {
       console.log("passPhraseError");
       setPassPhraseMissingError(true);
     }
-    
+
     if (inputType === "text") {
       if (!aesInput) {
         console.log("err");
-        setFormInputError(true);
+        return setFormTextInputError(true);
       }
     } else if (inputType === "byte") {
       if (!uploadedFile) {
-        console.log("err");
-        setFormInputError(true);
+        return setFormByteInputError(true);
       }
+    }
+
+    if (!passPhrase) {
+      return;
     } else {
       setOpen(true);
     }
@@ -140,13 +146,13 @@ const TextInput = (props) => {
 
   const outputHandler = (output, ext) => {
     console.log("run anchorbuild");
-    console.log(output);
+    // console.log(output);
     const element = document.createElement("a");
     const file = new Blob([output], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
     element.download = element.href.split("/")[3] + "_" + ext + "_" + ".aes"; //make random name
     setOutputTag(element);
-    console.log(element);
+    // console.log(element);
     props.setAlert({
       show: true,
       message: "Encryption Complete",
@@ -161,14 +167,16 @@ const TextInput = (props) => {
   };
 
   const handleConfirm = (inputTypeSelect) => {
-    console.log("test");
-    console.log("input = " + inputTypeSelect);
+    // console.log("test");
+    // console.log("input = " + inputTypeSelect);
+    console.log(inputTypeSelect)
+    console.log(confirmPassPhrase, passPhrase)
     if (confirmPassPhrase === passPhrase) {
       if (inputTypeSelect == "text") {
-        console.log("in;ine");
+        // console.log("in;ine");
         inLineAesSubmit(outputHandler);
       } else if (inputTypeSelect == "byte") {
-        console.log("btye");
+        // console.log("btye");
         byteEncrypt(outputHandler);
       }
       setOpen(false);
@@ -179,7 +187,7 @@ const TextInput = (props) => {
   };
 
   const passPhraseConfirmBuffer = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setConfirmPassPhrase(e.target.value);
   };
 
@@ -192,6 +200,9 @@ const TextInput = (props) => {
     setConfirmPassPhrase(null);
     passPhraseState(null);
     setSuccess(false);
+    setOutputTag(null)
+    setFileMetaData(null)
+    
     props.setAlert({
       show: false,
       message: null,
@@ -201,7 +212,9 @@ const TextInput = (props) => {
 
   let form = (
     <AesIlForm
-      formInputError={formInputError}
+      fileMetaData={fileMetaData}
+      formTextInputError={formTextInputError}
+      formByteInputError={formByteInputError}
       passPhraseMissingError={passPhraseMissingError}
       handleSubmit={handleSubmit}
       formError={formError}
@@ -220,8 +233,8 @@ const TextInput = (props) => {
   );
 
   // console.log('s',  passPhrase.length==0)
-
-  console.log("testing", passPhrase);
+  //
+  // console.log("testing", passPhrase);
   return (
     <>
       <Grid container wrap="nowrap" spacing={0}>

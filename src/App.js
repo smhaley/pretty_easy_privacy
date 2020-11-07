@@ -30,7 +30,7 @@ const App = () => {
 
   let inLineAesSubmit = (e) => {
     e.preventDefault();
-    console.log("text");
+    // console.log("text");
   };
 
   return (
