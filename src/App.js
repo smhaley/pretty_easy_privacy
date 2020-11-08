@@ -9,7 +9,7 @@ import Alert from "@material-ui/lab/Alert";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
-      margin: theme.spacing(1),
+      margin: theme.spacing(2),
     },
   },
   alert: {
@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
 
+
+const [menuState, setMenuState] = useState(1)
   const [alert, setAlert] = useState({
     show: false,
     message: null,
@@ -32,6 +34,11 @@ const App = () => {
     e.preventDefault();
     // console.log("text");
   };
+
+  const appMenuHandler = () => {
+
+
+  }
 
   return (
     <div>

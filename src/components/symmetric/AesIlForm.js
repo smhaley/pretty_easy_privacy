@@ -58,6 +58,7 @@ const InFile = (props) => {
         // onClick={test2}
         onClick={() => document.getElementById("inp").click()}
         variant="contained"
+        // color='light'
       >
         browse
       </Button> {selectedFile}
@@ -104,12 +105,12 @@ const AesIlForm = (props) => {
 
   // props.passPhraseMissingError
   const passPhraseLabel = props.passPhraseMissingError
-    ? "Please Enter a PassPhrase"
+    ? "PassPhrase Required!"
     : "PassPhrase";
 
   return (
     <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
-      <Box mb={2}>
+      {/* <Box mb={2}>
         <TextField
           onChange={props.handlePassPhrase}
           className={classes.pwText}
@@ -119,7 +120,7 @@ const AesIlForm = (props) => {
           label={passPhraseLabel}
           variant="outlined"
         />
-      </Box>
+      </Box> */}
       <Box mt={4} mb={4}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Input Format</FormLabel>
@@ -150,8 +151,20 @@ const AesIlForm = (props) => {
       </Box>
       {inputType}
 
-      <Box mt={2}>
-        <Button type="submit" variant="contained">
+      <Box mt={2} pt={2}>
+        <TextField
+          onChange={props.handlePassPhrase}
+          className={classes.pwText}
+          error={props.passPhraseMissingError}
+          id="pw-in"
+          type="password"
+          label={passPhraseLabel}
+          // variant="standard"
+        />
+      </Box>
+
+      <Box pt={3}>
+        <Button type="submit" variant="contained" color={'primary'}>
           Encrypt
         </Button>
       </Box>
