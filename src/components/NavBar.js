@@ -22,7 +22,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
+
+
   const classes = useStyles();
+  const menuStateHandler = (state) => {
+    props.setMenuState(state)
+  
+    }
+
   return (
     <div>
       <AppBar position="static">
@@ -33,7 +40,7 @@ const NavBar = (props) => {
             color="inherit"
             aria-label="menu"
           >
-              <NavBarMenu/>
+              <NavBarMenu menuStateHandler = {menuStateHandler}/>
           </IconButton>
           <Typography variant="title" color="inherit">
             PEP - Pretty Easy Privacy

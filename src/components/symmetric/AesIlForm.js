@@ -3,15 +3,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
 import PassPhraseConfirm from "./PassPhraseConfirm";
-
+import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import { Icon } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -25,14 +25,14 @@ const InLine = (props) => {
   const classes = useStyles();
 
   const label = props.formTextInputError
-  ? "Please Enter some Text to Encrypt!"
-  : "Text to Encrypt";
+    ? "Please Enter some Text to Encrypt!"
+    : "Text to Encrypt";
 
   return (
     <TextField
       className={classes.textBox}
       fullWidth={true}
-      error = {props.formTextInputError}
+      error={props.formTextInputError}
       id="outlined-multiline-static"
       label={label}
       multiline
@@ -46,32 +46,45 @@ const InLine = (props) => {
 const InFile = (props) => {
   const classes = useStyles();
   const label = props.formByteInputError
-  ? "Please Select a file object!:"
-  : "Select a file object:";
+    ? "Please Select a file object!:"
+    : "Select a file object:";
 
-  const selectedFile = props.fileMetaData && <FormLabel>{`Selected file: ${props.fileMetaData.name}`}</FormLabel>
+
+  const handleDelete =() =>{
+    props.setUploadedFile(null)
+    props.setFileMetaData(null)
+  }
+  const selectedFile = props.fileMetaData && (
+    <>
+    <FormLabel>{`Selected file: ${props.fileMetaData.name}`}</FormLabel>
+    <IconButton onClick={handleDelete}>
+    <DeleteOutlineSharpIcon />
+  </IconButton>
+  </>
+  );
   return (
-    <Box> 
-      <FormLabel component="legend" error = {props.formByteInputError}>{label}</FormLabel>
+    <Box>
+      <FormLabel component="legend" error={props.formByteInputError}>
+        {label}
+      </FormLabel>
       <Box mt={1}>
-      <Button
-        // onClick={test2}
-        onClick={() => document.getElementById("inp").click()}
-        variant="contained"
-        // color='light'
-      >
-        browse
-      </Button> {selectedFile}
+        <Button
+          // onClick={test2}
+          onClick={() => document.getElementById("inp").click()}
+          variant="outlined"
+          color='secondary'
+        >
+          browse
+        </Button>{" "}
+        {selectedFile}
 
-
-
-      <input
-        id="inp"
-        type="file"
-        style={{ visibility: "hidden" }}
-        onChange={props.readFile}
-      />
-       </Box>
+        <input
+          id="inp"
+          type="file"
+          style={{ visibility: "hidden" }}
+          onChange={props.readFile}
+        />
+      </Box>
     </Box>
   );
 };
@@ -90,14 +103,20 @@ const AesIlForm = (props) => {
   if (inputTypeSelect == "text") {
     inputType = (
       <InLine
-      formTextInputError = {props.formTextInputError}
-        
+        formTextInputError={props.formTextInputError}
         handleInput={props.handleInput}
+
       />
     );
   } else {
     inputType = (
-      <InFile fileMetaData = {props.fileMetaData} formByteInputError = {props.formByteInputError} readFile={props.readFile} />
+      <InFile
+        fileMetaData={props.fileMetaData}
+        formByteInputError={props.formByteInputError}
+        readFile={props.readFile}
+        setUploadedFile={props.setUploadedFile}
+        setFileMetaData={props.setFileMetaData}
+      />
     );
   }
 
@@ -159,13 +178,14 @@ const AesIlForm = (props) => {
           id="pw-in"
           type="password"
           label={passPhraseLabel}
-          // variant="standard"
+          variant="outlined"
+          // variant="filled"
         />
       </Box>
 
       <Box pt={3}>
-        <Button type="submit" variant="contained" color={'primary'}>
-          Encrypt
+        <Button type="submit" variant="contained" color={"primary"}>
+          Encrypt!
         </Button>
       </Box>
 

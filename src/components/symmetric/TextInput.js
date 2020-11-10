@@ -212,6 +212,8 @@ const TextInput = (props) => {
 
   let form = (
     <AesIlForm
+      setUploadedFile={setUploadedFile}
+      setFileMetaData={setFileMetaData}
       fileMetaData={fileMetaData}
       formTextInputError={formTextInputError}
       formByteInputError={formByteInputError}
@@ -238,7 +240,6 @@ const TextInput = (props) => {
   return (
     <>
       <Grid container wrap="nowrap" spacing={0}>
-        <Box></Box>
         <Grid item></Grid>
         <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>

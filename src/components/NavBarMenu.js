@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {color: 'white'}
 }));
 
-export default function MenuListComposition() {
+export default function MenuListComposition(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -30,7 +30,14 @@ export default function MenuListComposition() {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
+  const handleClose = (event, selection) => {
+    // console.log(prevOpen)
+
+    if (selection){
+      console.log('fire')
+      props.menuStateHandler(selection)
+    }
+
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -77,10 +84,10 @@ export default function MenuListComposition() {
               <Paper >
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>Encrypt</MenuItem>
-                    <MenuItem onClick={handleClose}>Decrypt</MenuItem>
-                    <MenuItem onClick={handleClose}>Key Generation</MenuItem>
-                    <MenuItem onClick={handleClose}>Help</MenuItem>
+                    <MenuItem onClick={(e)=>handleClose(e, 1)}>Encrypt</MenuItem>
+                    <MenuItem onClick={(e)=>handleClose(e, 2)}>Decrypt</MenuItem>
+                    <MenuItem onClick={(e)=>handleClose(e, 3)}>Key Generation</MenuItem>
+                    <MenuItem onClick={(e)=>handleClose(e, 4)}>Help</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

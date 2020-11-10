@@ -35,14 +35,12 @@ const [menuState, setMenuState] = useState(1)
     // console.log("text");
   };
 
-  const appMenuHandler = () => {
+console.log(menuState)
 
-
-  }
 
   return (
     <div>
-      <NavBar />
+      <NavBar setMenuState = {setMenuState}/>
 
       <div className={classes.alert}>
         {alert.show ? (
@@ -50,11 +48,13 @@ const [menuState, setMenuState] = useState(1)
         ) : null}
       </div>
       <Container className={classes.root}>
+      {/* {if (menuState===0){ */}
       <Symmetric
       inLineAesSubmit={inLineAesSubmit}
       setAlert={setAlert}
       
       />
+    
       </Container>
     </div>
   );
