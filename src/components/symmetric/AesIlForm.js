@@ -129,17 +129,7 @@ const AesIlForm = (props) => {
 
   return (
     <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
-      {/* <Box mb={2}>
-        <TextField
-          onChange={props.handlePassPhrase}
-          className={classes.pwText}
-          error={props.passPhraseMissingError}
-          id="pw-in"
-          type="password"
-          label={passPhraseLabel}
-          variant="outlined"
-        />
-      </Box> */}
+
       <Box mt={4} mb={4}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Input Format</FormLabel>

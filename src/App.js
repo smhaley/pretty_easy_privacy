@@ -6,6 +6,8 @@ import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -52,7 +54,6 @@ console.log(menuState)
       <Symmetric
       inLineAesSubmit={inLineAesSubmit}
       setAlert={setAlert}
-      
       />
     
       </Container>

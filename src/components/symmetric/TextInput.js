@@ -211,22 +211,25 @@ const TextInput = (props) => {
   };
 
   let form = (
+
+
+
     <AesIlForm
       setUploadedFile={setUploadedFile}
       setFileMetaData={setFileMetaData}
       fileMetaData={fileMetaData}
       formTextInputError={formTextInputError}
       formByteInputError={formByteInputError}
-      passPhraseMissingError={passPhraseMissingError}
-      handleSubmit={handleSubmit}
+      passPhraseMissingError={passPhraseMissingError} //migrate
+      handleSubmit={handleSubmit} //migrate
       formError={formError}
-      handlePassPhrase={handlePassPhrase}
+      handlePassPhrase={handlePassPhrase} //migrate
       handleInput={handleInput}
-      open={open}
-      handleClose={handleClose}
-      handleConfirm={handleConfirm}
-      passPhraseConfirmBuffer={passPhraseConfirmBuffer}
-      confirmError={confirmError}
+      open={open} //migrate
+      handleClose={handleClose} //migrate
+      handleConfirm={handleConfirm} //migrate
+      passPhraseConfirmBuffer={passPhraseConfirmBuffer} //migrate
+      confirmError={confirmError} //migrate
       readFile={readFile}
       inLineAesSubmit={inLineAesSubmit}
       byteEncrypt={byteEncrypt}
@@ -234,6 +237,7 @@ const TextInput = (props) => {
     />
   );
 
+  console.log(props.inputType)
   // console.log('s',  passPhrase.length==0)
   //
   // console.log("testing", passPhrase);

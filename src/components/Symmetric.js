@@ -101,7 +101,7 @@ export default function Symmetric(props) {
     setValue(newValue);
     // console.log(value)
   };
-
+console.log(value)
   return (
     <div className={classes.root}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
