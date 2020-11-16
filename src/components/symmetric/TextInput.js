@@ -64,27 +64,27 @@ const TextInput = (props) => {
 
   const [inputTypeSelect, setInputTypeSelect] = useState(0);
 
-  const readFile = (e) => {
-    console.log("reading");
-    setFilerLoader(true);
-    var file = e.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    //TODO transition to metadata
-    setByteFileType(file.type.replace("/", "_"));
-    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+  // const readFile = (e) => {
+  //   console.log("reading");
+  //   setFilerLoader(true);
+  //   var file = e.target.files[0];
+  //   if (!file) return;
+  //   var reader = new FileReader();
+  //   reader.readAsArrayBuffer(file);
+  //   //TODO transition to metadata
+  //   setByteFileType(file.type.replace("/", "_"));
+  //   setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
 
-    console.log(file);
-    reader.onload = function () {
-      setUploadedFile(new Uint8Array(reader.result));
-    };
+  //   console.log(file);
+  //   reader.onload = function () {
+  //     setUploadedFile(new Uint8Array(reader.result));
+  //   };
 
-    reader.onerror = function () {};
-    setFilerLoader(false);
-  };
+  //   reader.onerror = function () {};
+  //   setFilerLoader(false);
+  // };
 
-  const byteEncrypt = async (outputHandler) => {
+  const byteEncrypt = async () => {
     const { message } = await openpgp.encrypt({
       message: openpgp.message.fromBinary(uploadedFile), // input as Message object
       passwords: [passPhrase], // multiple passwords possible
@@ -92,19 +92,19 @@ const TextInput = (props) => {
     });
     const encrypted = message.packets.write();
     console.log(message.armor());
-    outputHandler(message.armor(), byteFileType);
+    outputHandler(message.armor(), fileMetaData.type);
   };
 
-  const handleInput = (e) => {
-    // console.log(e.target.value);
-    aesInputState(e.target.value);
-  };
+  // const handleInput = (e) => {
+  //   // console.log(e.target.value);
+  //   aesInputState(e.target.value);
+  // };
 
-  const handlePassPhrase = (e) => {
-    passPhraseState(e.target.value);
-  };
+  // const handlePassPhrase = (e) => {
+  //   passPhraseState(e.target.value);
+  // };
 
-  const inLineAesSubmit = async (outputHandler) => {
+  const inLineAesSubmit = async () => {
     setLoader(true);
 
     const { message } = await openpgp.encrypt({
@@ -115,34 +115,34 @@ const TextInput = (props) => {
     outputHandler(message.armor(), "txt");
   };
 
-  let handleSubmit = (e, inputType) => {
-    e.preventDefault();
-    setPassPhraseMissingError(false);
-    setFormTextInputError(false);
-    setFormByteInputError(false);
+  // let handleSubmit = (e, inputType) => {
+  //   e.preventDefault();
+  //   setPassPhraseMissingError(false);
+  //   setFormTextInputError(false);
+  //   setFormByteInputError(false);
 
-    if (!passPhrase) {
-      console.log("passPhraseError");
-      setPassPhraseMissingError(true);
-    }
+  //   if (!passPhrase) {
+  //     console.log("passPhraseError");
+  //     setPassPhraseMissingError(true);
+  //   }
 
-    if (inputType === "text") {
-      if (!aesInput) {
-        console.log("err");
-        return setFormTextInputError(true);
-      }
-    } else if (inputType === "byte") {
-      if (!uploadedFile) {
-        return setFormByteInputError(true);
-      }
-    }
+  //   if (inputType === "text") {
+  //     if (!aesInput) {
+  //       console.log("err");
+  //       return setFormTextInputError(true);
+  //     }
+  //   } else if (inputType === "byte") {
+  //     if (!uploadedFile) {
+  //       return setFormByteInputError(true);
+  //     }
+  //   }
 
-    if (!passPhrase) {
-      return;
-    } else {
-      setOpen(true);
-    }
-  };
+  //   if (!passPhrase) {
+  //     return;
+  //   } else {
+  //     setOpen(true);
+  //   }
+  // };
 
   const outputHandler = (output, ext) => {
     console.log("run anchorbuild");
@@ -166,30 +166,30 @@ const TextInput = (props) => {
     setOpen(false);
   };
 
-  const handleConfirm = (inputTypeSelect) => {
-    // console.log("test");
-    // console.log("input = " + inputTypeSelect);
-    console.log(inputTypeSelect)
-    console.log(confirmPassPhrase, passPhrase)
-    if (confirmPassPhrase === passPhrase) {
-      if (inputTypeSelect == "text") {
-        // console.log("in;ine");
-        inLineAesSubmit(outputHandler);
-      } else if (inputTypeSelect == "byte") {
-        // console.log("btye");
-        byteEncrypt(outputHandler);
-      }
-      setOpen(false);
-      setSuccess(true);
-    } else {
-      setConfirmError(true);
-    }
-  };
+  // const handleConfirm = (inputTypeSelect) => {
+  //   // console.log("test");
+  //   // console.log("input = " + inputTypeSelect);
+  //   console.log(inputTypeSelect)
+  //   console.log(confirmPassPhrase, passPhrase)
+  //   if (confirmPassPhrase === passPhrase) {
+  //     if (inputTypeSelect == "text") {
+  //       // console.log("in;ine");
+  //       inLineAesSubmit();
+  //     } else if (inputTypeSelect == "byte") {
+  //       // console.log("btye");
+  //       byteEncrypt();
+  //     }
+  //     setOpen(false);
+  //     setSuccess(true);
+  //   } else {
+  //     setConfirmError(true);
+  //   }
+  // };
 
-  const passPhraseConfirmBuffer = (e) => {
-    // console.log(e.target.value);
-    setConfirmPassPhrase(e.target.value);
-  };
+  // const passPhraseConfirmBuffer = (e) => {
+  //   // console.log(e.target.value);
+  //   setConfirmPassPhrase(e.target.value);
+  // };
 
   const reset = () => {
     setByteFileType(null);
@@ -217,20 +217,20 @@ const TextInput = (props) => {
     <AesIlForm
       setUploadedFile={setUploadedFile}
       setFileMetaData={setFileMetaData}
-      fileMetaData={fileMetaData}
-      formTextInputError={formTextInputError}
-      formByteInputError={formByteInputError}
-      passPhraseMissingError={passPhraseMissingError} //migrate
-      handleSubmit={handleSubmit} //migrate
-      formError={formError}
-      handlePassPhrase={handlePassPhrase} //migrate
-      handleInput={handleInput}
-      open={open} //migrate
-      handleClose={handleClose} //migrate
-      handleConfirm={handleConfirm} //migrate
-      passPhraseConfirmBuffer={passPhraseConfirmBuffer} //migrate
-      confirmError={confirmError} //migrate
-      readFile={readFile}
+      // fileMetaData={fileMetaData}
+      // formTextInputError={formTextInputError}
+      // formByteInputError={formByteInputError}
+      // passPhraseMissingError={passPhraseMissingError} //migrate
+      // handleSubmit={handleSubmit} //migrate
+      // formError={formError}
+      // handlePassPhrase={handlePassPhrase} //migrate
+      // handleInput={handleInput}
+      // open={open} //migrate
+      // handleClose={handleClose} //migrate
+      // handleConfirm={handleConfirm} //migrate
+      // passPhraseConfirmBuffer={passPhraseConfirmBuffer} //migrate
+      // confirmError={confirmError} //migrate
+      // readFile={readFile}
       inLineAesSubmit={inLineAesSubmit}
       byteEncrypt={byteEncrypt}
       setInputTypeSelect={setInputTypeSelect}

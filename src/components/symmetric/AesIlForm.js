@@ -37,7 +37,7 @@ const InLine = (props) => {
       label={label}
       multiline
       rows={10}
-      onChange={props.handleInput}
+      onChange={props.handleTextInput}
       variant="outlined"
     />
   );
@@ -49,18 +49,17 @@ const InFile = (props) => {
     ? "Please Select a file object!:"
     : "Select a file object:";
 
-
-  const handleDelete =() =>{
-    props.setUploadedFile(null)
-    props.setFileMetaData(null)
-  }
+  const handleDelete = () => {
+    props.setUploadedFile(null);
+    props.setFileMetaData(null);
+  };
   const selectedFile = props.fileMetaData && (
     <>
-    <FormLabel>{`Selected file: ${props.fileMetaData.name}`}</FormLabel>
-    <IconButton onClick={handleDelete}>
-    <DeleteOutlineSharpIcon />
-  </IconButton>
-  </>
+      <FormLabel>{`Selected file: ${props.fileMetaData.name}`}</FormLabel>
+      <IconButton onClick={handleDelete}>
+        <DeleteOutlineSharpIcon />
+      </IconButton>
+    </>
   );
   return (
     <Box>
@@ -72,12 +71,11 @@ const InFile = (props) => {
           // onClick={test2}
           onClick={() => document.getElementById("inp").click()}
           variant="outlined"
-          color='secondary'
+          color="secondary"
         >
           browse
         </Button>{" "}
         {selectedFile}
-
         <input
           id="inp"
           type="file"
@@ -92,10 +90,50 @@ const InFile = (props) => {
 const AesIlForm = (props) => {
   const classes = useStyles();
 
-  const [inputTypeSelect, setInputTypeSelect] = useState("text");
+  //update-> handle all Files wor here. send up to handle enc + output
+  //on unmout clear all state
+  //is pw comp to handle all passphrase work
 
-  const handleChange = (e) => {
-    // console.log(typeof e.target.value);
+  const [inputTypeSelect, setInputTypeSelect] = useState("text");
+  const [textInput, textInputState] = useState("");
+  // const [formError, setFormError] = useState(false);
+  const [formTextInputError, setFormTextInputError] = useState(false);
+  const [formByteInputError, setFormByteInputError] = useState(false);
+
+  const [fileLoader, setFilerLoader] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState();
+  // const [byteFileType, setByteFileType] = useState();
+  const [fileMetaData, setFileMetaData] = useState();
+  const [symmetric, setSymmetric] = useState(false);
+
+  ///file reader
+
+  const readFile = (e) => {
+    console.log("reading");
+    setFilerLoader(true);
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+
+    reader.onload = function () {
+      setUploadedFile(new Uint8Array(reader.result));
+    };
+
+    reader.onerror = function () {};
+    setFilerLoader(false);
+  };
+
+  //text input
+  const handleTextInput = (e) => {
+    console.log(e.target.value);
+    textInputState(e.target.value);
+  };
+
+  const handleInputType = (e) => {
+    setFormTextInputError(false);
+    setFormByteInputError(false);
     setInputTypeSelect(e.target.value);
   };
 
@@ -103,33 +141,63 @@ const AesIlForm = (props) => {
   if (inputTypeSelect == "text") {
     inputType = (
       <InLine
-        formTextInputError={props.formTextInputError}
-        handleInput={props.handleInput}
-
+        formTextInputError={formTextInputError}
+        handleTextInput={handleTextInput}
       />
     );
   } else {
     inputType = (
       <InFile
-        fileMetaData={props.fileMetaData}
-        formByteInputError={props.formByteInputError}
-        readFile={props.readFile}
-        setUploadedFile={props.setUploadedFile}
-        setFileMetaData={props.setFileMetaData}
+        fileMetaData={fileMetaData}
+        formByteInputError={formByteInputError}
+        readFile={readFile}
+        setUploadedFile={setUploadedFile}
+        setFileMetaData={setFileMetaData}
       />
     );
   }
 
-  // console.log("form erros? " + props.formError);
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // setPassPhraseMissingError(false);
+    setFormTextInputError(false);
+    setFormByteInputError(false);
+    console.log("t", textInput);
 
-  // props.passPhraseMissingError
-  const passPhraseLabel = props.passPhraseMissingError
-    ? "PassPhrase Required!"
-    : "PassPhrase";
+    if (inputTypeSelect === "text") {
+      console.log(!textInput);
+      if (!textInput || textInput === "") {
+        console.log("err");
+        setFormTextInputError(true);
+        return true;
+      }
+    } else if (inputTypeSelect === "byte") {
+      if (!uploadedFile) {
+        setFormByteInputError(true);
+        return true;
+      }
+    }
+    return false;
+
+    console.log("submit!");
+  };
+
+  const handleEncrypt = (passPhrase) => {
+    //if symmetric
+    // ship pa
+    //run enc.
+    console.log('pass = ', passPhrase);
+    if (inputTypeSelect === "text") {
+      console.log('text', textInput);
+    } else if (inputTypeSelect === "byte") {
+      console.log('byte', fileMetaData);
+    }
+  };
+
 
   return (
-    <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
-
+    // <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
+    <form onSubmit={(e) => handleFormSubmit(e, inputTypeSelect)}>
       <Box mt={4} mb={4}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Input Format</FormLabel>
@@ -139,7 +207,7 @@ const AesIlForm = (props) => {
             name="position"
             value={inputTypeSelect}
             defaultValue="top"
-            onChange={handleChange}
+            onChange={handleInputType}
           >
             <FormControlLabel
               value="text"
@@ -160,11 +228,74 @@ const AesIlForm = (props) => {
       </Box>
       {inputType}
 
+      <SymmetricPassPhrase
+        handleSubmit={handleFormSubmit}
+        handleEncrypt={handleEncrypt}
+        formTextInputError={formTextInputError}
+        formByteInputError={formByteInputError}
+      />
+
+    </form>
+  );
+};
+
+const SymmetricPassPhrase = (props) => {
+  const classes = useStyles();
+
+  const [passPhrase, passPhraseState] = useState();
+  const [confirmPassPhrase, setConfirmPassPhrase] = useState();
+  const [confirmError, setConfirmError] = useState();
+  const [passPhraseMissingError, setPassPhraseMissingError] = useState();
+  const [open, setOpen] = useState(false);
+
+  const handlePassPhrase = (e) => {
+    passPhraseState(e.target.value);
+  };
+
+  let handleSubmit = (e) => {
+    e.preventDefault();
+    setPassPhraseMissingError(false);
+    const err = props.handleSubmit(e);
+
+    if (!passPhrase) {
+      setPassPhraseMissingError(true);
+    }
+    if (!passPhrase || err) {
+      return;
+    } else {
+      setOpen(true);
+    }
+  };
+
+  const handleConfirm = () => {
+    // console.log(inputTypeSelect);
+    console.log(confirmPassPhrase, passPhrase);
+    if (confirmPassPhrase === passPhrase) {
+      console.log("confirmed");
+
+      setOpen(false);
+      props.handleEncrypt(passPhrase)
+    } else {
+      setConfirmError(true);
+    }
+  };
+
+  const passPhraseConfirmBuffer = (e) => {
+    // console.log(e.target.value);
+    setConfirmPassPhrase(e.target.value);
+  };
+
+  const passPhraseLabel = passPhraseMissingError
+    ? "PassPhrase Required!"
+    : "PassPhrase";
+
+  return (
+    <div>
       <Box mt={2} pt={2}>
         <TextField
-          onChange={props.handlePassPhrase}
+          onChange={handlePassPhrase}
           className={classes.pwText}
-          error={props.passPhraseMissingError}
+          error={passPhraseMissingError}
           id="pw-in"
           type="password"
           label={passPhraseLabel}
@@ -174,19 +305,24 @@ const AesIlForm = (props) => {
       </Box>
 
       <Box pt={3}>
-        <Button type="submit" variant="contained" color={"primary"}>
+        <Button
+          type="submit"
+          variant="contained"
+          color={"primary"}
+          onClick={handleSubmit}
+        >
           Encrypt!
         </Button>
       </Box>
 
       <PassPhraseConfirm
-        open={props.open}
-        handleClose={props.handleClose}
-        handleConfirm={() => props.handleConfirm(inputTypeSelect)}
-        passPhraseConfirmBuffer={props.passPhraseConfirmBuffer}
-        confirmError={props.confirmError}
+        open={open}
+        handleClose={() => setOpen(false)}
+        handleConfirm={handleConfirm}
+        passPhraseConfirmBuffer={passPhraseConfirmBuffer}
+        confirmError={confirmError}
       />
-    </form>
+    </div>
   );
 };
 
