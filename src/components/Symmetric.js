@@ -3,7 +3,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import TextInput from "./symmetric/TextInput";
+import TextInput from "./symmetric/Encrypt";
 // import FileInput from "./FileInput";
 
 const AntTabs = withStyles({
