@@ -87,7 +87,7 @@ const InFile = (props) => {
   );
 };
 
-const AesIlForm = (props) => {
+const EncryptForm = (props) => {
   const classes = useStyles();
 
   //update-> handle all Files wor here. send up to handle enc + output
@@ -186,14 +186,17 @@ const AesIlForm = (props) => {
     //if symmetric
     // ship pa
     //run enc.
-    console.log('pass = ', passPhrase);
+    console.log("pass = ", passPhrase);
     if (inputTypeSelect === "text") {
-      console.log('text', textInput);
+      console.log("text", textInput);
+      props.textEncrypt(passPhrase, textInput);
     } else if (inputTypeSelect === "byte") {
-      console.log('byte', fileMetaData);
+      console.log("byte", fileMetaData);
+      props.byteEncrypt(passPhrase, uploadedFile, fileMetaData);
     }
   };
 
+  console.log("textInput = ", textInput);
 
   return (
     // <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
@@ -234,7 +237,6 @@ const AesIlForm = (props) => {
         formTextInputError={formTextInputError}
         formByteInputError={formByteInputError}
       />
-
     </form>
   );
 };
@@ -274,7 +276,7 @@ const SymmetricPassPhrase = (props) => {
       console.log("confirmed");
 
       setOpen(false);
-      props.handleEncrypt(passPhrase)
+      props.handleEncrypt(passPhrase);
     } else {
       setConfirmError(true);
     }
@@ -326,4 +328,4 @@ const SymmetricPassPhrase = (props) => {
   );
 };
 
-export default AesIlForm;
+export default EncryptForm;
