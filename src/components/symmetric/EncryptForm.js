@@ -11,13 +11,23 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import { Icon } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+// import { Icon } from "@material-ui/core";
+import zxcvbn from "zxcvbn";
+import { Gif } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
     marginTop: "15px",
     marginBottom: "30px",
     textAlign: "left",
+  },
+  pwMeter: {
+    width: "225px",
+  },
+  pw: {
+    color: "#777fa7",
+    marginTop: "18px",
   },
 }));
 
@@ -244,14 +254,28 @@ const EncryptForm = (props) => {
 const SymmetricPassPhrase = (props) => {
   const classes = useStyles();
 
-  const [passPhrase, passPhraseState] = useState();
+  const [passPhrase, passPhraseState] = useState("");
   const [confirmPassPhrase, setConfirmPassPhrase] = useState();
   const [confirmError, setConfirmError] = useState();
   const [passPhraseMissingError, setPassPhraseMissingError] = useState();
   const [open, setOpen] = useState(false);
+  const [strength, setStrength] = useState({ score: null, resp: null });
+
+  let strengthResp = {
+    0: "Very Bad 👎",
+    1: "Bad 👎",
+    2: "Weak 😐",
+    3: "Good 🙂",
+    4: "Strong 🔥🔥🔥",
+  };
 
   const handlePassPhrase = (e) => {
     passPhraseState(e.target.value);
+    const result = zxcvbn(e.target.value);
+    setStrength({
+      score: result.score === 0 ? "1" : result.score,
+      resp: strengthResp[result.score],
+    });
   };
 
   let handleSubmit = (e) => {
@@ -294,16 +318,39 @@ const SymmetricPassPhrase = (props) => {
   return (
     <div>
       <Box mt={2} pt={2}>
-        <TextField
-          onChange={handlePassPhrase}
-          className={classes.pwText}
-          error={passPhraseMissingError}
-          id="pw-in"
-          type="password"
-          label={passPhraseLabel}
-          variant="outlined"
-          // variant="filled"
-        />
+        {/* <Box pb={1}> */}
+        <Grid container spacing={1}>
+          <Grid item>
+            <TextField
+              onChange={handlePassPhrase}
+              className={classes.pwText}
+              error={passPhraseMissingError}
+              id="pw-in"
+              type="password"
+              label={passPhraseLabel}
+              variant="outlined"
+              // variant="filled"
+            />
+          </Grid>
+          {passPhrase.length > 0 && (
+            <Grid className={classes.pw} item>
+              {strength.resp}
+            </Grid>
+          )}
+        </Grid>
+        {/* </Box> */}
+        {/* {passPhrase.length > 0 && (
+          <Box pb={1}>
+            <Box>
+              <meter
+                className={classes.pwMeter}
+                max="4"
+                value={strength.score}
+              ></meter>
+            </Box>
+            <Box>Strength: {strength.resp}</Box>
+          </Box>
+        )} */}
       </Box>
 
       <Box pt={3}>
