@@ -3,7 +3,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import TextInput from "./symmetric/Encrypt";
+import TextInput from "./Encrypt";
 // import FileInput from "./FileInput";
 
 const AntTabs = withStyles({
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Symmetric(props) {
+export default function EncTypeTab(props) {
 
 //lift up to reset on load of new tab
 

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Result from "./Result";
-import Symmetric from "../Symmetric"
+import EncTypeTab from "./EncTypeTab"
 import EncryptForm from "./EncryptForm";
 
 const openpgp = require("openpgp");
@@ -91,7 +91,7 @@ const Encrypt = (props) => {
 
   return (
     <>
-    <Symmetric handleEncType = {handleEncType}/>
+    <EncTypeTab handleEncType = {handleEncType}/>
       <Grid container wrap="nowrap" spacing={0}>
         <Grid item></Grid>
         <Grid item xs>

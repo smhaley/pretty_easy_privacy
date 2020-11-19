@@ -1,8 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Expire from "./components/utils/Expire";
-import Symmetric from "./components/Symmetric";
-import Encrypt from "./components/symmetric/Encrypt";
+import Symmetric from "./components/encrypt/EncTypeTab";
+import Encrypt from "./components/encrypt/Encrypt";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
