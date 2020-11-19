@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Result from "./Result";
+import Symmetric from "../Symmetric"
 import EncryptForm from "./EncryptForm";
 
 const openpgp = require("openpgp");
@@ -28,14 +29,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TextInput = (props) => {
+const Encrypt = (props) => {
   // const didMountRef = useRef(false);
   const classes = useStyles();
-
   const [outputTag, setOutputTag] = useState();
-
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [encType, setEncType] = useState(0)
 
   const byteEncrypt = async (passPhrase, uploadedFile, fileMetaData) => {
     const { message } = await openpgp.encrypt({
@@ -76,17 +76,27 @@ const TextInput = (props) => {
     setLoader(false);
   };
 
-  const reset = () => {};
+  const reset = () => {
+    setOutputTag(null)
+    setSuccess(false)
+  }
 
-  let form = <EncryptForm textEncrypt={textEncrypt} byteEncrypt={byteEncrypt} />;
+  const handleEncType = (type) => {
+    console.log('type = ', type)
+    setEncType(type)
+  }
+
+
+  let form = <EncryptForm textEncrypt={textEncrypt} byteEncrypt={byteEncrypt} encType = {encType}/>;
 
   return (
     <>
+    <Symmetric handleEncType = {handleEncType}/>
       <Grid container wrap="nowrap" spacing={0}>
         <Grid item></Grid>
         <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>
-            AES 256 File Encryption
+           {encType===0 ? 'AES 256 File Encryption' : 'RSA File Encryption'}
           </Typography>
           {success ? <Result outputTag={outputTag} reset={reset} /> : form}
         </Grid>
@@ -95,4 +105,4 @@ const TextInput = (props) => {
   );
 };
 
-export default TextInput;
+export default Encrypt;

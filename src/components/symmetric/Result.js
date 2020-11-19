@@ -21,16 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Result = (props) => {
     const classes = useStyles();
-
-    useEffect(() => {
-
-      return () => {
-        console.log("Cleaned up");
-
-      };
-    }, []);
-    
-  
+ 
   return (
     <Grid container wrap="nowrap" spacing={0}>
       <Grid item></Grid>
@@ -46,9 +37,7 @@ const Result = (props) => {
           >
             In Browser
             </Button>
-          {/* </Box>
-          <Box> */}
-          <Button onClick={() => props.outputTag.click()} variant="contained" className={classes.button}>
+           <Button onClick={() => props.outputTag.click()} variant="contained" className={classes.button}>
             Download
           </Button>
           </Box>

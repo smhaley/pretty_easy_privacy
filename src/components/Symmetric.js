@@ -100,6 +100,7 @@ export default function Symmetric(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     // console.log(value)
+    props.handleEncType(newValue)
   };
 console.log(value)
   return (
@@ -109,8 +110,6 @@ console.log(value)
           <AntTab label="Asymmetric (Public Key)" />
         </AntTabs>
         <Typography className={classes.padding} />
-        <TextInput inLineAesSubmit={props.inLineAesSubmit} setAlert={props.setAlert} inputType = {value}/>
-
     </div>
   );
 }

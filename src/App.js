@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Expire from "./components/utils/Expire";
 import Symmetric from "./components/Symmetric";
+import Encrypt from "./components/symmetric/Encrypt";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
@@ -33,10 +34,10 @@ const [menuState, setMenuState] = useState(1)
     severity: null,
   });
 
-  let inLineAesSubmit = (e) => {
-    e.preventDefault();
-    // console.log("text");
-  };
+  // let inLineAesSubmit = (e) => {
+  //   e.preventDefault();
+  //   // console.log("text");
+  // };
 
 console.log(menuState)
 
@@ -52,10 +53,11 @@ console.log(menuState)
       </div>
       <Container className={classes.root}>
       {/* {if (menuState===0){ */}
-      <Symmetric
-      inLineAesSubmit={inLineAesSubmit}
+      {/* <Symmetric
+      // inLineAesSubmit={inLineAesSubmit}
       setAlert={setAlert}
-      />
+      /> */}
+      <Encrypt setAlert={setAlert}/>
     
       </Container>
     </div>
