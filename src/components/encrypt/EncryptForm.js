@@ -16,6 +16,8 @@ import Grid from "@material-ui/core/Grid";
 import zxcvbn from "zxcvbn";
 import { Gif } from "@material-ui/icons";
 
+const openpgp = require("openpgp");
+
 const useStyles = makeStyles((theme) => ({
   heading: {
     marginTop: "15px",
@@ -34,15 +36,13 @@ const useStyles = makeStyles((theme) => ({
 const InLine = (props) => {
   const classes = useStyles();
 
-  const label = props.formTextInputError
-    ? "Please Enter some Text to Encrypt!"
-    : "Text to Encrypt";
+  const label = props.err.errInd ? props.err.errLabel : props.err.label;
 
   return (
     <TextField
       className={classes.textBox}
       fullWidth={true}
-      error={props.formTextInputError}
+      error={props.err.errInd}
       id="outlined-multiline-static"
       label={label}
       multiline
@@ -55,9 +55,7 @@ const InLine = (props) => {
 
 const InFile = (props) => {
   const classes = useStyles();
-  const label = props.formByteInputError
-    ? "Please Select a file object!:"
-    : "Select a file object:";
+  const label = props.err.errInd ? props.err.errLabel : props.err.label;
 
   const handleDelete = () => {
     props.setUploadedFile(null);
@@ -65,7 +63,7 @@ const InFile = (props) => {
   };
   const selectedFile = props.fileMetaData && (
     <>
-      <FormLabel>{`Selected file: ${props.fileMetaData.name}`}</FormLabel>
+      <FormLabel>{`Selected: ${props.fileMetaData.name}`}</FormLabel>
       <IconButton onClick={handleDelete}>
         <DeleteOutlineSharpIcon />
       </IconButton>
@@ -73,7 +71,7 @@ const InFile = (props) => {
   );
   return (
     <Box>
-      <FormLabel component="legend" error={props.formByteInputError}>
+      <FormLabel component="legend" error={props.err.errInd}>
         {label}
       </FormLabel>
       <Box mt={1}>
@@ -83,7 +81,7 @@ const InFile = (props) => {
           variant="outlined"
           color="secondary"
         >
-          browse
+          {props.buttonLabel}
         </Button>{" "}
         {selectedFile}
         <input
@@ -106,20 +104,14 @@ const EncryptForm = (props) => {
 
   const [inputTypeSelect, setInputTypeSelect] = useState("text");
   const [textInput, textInputState] = useState("");
-  // const [formError, setFormError] = useState(false);
   const [formTextInputError, setFormTextInputError] = useState(false);
   const [formByteInputError, setFormByteInputError] = useState(false);
 
   const [fileLoader, setFilerLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState();
-  // const [byteFileType, setByteFileType] = useState();
   const [fileMetaData, setFileMetaData] = useState();
-  const [symmetric, setSymmetric] = useState(false);
-
-  ///file reader
 
   const readFile = (e) => {
-    console.log("reading");
     setFilerLoader(true);
     var file = e.target.files[0];
     if (!file) return;
@@ -151,14 +143,24 @@ const EncryptForm = (props) => {
   if (inputTypeSelect == "text") {
     inputType = (
       <InLine
-        formTextInputError={formTextInputError}
+        err={{
+          errInd: formTextInputError,
+          errLabel: "Please Enter some Text to Encrypt!",
+          label: "Text to Encrypt",
+        }}
         handleTextInput={handleTextInput}
       />
     );
   } else {
     inputType = (
       <InFile
+        buttonLabel={"browse"}
         fileMetaData={fileMetaData}
+        err={{
+          errInd: formByteInputError,
+          errLabel: "Please Select a file object!",
+          label: "Select a file object",
+        }}
         formByteInputError={formByteInputError}
         readFile={readFile}
         setUploadedFile={setUploadedFile}
@@ -168,16 +170,14 @@ const EncryptForm = (props) => {
   }
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
+    //TODO Needed?
+    e && e.preventDefault();
     // setPassPhraseMissingError(false);
     setFormTextInputError(false);
     setFormByteInputError(false);
-    console.log("t", textInput);
 
     if (inputTypeSelect === "text") {
-      console.log(!textInput);
       if (!textInput || textInput === "") {
-        console.log("err");
         setFormTextInputError(true);
         return true;
       }
@@ -188,29 +188,32 @@ const EncryptForm = (props) => {
       }
     }
     return false;
-
-    console.log("submit!");
   };
 
-  const handleEncrypt = (passPhrase) => {
-    //if symmetric
-    // ship pa
-    //run enc.
-    console.log("pass = ", passPhrase);
+  const handleKeyEncrypt = (byteKey, keyErr) => {
+    let errCheck = handleFormSubmit();
+    if (!errCheck && !keyErr) {
+      handleEncrypt(byteKey);
+    }
+    // (!errCheck && !keyErr)  && handleEncrypt(byteKey)
+  };
+  const handleEncrypt = (encryptionKey) => {
+    console.log("encrt key ====", encryptionKey);
+    let aes, rsa;
+    props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
+
     if (inputTypeSelect === "text") {
-      console.log("text", textInput);
-      props.textEncrypt(passPhrase, textInput);
+      props.textEncrypt(aes, rsa, textInput);
     } else if (inputTypeSelect === "byte") {
-      console.log("byte", fileMetaData);
-      props.byteEncrypt(passPhrase, uploadedFile, fileMetaData);
+      props.byteEncrypt(aes, rsa, uploadedFile, fileMetaData);
     }
   };
 
-  console.log("textInput = ", textInput);
+
 
   return (
     // <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
-    <form onSubmit={(e) => handleFormSubmit(e, inputTypeSelect)}>
+    <form onSubmit={(e) => handleFormSubmit(e)}>
       <Box mt={4} mb={4}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Input Format</FormLabel>
@@ -241,12 +244,20 @@ const EncryptForm = (props) => {
       </Box>
       {inputType}
 
-      <SymmetricPassPhrase
-        handleSubmit={handleFormSubmit}
-        handleEncrypt={handleEncrypt}
-        formTextInputError={formTextInputError}
-        formByteInputError={formByteInputError}
-      />
+      {props.encType === 0 ? (
+        <SymmetricPassPhrase
+          handleSubmit={handleFormSubmit}
+          handleEncrypt={handleEncrypt}
+          formTextInputError={formTextInputError}
+          formByteInputError={formByteInputError}
+        />
+      ) : (
+        <KeyInput
+          handleKeyEncrypt={handleKeyEncrypt}
+          handleFormSubmit={handleFormSubmit}
+          handleEncrypt={handleEncrypt}
+        />
+      )}
     </form>
   );
 };
@@ -338,19 +349,6 @@ const SymmetricPassPhrase = (props) => {
             </Grid>
           )}
         </Grid>
-        {/* </Box> */}
-        {/* {passPhrase.length > 0 && (
-          <Box pb={1}>
-            <Box>
-              <meter
-                className={classes.pwMeter}
-                max="4"
-                value={strength.score}
-              ></meter>
-            </Box>
-            <Box>Strength: {strength.resp}</Box>
-          </Box>
-        )} */}
       </Box>
 
       <Box pt={3}>
@@ -372,6 +370,162 @@ const SymmetricPassPhrase = (props) => {
         confirmError={confirmError}
       />
     </div>
+  );
+};
+
+const KeyInput = (props) => {
+  const [byteKey, setByteKey] = useState(null);
+
+  const [inputTypeSelect, setInputTypeSelect] = useState("byte");
+  const [textInput, textInputState] = useState("");
+  const [formTextInputError, setFormTextInputError] = useState({
+    err: false,
+    key: false,
+  });
+  const [formByteInputError, setFormByteInputError] = useState({
+    err: false,
+    key: false,
+  });
+
+  // const [fileLoader, setFilerLoader] = useState(false);
+  // const [uploadedFile, setUploadedFile] = useState();
+  const [fileMetaData, setFileMetaData] = useState();
+
+  const handleTextInput = (e) => {
+    console.log(e.target.value);
+    // textInputState(e.target.value);
+    setByteKey(e.target.value);
+  };
+
+  const handleInputType = (e) => {
+    setInputTypeSelect(e.target.value);
+  };
+
+  const readKey = (e) => {
+    // setFilerLoader(true);
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    // reader.readAsArrayBuffer(file);
+    reader.readAsText(file);
+    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+    reader.onload = () => {
+      setByteKey(reader.result);
+    };
+    reader.onerror = function () {};
+    //TODO fire ERROR
+  };
+
+  let inputType;
+  if (inputTypeSelect == "text") {
+    inputType = (
+      <InLine
+        err={{
+          errInd: formTextInputError.err,
+          errLabel: formByteInputError.key
+            ? "Invalid PGP Key!!!"
+            : "Please Enter a Public Key!",
+          label: "Public Key",
+        }}
+        handleTextInput={handleTextInput}
+      />
+    );
+  } else {
+    inputType = (
+      <InFile
+        buttonLabel={"key browse"}
+        fileMetaData={fileMetaData}
+        err={{
+          errInd: formByteInputError.err,
+          errLabel: formByteInputError.key
+            ? "Invalid PGP Key!!!"
+            : "Please Select a public key!",
+          label: "Select a public key",
+        }}
+        formByteInputError={formByteInputError}
+        readFile={readKey}
+        setUploadedFile={setByteKey}
+        setFileMetaData={setFileMetaData}
+      />
+    );
+  }
+
+  const handleSubmit = async () => {
+    //TODO need to split out?
+    setFormTextInputError({ err: false, key: false });
+    setFormByteInputError({ err: false, key: false });
+    let err, rsaKey;
+    if (!byteKey || byteKey === "") {
+      if (inputType === "text") {
+        setFormTextInputError({ err: true, key: false });
+      } else {
+        setFormByteInputError({ err: true, key: false });
+      }
+      err = true;
+    } else {
+      rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];
+      if (typeof rsaKey == "undefined") {
+        if (inputType === "text") {
+          setFormTextInputError({ err: true, key: true });
+        } else {
+          setFormByteInputError({ err: true, key: true });
+        }
+        err = true;
+      } else {
+        err = false;
+      }
+    }
+    props.handleKeyEncrypt(rsaKey, err);
+  };
+
+  return (
+    <Box mt={4} mb={4}>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Key Load Format</FormLabel>
+        <RadioGroup
+          row
+          aria-label="position"
+          name="position"
+          value={inputTypeSelect}
+          defaultValue="top"
+          onChange={handleInputType}
+        >
+          <FormControlLabel
+            value="byte"
+            control={<Radio color="secondary" />}
+            label="File"
+            labelPlacement="start"
+            // onChange={() => setInputTypeSelect(1)}
+          />
+          <FormControlLabel
+            value="text"
+            control={<Radio color="primary" />}
+            label="Text"
+            labelPlacement="start"
+            // onChange={() => setInputTypeSelect(0)}
+          />
+        </RadioGroup>
+      </FormControl>
+      <Box>
+        <FormLabel
+          component="legend"
+          //  error={props.formByteInputError}
+        >
+          {/* {label} */}
+        </FormLabel>
+        <Box mb={1}>{inputType}</Box>
+      </Box>
+      <Box pt={3}>
+        <Button
+          // type="submit"
+          variant="contained"
+          color={"primary"}
+          onClick={handleSubmit}
+        >
+          Encrypt!
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

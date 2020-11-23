@@ -3,8 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Result from "./Result";
-import EncTypeTab from "./EncTypeTab"
+import EncTypeTab from "./EncTypeTab";
 import EncryptForm from "./EncryptForm";
+
+import Alert from "@material-ui/lab/Alert";
+import Expire from "../utils/Expire";
 
 const openpgp = require("openpgp");
 
@@ -27,76 +30,128 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
   },
+  alert: {
+    width: "95%",
+    // paddingTop: "5px",
+    margin: "auto",
+  },
 }));
 
 const Encrypt = (props) => {
-  // const didMountRef = useRef(false);
+  let NullAlert = {
+    show: 0,
+    message: null,
+    severity: null,
+
+  };
+
   const classes = useStyles();
   const [outputTag, setOutputTag] = useState();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
-  const [encType, setEncType] = useState(0)
+  const [encType, setEncType] = useState(0);
+  const [alert, setAlert] = useState(NullAlert);
 
-  const byteEncrypt = async (passPhrase, uploadedFile, fileMetaData) => {
-    const { message } = await openpgp.encrypt({
+  const byteEncrypt = async (
+    passPhrase,
+    pubKey,
+    uploadedFile,
+    fileMetaData
+  ) => {
+    let encIn = {
       message: openpgp.message.fromBinary(uploadedFile), // input as Message object
-      passwords: [passPhrase], // multiple passwords possible
       armor: false, // don't ASCII armor (for Uint8Array output)
-    });
+    };
+
+    pubKey
+      ? (encIn.publicKeys = pubKey) //(await openpgp.key.readArmored(pubKey)).keys)
+      : (encIn.passwords = [passPhrase]);
+
+    const { message } = await openpgp.encrypt();
     const encrypted = message.packets.write();
     console.log(message.armor());
     outputHandler(message.armor(), fileMetaData.type);
   };
 
-  const textEncrypt = async (passPhrase, textInput) => {
+  const textEncrypt = async (passPhrase, pubKey, textInput) => {
     setLoader(true);
 
-    const { message } = await openpgp.encrypt({
+    let encIn = {
       message: openpgp.message.fromText(textInput),
-      passwords: [passPhrase],
+      // passwords: [passPhrase],
       armor: false,
-    });
-    outputHandler(message.armor(), "txt");
+    };
+
+    try {
+      pubKey
+        ? (encIn.publicKeys = pubKey) //(await openpgp.key.readArmored(pubKey)).keys)
+        : (encIn.passwords = [passPhrase]);
+
+      const { message } = await openpgp.encrypt(encIn);
+      outputHandler(message.armor(), "txt");
+    } catch (e) {
+      let wrongKey =
+        "Error encrypting message: No keys, passwords, or session key provided.";
+      if (e.message === wrongKey && pubKey) {
+        setAlert({
+          show: true,
+          message: "Invalid RSA Key. Please Check and Resubmit",
+          severity: "error",
+        });
+      }
+    }
   };
 
   const outputHandler = (output, ext) => {
-
     const element = document.createElement("a");
     const file = new Blob([output], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
     element.download = element.href.split("/")[3] + "_" + ext + "_" + ".aes"; //make random name
     setOutputTag(element);
     // console.log(element);
-    props.setAlert({
-      show: true,
-      message: "Encryption Complete",
-      severity: "success",
-    });
+      setAlert({
+        show: true,
+        message: "Encryption Complete",
+        severity: "success",
+      });
     setSuccess(true);
     setLoader(false);
   };
 
   const reset = () => {
-    setOutputTag(null)
-    setSuccess(false)
-  }
+    setOutputTag(null);
+    setSuccess(false);
+    setAlert(NullAlert);
+  };
 
   const handleEncType = (type) => {
-    console.log('type = ', type)
-    setEncType(type)
-  }
+    console.log("type = ", type);
+    setEncType(type);
+  };
 
-
-  let form = <EncryptForm textEncrypt={textEncrypt} byteEncrypt={byteEncrypt} encType = {encType}/>;
+  let form = (
+    <EncryptForm
+      textEncrypt={textEncrypt}
+      byteEncrypt={byteEncrypt}
+      encType={encType}
+    />
+  );
 
   return (
     <>
-    <EncTypeTab handleEncType = {handleEncType}/>
+      <div className={classes.alert}>
+        {success ? ( //&& <Alert severity={alert.severity}>{alert.message}</Alert> }
+          <Expire>
+            <Alert severity={alert.severity}>{alert.message}</Alert>
+          </Expire>
+        ) : null}
+      </div>
+      {!success && <EncTypeTab handleEncType={handleEncType} />}
       <Grid container wrap="nowrap" spacing={0}>
         <Grid item></Grid>
         <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>
-           {encType===0 ? 'AES 256 File Encryption' : 'RSA File Encryption'}
+            {encType === 0 ? "AES 256 Encryption" : "RSA  Encryption"}
           </Typography>
           {success ? <Result outputTag={outputTag} reset={reset} /> : form}
         </Grid>

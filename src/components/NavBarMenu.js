@@ -34,7 +34,6 @@ export default function MenuListComposition(props) {
     // console.log(prevOpen)
 
     if (selection){
-      console.log('fire')
       props.menuStateHandler(selection)
     }
 
