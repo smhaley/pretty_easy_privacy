@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import PassPhraseConfirm from "./PassPhraseConfirm"
-import { Paper } from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
-    heading: {
-      marginTop: "15px",
-      marginBottom: "30px",
-      textAlign: "left",
-    },
-    button: {
-    margin: '5px'
-    }
-  }));
+  heading: {
+    marginTop: "15px",
+    marginBottom: "30px",
+    textAlign: "left",
+  },
+  button: {
+    margin: "5px",
+  },
+}));
 
 const Result = (props) => {
-    const classes = useStyles();
- 
+  const classes = useStyles();
+
   return (
     <Grid container wrap="nowrap" spacing={0}>
       <Grid item></Grid>
@@ -30,30 +28,37 @@ const Result = (props) => {
           Retrieve Encrypted Data
         </Typography>
         <Box mb={2}>
-        <Button
+          <Button
             onClick={() => window.open(props.outputTag.href)}
-            variant="contained"
+            variant="outlined"
+            color={"secondary"}
             className={classes.button}
           >
             In Browser
-            </Button>
-           <Button onClick={() => props.outputTag.click()} variant="contained" className={classes.button}>
+          </Button>
+          <Button
+            onClick={() => props.outputTag.click()}
+            variant="outlined"
+            color={"secondary"}
+            className={classes.button}
+          >
             Download
           </Button>
-          </Box>
-          <Box>
+        </Box>
+        <Box>
           <Button
             onClick={props.reset}
             variant="contained"
             className={classes.button}
-          > New Encryption </Button>
-
-          </Box>
-                
+            color={"primary"}
+          >
+            {" "}
+            New Encryption{" "}
+          </Button>
+        </Box>
       </Grid>
     </Grid>
   );
 };
 
 export default Result;
-

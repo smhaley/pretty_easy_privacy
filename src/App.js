@@ -6,7 +6,8 @@ import Encrypt from "./components/encrypt/Encrypt";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
-import './App.css'
+import KeyGen from "./components/key_gen/KeyGen";
+import "./App.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,8 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
 
-
-const [menuState, setMenuState] = useState(1)
+  const [menuState, setMenuState] = useState(1);
   const [alert, setAlert] = useState({
     show: false,
     message: null,
@@ -37,27 +37,25 @@ const [menuState, setMenuState] = useState(1)
   //   // console.log("text");
   // };
 
-console.log(menuState)
-
+  let state;
+  if (menuState === 1) {
+    state = <Encrypt />;
+  } else if (menuState === 3) {
+    state =  <KeyGen />;
+  }
 
   return (
     <div>
-      <NavBar setMenuState = {setMenuState}/>
+      <NavBar setMenuState={setMenuState} />
 
       <div className={classes.alert}>
         {alert.show ? (
-          <Expire><Alert severity={alert.severity}>{alert.message}</Alert></Expire>
+          <Expire>
+            <Alert severity={alert.severity}>{alert.message}</Alert>
+          </Expire>
         ) : null}
       </div>
-      <Container className={classes.root}>
-      {/* {if (menuState===0){ */}
-      {/* <Symmetric
-      // inLineAesSubmit={inLineAesSubmit}
-      setAlert={setAlert}
-      /> */}
-      <Encrypt setAlert={setAlert}/>
-    
-      </Container>
+      <Container className={classes.root}>{state}</Container>
     </div>
   );
 };

@@ -67,7 +67,7 @@ const Encrypt = (props) => {
       ? (encIn.publicKeys = pubKey) //(await openpgp.key.readArmored(pubKey)).keys)
       : (encIn.passwords = [passPhrase]);
 
-    const { message } = await openpgp.encrypt();
+    const { message } = await openpgp.encrypt(encIn);
     const encrypted = message.packets.write();
     console.log(message.armor());
     outputHandler(message.armor(), fileMetaData.type);
@@ -78,7 +78,6 @@ const Encrypt = (props) => {
 
     let encIn = {
       message: openpgp.message.fromText(textInput),
-      // passwords: [passPhrase],
       armor: false,
     };
 
@@ -95,7 +94,7 @@ const Encrypt = (props) => {
       if (e.message === wrongKey && pubKey) {
         setAlert({
           show: true,
-          message: "Invalid RSA Key. Please Check and Resubmit",
+          message: "Something went wrong! Please try again.",
           severity: "error",
         });
       }
