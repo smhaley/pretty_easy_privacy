@@ -13,7 +13,7 @@ const openpgp = require("openpgp");
 
 const useStyles = makeStyles((theme) => ({
   heading: {
-    marginTop: "15px",
+    // marginTop: "15px",
     marginBottom: "30px",
     textAlign: "left",
   },
@@ -46,11 +46,12 @@ const Encrypt = (props) => {
   };
 
   const classes = useStyles();
-  const [outputTag, setOutputTag] = useState();
+  // const [outputTag, setOutputTag] = useState();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
   const [alert, setAlert] = useState(NullAlert);
+  const [armorTxt, setArmorTxt] = useState()
 
   const byteEncrypt = async (
     passPhrase,
@@ -58,6 +59,7 @@ const Encrypt = (props) => {
     uploadedFile,
     fileMetaData
   ) => {
+    setLoader(true);
     let encIn = {
       message: openpgp.message.fromBinary(uploadedFile), // input as Message object
       armor: false, // don't ASCII armor (for Uint8Array output)
@@ -69,8 +71,8 @@ const Encrypt = (props) => {
 
     const { message } = await openpgp.encrypt(encIn);
     const encrypted = message.packets.write();
-    console.log(message.armor());
-    outputHandler(message.armor(), fileMetaData.type);
+    setArmorTxt({armorTxt: message.armor(), ext:fileMetaData.type})
+    outputHandler();
   };
 
   const textEncrypt = async (passPhrase, pubKey, textInput) => {
@@ -87,7 +89,8 @@ const Encrypt = (props) => {
         : (encIn.passwords = [passPhrase]);
 
       const { message } = await openpgp.encrypt(encIn);
-      outputHandler(message.armor(), "txt");
+      setArmorTxt({armorTxt: message.armor(), ext:'txt'})
+      outputHandler();
     } catch (e) {
       let wrongKey =
         "Error encrypting message: No keys, passwords, or session key provided.";
@@ -101,13 +104,7 @@ const Encrypt = (props) => {
     }
   };
 
-  const outputHandler = (output, ext) => {
-    const element = document.createElement("a");
-    const file = new Blob([output], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = element.href.split("/")[3] + "_" + ext + "_" + ".aes"; //make random name
-    setOutputTag(element);
-    // console.log(element);
+  const outputHandler = () => {
       setAlert({
         show: true,
         message: "Encryption Complete",
@@ -118,13 +115,11 @@ const Encrypt = (props) => {
   };
 
   const reset = () => {
-    setOutputTag(null);
     setSuccess(false);
     setAlert(NullAlert);
   };
 
   const handleEncType = (type) => {
-    console.log("type = ", type);
     setEncType(type);
   };
 
@@ -133,6 +128,7 @@ const Encrypt = (props) => {
       textEncrypt={textEncrypt}
       byteEncrypt={byteEncrypt}
       encType={encType}
+      loader = {loader}
     />
   );
 
@@ -152,7 +148,8 @@ const Encrypt = (props) => {
           <Typography className={classes.heading} variant="h5" gutterBottom>
             {encType === 0 ? "AES 256 Encryption" : "RSA  Encryption"}
           </Typography>
-          {success ? <Result outputTag={outputTag} reset={reset} /> : form}
+          {success ? <Result // outputTag={outputTag} 
+          reset={reset} armorTxt={armorTxt}/> : form}
         </Grid>
       </Grid>
     </>

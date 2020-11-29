@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(2),
+      color: "purple",
     },
   },
   alert: {
@@ -20,12 +21,16 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "10px",
     margin: "auto",
   },
+  main: {
+    marginLleft: "10px",
+    // marginRight: "auto",
+  },
 }));
 
 const App = () => {
   const classes = useStyles();
 
-  const [menuState, setMenuState] = useState(1);
+  const [menuState, setMenuState] = useState(3);
   const [alert, setAlert] = useState({
     show: false,
     message: null,
@@ -41,7 +46,7 @@ const App = () => {
   if (menuState === 1) {
     state = <Encrypt />;
   } else if (menuState === 3) {
-    state =  <KeyGen />;
+    state = <KeyGen />;
   }
 
   return (
@@ -55,7 +60,14 @@ const App = () => {
           </Expire>
         ) : null}
       </div>
-      <Container className={classes.root}>{state}</Container>
+
+      <Container className={classes.main}>
+        {/* <Grid container justify="center"> */}
+        <div className={classes.main}>
+          {state}
+          </div>
+        {/* </Grid> */}
+      </Container>
     </div>
   );
 };

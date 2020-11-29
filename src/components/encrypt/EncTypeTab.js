@@ -77,6 +77,8 @@ const StyledTab = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    // maxWidth:'600px'
+    // marginRight:'50%',
   },
   padding: {
     padding: theme.spacing(3),

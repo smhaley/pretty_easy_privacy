@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+#textarea {
+  position: absolute;
+  left: -100%;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

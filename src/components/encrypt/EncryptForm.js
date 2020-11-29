@@ -10,7 +10,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import SymmetricPassPhrase from '../utils/Passphrase'
+import PassPhrase from '../utils/Passphrase'
 import KeyInput from './KeyInput'
 
 const openpgp = require("openpgp");
@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#777fa7",
     marginTop: "18px",
   },
+  textBox:{
+    maxWidth:'700px'
+  }
 }));
 
 
@@ -224,12 +227,12 @@ const EncryptForm = (props) => {
       {inputType}
 
       {props.encType === 0 ? (
-        <SymmetricPassPhrase
+        <PassPhrase
           mainButtonText={'Encrypt'}
           modalButtonText={'Submit'}
           handleSubmit={handleFormSubmit}
           handleConfirm={handleEncrypt}
-          // errReset = {}
+          loading={props.loader}
         />
       ) : (
         <KeyInput
