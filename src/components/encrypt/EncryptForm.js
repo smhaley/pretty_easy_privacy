@@ -152,23 +152,23 @@ const EncryptForm = (props) => {
     );
   }
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = () => {
     //TODO Needed?
-    e && e.preventDefault();
+    // e && e.preventDefault();
     // setPassPhraseMissingError(false);
     setFormTextInputError(false);
     setFormByteInputError(false);
 
-    if (inputTypeSelect === "text") {
-      if (!textInput || textInput === "") {
+    if (inputTypeSelect === "text"&&(!textInput || textInput === "")) {
+      // if (!textInput || textInput === "") {
         setFormTextInputError(true);
         return true;
-      }
-    } else if (inputTypeSelect === "byte") {
-      if (!uploadedFile) {
+      // }
+    } else if (inputTypeSelect === "byte"&&(!uploadedFile)) {
+      // if (!uploadedFile) {
         setFormByteInputError(true);
         return true;
-      }
+      // }
     }
     return false;
   };
@@ -237,8 +237,8 @@ const EncryptForm = (props) => {
       ) : (
         <KeyInput
           handleKeyEncrypt={handleKeyEncrypt}
-          handleFormSubmit={handleFormSubmit}
-          handleEncrypt={handleEncrypt}
+          // handleFormSubmit={handleFormSubmit}
+          // handleEncrypt={handleEncrypt}
         />
       )}
     </form>

@@ -7,6 +7,10 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Display from '../utils/BrowserResult'
 
+
+
+//todo disbale in browser if 'larger'
+
 const useStyles = makeStyles((theme) => ({
   heading: {
     marginTop: "15px",

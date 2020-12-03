@@ -1,8 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Expire from "./components/utils/Expire";
-import Symmetric from "./components/encrypt/EncTypeTab";
 import Encrypt from "./components/encrypt/Encrypt";
+import Decrypt from "./components/decrypt/Decrypt";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
 
-  const [menuState, setMenuState] = useState(3);
+  const [menuState, setMenuState] = useState(2);
   const [alert, setAlert] = useState({
     show: false,
     message: null,
@@ -45,6 +45,8 @@ const App = () => {
   let state;
   if (menuState === 1) {
     state = <Encrypt />;
+  } else if (menuState === 2) {
+    state = <Decrypt />;
   } else if (menuState === 3) {
     state = <KeyGen />;
   }
