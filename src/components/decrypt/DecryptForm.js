@@ -268,7 +268,8 @@ const DecryptForm = (props) => {
     props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
 
     if (fileType === "text") {
-      props.textEncrypt(aes, rsa, textInput, fileExt);
+      // props.textEncrypt(aes, rsa, textInput, fileExt);
+      props.byteEncrypt(aes, rsa, textInput, {fileType: fileType, ext: fileExt });
     } else if (fileType === "byte") {
       console.log('uploadedFile');
       props.byteEncrypt(aes, rsa, textInput, {fileType: fileType, ext: fileExt });

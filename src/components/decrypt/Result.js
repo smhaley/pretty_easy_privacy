@@ -42,7 +42,7 @@ const Result = (props) => {
     console.log("input = ", decryptedVal);
     const element = document.createElement("a");
     let file;
-    if (outbound.type === "binary") {
+    if (outbound.type === "byte") {
       file = new Blob([decryptedVal.outbound]);
     } else {
       file = new Blob([decryptedVal.outbound], {
@@ -57,15 +57,6 @@ const Result = (props) => {
       decryptedVal.ext; //make random name
     element.click();
     element.remove();
-    // setOutputTag(element);
-    // console.log(element);
-    // setAlert({
-    //   show: true,
-    //   message: "Encryption Complete",
-    //   severity: "success",
-    // });
-    // setSuccess(true);
-    // setLoader(false);
   };
   console.log(outbound.type);
   return (
@@ -77,7 +68,7 @@ const Result = (props) => {
         </Typography>
         <Box mb={2}>
           <Button
-            disabled={outbound.type === "binary" ? true : false}
+            disabled={outbound.type === "byte" ? true : false}
             // onClick={() => window.open(props.outputTag.href)}
             onClick={() => setOpenEnc(!openEnc)}
             variant="outlined"
@@ -110,7 +101,7 @@ const Result = (props) => {
             color={"primary"}
           >
             {" "}
-            New Encryption{" "}
+            New Decryption{" "}
           </Button>
         </Box>
       </Grid>

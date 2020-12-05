@@ -74,8 +74,8 @@ const Decrypt = (props) => {
   const byteDecrypt = async (
     passPhrase,
     privateKey,
-    textInput
-    // decType
+    textInput,
+    decType
     // fileMetaData
   ) => {
     setLoader(true);
@@ -114,16 +114,36 @@ const Decrypt = (props) => {
     try {
       const { data: decrypted } = await openpgp.decrypt(encIn);
       let bufferType = await FileType.fromBuffer(decrypted);
-      let fileType = typeof bufferType === "undefined" ? "txt" : bufferType.ext; //if ext use that
+
+      let outFileType;
+      if (typeof bufferType !== "undefined") {
+        outFileType = bufferType.ext;
+      } else if (
+        typeof bufferType === "undefined" &&
+        decType.fileType === "text"
+      ) {
+        outFileType = decType.ext;
+      } else {
+        outFileType = "txt";
+      }
+
+      // let fileType = typeof bufferType === "undefined" ? "txt" : bufferType.ext; //if ext use that
 
       // let fileType = ".txt"; //await FileType.fromBuffer(decrypted);
-      console.log("dec", decrypted);
-      setOutBound({ outbound: decrypted, ext: fileType, type: "binary" }); //type as arg
+      console.log({
+        outbound: decrypted,
+        ext: outFileType,
+        type: decType.fileType,
+      });
+      // setOutBound({ outbound: decrypted, ext: fileType, type: "binary" }); //type as arg
+      setOutBound({
+        outbound: decrypted,
+        ext: outFileType,
+        type: decType.fileType,
+      }); //type as arg
     } catch (e) {
-      console.log(e.name);
-      console.log(e.message);
-console.log('sanity' , e.message == "Error decrypting message: Session key decryption failed.")
-      e.message === "Error decrypting message: Session key decryption failed." &&
+      e.message ===
+        "Error decrypting message: Session key decryption failed." &&
         setAlert({
           show: true,
           severity: "error",
@@ -142,38 +162,38 @@ console.log('sanity' , e.message == "Error decrypting message: Session key decry
     });
   };
 
-  const textDecrypt = async (passPhrase, privateKey, textInput, ext) => {
-    setLoader(true);
+  // const textDecrypt = async (passPhrase, privateKey, textInput, ext) => {
+  //   setLoader(true);
 
-    let encIn = {
-      message: await openpgp.message.readArmored(textInput),
-    };
+  //   let encIn = {
+  //     message: await openpgp.message.readArmored(textInput),
+  //   };
 
-    try {
-      privateKey
-        ? (encIn.privateKeys = privateKey) //(await openpgp.key.readArmored(privateKey)).keys)
-        : (encIn.passwords = [passPhrase]);
-      // console.log('DEC IN ', encIn)
-      const { data: decrypted } = await openpgp.decrypt(encIn);
+  //   try {
+  //     privateKey
+  //       ? (encIn.privateKeys = privateKey) //(await openpgp.key.readArmored(privateKey)).keys)
+  //       : (encIn.passwords = [passPhrase]);
+  //     // console.log('DEC IN ', encIn)
+  //     const { data: decrypted } = await openpgp.decrypt(encIn);
 
-      // console.log('done')
-      // console.log(await FileType.fromBuffer(decrypted));
-      console.log(decrypted);
-      // console.log(decrypted)
-      setOutBound({ outbound: decrypted, ext: ext, type: "text" });
-      setSuccess(true);
-    } catch (e) {
-      let wrongKey =
-        "Error encrypting message: No keys, passwords, or session key provided.";
-      if (e.message === wrongKey && privateKey) {
-        setAlert({
-          show: true,
-          message: "Something went wrong! Please try again.",
-          severity: "error",
-        });
-      }
-    }
-  };
+  //     // console.log('done')
+  //     // console.log(await FileType.fromBuffer(decrypted));
+  //     console.log(decrypted);
+  //     // console.log(decrypted)
+  //     setOutBound({ outbound: decrypted, ext: ext, type: "text" });
+  //     setSuccess(true);
+  //   } catch (e) {
+  //     let wrongKey =
+  //       "Error encrypting message: No keys, passwords, or session key provided.";
+  //     if (e.message === wrongKey && privateKey) {
+  //       setAlert({
+  //         show: true,
+  //         message: "Something went wrong! Please try again.",
+  //         severity: "error",
+  //       });
+  //     }
+  //   }
+  // };
 
   const outputHandler = () => {
     setAlert({
@@ -187,7 +207,7 @@ console.log('sanity' , e.message == "Error decrypting message: Session key decry
 
   const reset = () => {
     setSuccess(false);
-    setAlert(NullAlert);
+    setAlert(resetAlert);
   };
 
   const handleDecType = (type) => {
@@ -196,7 +216,7 @@ console.log('sanity' , e.message == "Error decrypting message: Session key decry
 
   let form = (
     <DecryptForm
-      textEncrypt={textDecrypt}
+      // textEncrypt={textDecrypt}
       byteEncrypt={byteDecrypt}
       encType={encType}
       loader={loader}
@@ -206,6 +226,7 @@ console.log('sanity' , e.message == "Error decrypting message: Session key decry
   return (
     <>
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         open={alert.show}
         autoHideDuration={10000}
         onClose={handleClose}
