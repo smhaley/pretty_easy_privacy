@@ -8,6 +8,9 @@ import DecryptForm from "./DecryptForm";
 import Alert from "@material-ui/lab/Alert";
 import Expire from "../utils/Expire";
 import Snackbar from "@material-ui/core/Snackbar";
+import * as utils from "../utils/utils";
+
+
 
 const openpgp = require("openpgp");
 const FileType = require("file-type");
@@ -49,7 +52,7 @@ const Decrypt = (props) => {
   let resetAlert = {
     show: false,
     message: "",
-    severity: "success",
+    severity: "",
   };
 
   const classes = useStyles();
@@ -92,117 +95,40 @@ const Decrypt = (props) => {
         e.message === "Misformed armored text" ||
         e.message === "String contains an invalid character";
       console.log("format", format);
-      format === true &&
-        // setErrors({ ...errors, armorErr: true });
-        setAlert({
-          show: true,
-          severity: "error",
-          message:
-            "Looks like there is a format issue with your Encrypted text. We recommend using the original text file supplied!",
-        });
-      // setOpen(true);
-      console.log(e.name);
-      console.log(e.message);
+      format === true ?
+        setAlert(utils.decFormat) :
+        setAlert(utils.decGeneric)
       return;
-      // Error: Misformed armored text incorrect format
     }
 
     privateKey
-      ? (encIn.privateKeys = privateKey) //(await openpgp.key.readArmored(privateKey)).keys)
+      ? (encIn.privateKeys = privateKey)
       : (encIn.passwords = [passPhrase]);
 
     try {
       const { data: decrypted } = await openpgp.decrypt(encIn);
       let bufferType = await FileType.fromBuffer(decrypted);
 
-      let outFileType;
-      if (typeof bufferType !== "undefined") {
-        outFileType = bufferType.ext;
-      } else if (
-        typeof bufferType === "undefined" &&
-        decType.fileType === "text"
-      ) {
-        outFileType = decType.ext;
-      } else {
-        outFileType = "txt";
-      }
+      let outFileType = utils.extSelect(bufferType, decType);
 
-      // let fileType = typeof bufferType === "undefined" ? "txt" : bufferType.ext; //if ext use that
-
-      // let fileType = ".txt"; //await FileType.fromBuffer(decrypted);
-      console.log({
-        outbound: decrypted,
-        ext: outFileType,
-        type: decType.fileType,
-      });
-      // setOutBound({ outbound: decrypted, ext: fileType, type: "binary" }); //type as arg
       setOutBound({
         outbound: decrypted,
         ext: outFileType,
         type: decType.fileType,
-      }); //type as arg
+      }); 
+      outputHandler()
     } catch (e) {
       e.message ===
         "Error decrypting message: Session key decryption failed." &&
-        setAlert({
-          show: true,
-          severity: "error",
-          message: "Passphrase is incorrect!",
-        });
+        setAlert(utils.decPW);
       // setOpen(true);
       return;
-    }
-
-    setSuccess(true);
-    // setOpen(true);
-    setAlert({
-      show: true,
-      severity: "success",
-      message: "Successfully decrypted!",
-    });
+    }  
   };
 
-  // const textDecrypt = async (passPhrase, privateKey, textInput, ext) => {
-  //   setLoader(true);
-
-  //   let encIn = {
-  //     message: await openpgp.message.readArmored(textInput),
-  //   };
-
-  //   try {
-  //     privateKey
-  //       ? (encIn.privateKeys = privateKey) //(await openpgp.key.readArmored(privateKey)).keys)
-  //       : (encIn.passwords = [passPhrase]);
-  //     // console.log('DEC IN ', encIn)
-  //     const { data: decrypted } = await openpgp.decrypt(encIn);
-
-  //     // console.log('done')
-  //     // console.log(await FileType.fromBuffer(decrypted));
-  //     console.log(decrypted);
-  //     // console.log(decrypted)
-  //     setOutBound({ outbound: decrypted, ext: ext, type: "text" });
-  //     setSuccess(true);
-  //   } catch (e) {
-  //     let wrongKey =
-  //       "Error encrypting message: No keys, passwords, or session key provided.";
-  //     if (e.message === wrongKey && privateKey) {
-  //       setAlert({
-  //         show: true,
-  //         message: "Something went wrong! Please try again.",
-  //         severity: "error",
-  //       });
-  //     }
-  //   }
-  // };
-
   const outputHandler = () => {
-    setAlert({
-      show: true,
-      message: "Encryption Complete",
-      severity: "success",
-    });
     setSuccess(true);
-    setLoader(false);
+    setAlert(utils.decSuccess);
   };
 
   const reset = () => {
@@ -216,7 +142,6 @@ const Decrypt = (props) => {
 
   let form = (
     <DecryptForm
-      // textEncrypt={textDecrypt}
       byteEncrypt={byteDecrypt}
       encType={encType}
       loader={loader}
@@ -225,7 +150,7 @@ const Decrypt = (props) => {
 
   return (
     <>
-      <Snackbar
+{  alert.show &&    <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         open={alert.show}
         autoHideDuration={10000}
@@ -234,7 +159,7 @@ const Decrypt = (props) => {
         <Alert onClose={handleClose} severity={alert.severity}>
           {alert.message}
         </Alert>
-      </Snackbar>
+      </Snackbar>}
 
       {!success && <EncTypeTab handleType={handleDecType} />}
       <Grid container wrap="nowrap" spacing={0}>
