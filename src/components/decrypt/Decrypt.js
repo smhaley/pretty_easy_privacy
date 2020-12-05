@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Decrypt = (props) => {
   let NullAlert = {
-    show: 0,
+    show: false,
     message: null,
     severity: null,
   };
@@ -151,7 +151,7 @@ const Decrypt = (props) => {
   return (
     <>
 {  alert.show &&    <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
         open={alert.show}
         autoHideDuration={10000}
         onClose={handleClose}
@@ -163,7 +163,7 @@ const Decrypt = (props) => {
 
       {!success && <EncTypeTab handleType={handleDecType} />}
       <Grid container wrap="nowrap" spacing={0}>
-        <Grid item></Grid>
+        {/* <Grid item></Grid> */}
         <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>
             {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}

@@ -39,7 +39,7 @@ const Result = (props) => {
   const [openEnc, setOpenEnc] = useState(false);
 
   const outputHandler = (decryptedVal) => {
-    console.log("input = ", decryptedVal);
+
     const element = document.createElement("a");
     let file;
     if (outbound.type === "byte") {
@@ -58,7 +58,7 @@ const Result = (props) => {
     element.click();
     element.remove();
   };
-  console.log(outbound.type);
+
   return (
     <Grid container wrap="nowrap" spacing={0}>
       <Grid item></Grid>

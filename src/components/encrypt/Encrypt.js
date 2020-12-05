@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Result from "./Result";
 import EncTypeTab from "../utils/EncTypeTab";
 import EncryptForm from "./EncryptForm";
-
+import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import Expire from "../utils/Expire";
 
