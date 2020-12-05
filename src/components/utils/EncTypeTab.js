@@ -101,7 +101,7 @@ export default function EncTypeTab(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     // console.log(value)
-    props.handleEncType(newValue)
+    props.handleType(newValue)
   };
 console.log(value)
   return (

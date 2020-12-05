@@ -16,7 +16,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import PassPhrase from "../utils/Passphrase";
 import KeyInput from "./KeyInput";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import FormHelperText from '@material-ui/core/FormHelperText';
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const openpgp = require("openpgp");
 
@@ -127,10 +127,16 @@ const DecryptForm = (props) => {
     passPhraseState(e.target.value);
   };
 
-  // const handleFileType = (e)=>{
-  //   console.log(e.target.value)
-  //   setFileMetaData({...fileMetaData,  fileType:e.target.value})
-  // }
+  const handleFileType = (e) => {
+    let extIn = e.target.value;
+    setFileExt(extIn)
+    if (extIn === "txt" ||extIn === "csv") {
+      setFileType('text');
+    } else {
+      //'byte'
+      setFileType('byte');
+    }
+  };
 
   // const handleTextExt =(e) => {
   //   setFileMetaData({...fileMetaData, textExt:e.target.value})
@@ -236,12 +242,12 @@ const DecryptForm = (props) => {
       formByteInputError: byteErr,
       passPhraseMissingError: pwErr,
       fileTypeErr: fileTypeErr,
-      fileExtErr: fileExtErr
+      fileExtErr: fileExtErr,
     });
     return totalErr;
   };
 
-  console.log(fileType === "text" && fileExt === "")
+  console.log(fileType === "text" && fileExt === "");
 
   ///use qwargs
 
@@ -262,10 +268,10 @@ const DecryptForm = (props) => {
     props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
 
     if (fileType === "text") {
-      props.textEncrypt(aes, rsa, textInput);
+      props.textEncrypt(aes, rsa, textInput, fileExt);
     } else if (fileType === "byte") {
-      console.log(uploadedFile);
-      props.byteEncrypt(aes, rsa, textInput);
+      console.log('uploadedFile');
+      props.byteEncrypt(aes, rsa, textInput, {fileType: fileType, ext: fileExt });
     }
   };
   // console.log(fileMetaData);
@@ -303,7 +309,11 @@ const DecryptForm = (props) => {
       {inputType}
 
       <Box mt={4} mb={4}>
-        <FormControl variant="outlined" className={classes.formControl} error = {errors.fileTypeErr ? true:false}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          error={errors.fileTypeErr ? true : false}
+        >
           <InputLabel id="demo-simple-select-outlined-label">
             File Type
           </InputLabel>
@@ -311,46 +321,25 @@ const DecryptForm = (props) => {
             required
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={fileType}
-            onChange={(e) => setFileType(e.target.value)}
+            value={fileExt}
+            // renderValue={fileType}
+            // onChange={(e ) => handleFileType()}
+            onChange={handleFileType}
             className={classes.dropSelect}
             label="Text FIle Type"
           >
-            <MenuItem value={"text"}>Text (txt, docx, csv)</MenuItem>
-            <MenuItem value={"byte"}>Image (pdf, jpeg, png, etc)</MenuItem>
+            <MenuItem value={"txt" }>.txt</MenuItem>
+            <MenuItem value={ "csv" }>.csv</MenuItem>
+            <MenuItem value={'byte' }>Something Else</MenuItem>
             {/* <MenuItem value={30}></MenuItem> */}
           </Select>
-          {errors.fileTypeErr &&
-          <FormHelperText>Please enter the format of the decrypted file</FormHelperText>}
+          {errors.fileTypeErr && (
+            <FormHelperText>
+              Please enter the format of the decrypted file
+            </FormHelperText>
+          )}
         </FormControl>
       </Box>
-      {fileType === "text" && (
-        <Box mt={4} mb={4}>
-          <FormControl variant="outlined" className={classes.formControl} error = {errors.fileExtErr ? true:false}>
-            <InputLabel id="demo-simple-select-outlined-label">
-              Text File Extention
-            </InputLabel>
-            <Select
-              value={fileExt}
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              onChange={(e) => setFileExt(e.target.value)}
-              className={classes.dropSelect}
-              // onChange={handleChange}
-              label="Text File Type"
-            >
-              <MenuItem value={".docx"}>.docx</MenuItem>
-              <MenuItem value={".txt"}>.txt</MenuItem>
-              <MenuItem value={".csv"}>.csv</MenuItem>
-              <MenuItem value={".doc"}>.doc</MenuItem>
-              <MenuItem value={".odt"}>.odt</MenuItem>
-              <MenuItem value={"Other"}>Other</MenuItem>
-            </Select>
-            {errors.fileExtErr &&
-          <FormHelperText>Please enter the extention of the decrypted file</FormHelperText>}
-          </FormControl>
-        </Box>
-      )}
 
       {props.encType === 0 ? (
         <>

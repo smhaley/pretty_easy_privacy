@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import Display from '../utils/BrowserResult'
+import Display from "../utils/BrowserResult";
+import { mimes } from "../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -28,33 +29,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//id, armorTxt
+//id, outbound
 
 const Result = (props) => {
   const classes = useStyles();
 
-  const [ openEnc, setOpenEnc] = useState(false)
+  let outbound = props.outbound;
 
-  let armorTxt = props.armorTxt
+  const [openEnc, setOpenEnc] = useState(false);
 
-  const outputHandler = (textVal) => {
+  const outputHandler = (decryptedVal) => {
+    console.log("input = ", decryptedVal);
     const element = document.createElement("a");
-    const file = new Blob([textVal]);
+    let file;
+    if (outbound.type === "binary") {
+      file = new Blob([decryptedVal.outbound]);
+    } else {
+      file = new Blob([decryptedVal.outbound], {
+        type: mimes[decryptedVal.ext],
+      });
+    }
     element.href = URL.createObjectURL(file);
-    element.download = element.href.split("/")[3] + "_" +textVal.ext + "_" + ".aes"; //make random name
-    element.click()
-    element.remove()
+    element.download =
+      "pep_output_" +
+      element.href.split("/")[3].split("-")[0] +
+      "." +
+      decryptedVal.ext; //make random name
+    element.click();
+    element.remove();
     // setOutputTag(element);
     // console.log(element);
-      // setAlert({
-      //   show: true,
-      //   message: "Encryption Complete",
-      //   severity: "success",
-      // });
+    // setAlert({
+    //   show: true,
+    //   message: "Encryption Complete",
+    //   severity: "success",
+    // });
     // setSuccess(true);
     // setLoader(false);
   };
-
+  console.log(outbound.type);
   return (
     <Grid container wrap="nowrap" spacing={0}>
       <Grid item></Grid>
@@ -64,6 +77,7 @@ const Result = (props) => {
         </Typography>
         <Box mb={2}>
           <Button
+            disabled={outbound.type === "binary" ? true : false}
             // onClick={() => window.open(props.outputTag.href)}
             onClick={() => setOpenEnc(!openEnc)}
             variant="outlined"
@@ -74,20 +88,18 @@ const Result = (props) => {
           </Button>
           <Button
             // onClick={() => props.outputTag.click()}
-            onClick={() => outputHandler(armorTxt)}
+            onClick={() => outputHandler(outbound)}
             variant="outlined"
             color={"secondary"}
             className={classes.button}
           >
             Download
           </Button>
-          {/* {openEnc && (
-              <Display val={armorTxt.armorTxt} id="encryptedResult" />
-            // )} */}
+          {openEnc && <Display val={outbound.outbound} id="encryptedResult" />}
         </Box>
         {/* <Paper className={classes.paper}>
         <div className={classes.result}>
-          <pre id={'test'}>{props.armorTxt}</pre>
+          <pre id={'test'}>{props.outbound}</pre>
         </div>
       </Paper> */}
         <Box>
