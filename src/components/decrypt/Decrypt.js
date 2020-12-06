@@ -43,24 +43,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Decrypt = (props) => {
-  let NullAlert = {
-    show: false,
-    message: null,
-    severity: null,
-  };
 
-  let resetAlert = {
-    show: false,
-    message: "",
-    severity: "",
-  };
 
   const classes = useStyles();
   // const [outputTag, setOutputTag] = useState();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
-  const [alert, setAlert] = useState(NullAlert);
+  const [alert, setAlert] = useState(utils.resetAlert);
   const [armorTxt, setArmorTxt] = useState();
   const [outbound, setOutBound] = useState();
   const [open, setOpen] = React.useState(false);
@@ -70,7 +60,7 @@ const Decrypt = (props) => {
       return;
     }
 
-    setAlert(resetAlert);
+    setAlert(utils.resetAlert);
     // setOpen(false);
   };
 
@@ -82,7 +72,7 @@ const Decrypt = (props) => {
     // fileMetaData
   ) => {
     setLoader(true);
-    setAlert(resetAlert);
+    setAlert(utils.resetAlert);
     console.log("byte dec meth");
     let encIn;
     try {
@@ -133,7 +123,7 @@ const Decrypt = (props) => {
 
   const reset = () => {
     setSuccess(false);
-    setAlert(resetAlert);
+    setAlert(utils.resetAlert);
   };
 
   const handleDecType = (type) => {
@@ -150,7 +140,7 @@ const Decrypt = (props) => {
 
   return (
     <>
-{  alert.show &&    <Snackbar
+{/* {  alert.show &&    <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "left" }}
         open={alert.show}
         autoHideDuration={10000}
@@ -159,7 +149,7 @@ const Decrypt = (props) => {
         <Alert onClose={handleClose} severity={alert.severity}>
           {alert.message}
         </Alert>
-      </Snackbar>}
+      </Snackbar>} */}
 
       {!success && <EncTypeTab handleType={handleDecType} />}
       <Grid container wrap="nowrap" spacing={0}>

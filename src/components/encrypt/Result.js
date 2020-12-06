@@ -4,8 +4,8 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import Display from "../utils/BrowserResult";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 //todo disbale in browser if 'larger'
 
@@ -38,6 +38,7 @@ const Result = (props) => {
   const [openEnc, setOpenEnc] = useState(false);
 
   let armorTxt = props.armorTxt;
+  let disableCopy = armorTxt.armorTxt.length > 10000 ;
 
   const outputHandler = (textVal) => {
     const element = document.createElement("a");
@@ -66,16 +67,17 @@ const Result = (props) => {
           Retrieve Encrypted Data
         </Typography>
         <Box mb={2}>
-          <Button
-            disabled={armorTxt.armorTxt.length > 10000 ? true : false}
-            onClick={() => setOpenEnc(!openEnc)}
-            variant="outlined"
-            color={"secondary"}
-            className={classes.button}
-          >
-            In Browser
-          </Button>
-          <Button
+            <Button
+              disabled={disableCopy}
+              onClick={() => setOpenEnc(!openEnc)}
+              variant="outlined"
+              color={"secondary"}
+              className={classes.button}
+            >
+              In Browser
+            </Button>
+
+            <Button
             onClick={() => outputHandler(armorTxt)}
             variant="outlined"
             color={"secondary"}
@@ -83,6 +85,7 @@ const Result = (props) => {
           >
             Download
           </Button>
+          {disableCopy && <FormHelperText style={{paddingLeft: '8px'}}>Result too Large</FormHelperText>}
           {openEnc && <Display val={armorTxt.armorTxt} id="encryptedResult" />}
         </Box>
         {/* <Paper className={classes.paper}>

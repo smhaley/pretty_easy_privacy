@@ -11,7 +11,7 @@ export const extSelect = (bufferType, decType) => {
   } else if (typeof bufferType === "undefined" && decType.fileType === "text") {
     return decType.ext;
   } else {
-    return  "txt";
+    return "txt";
   }
 };
 
@@ -20,23 +20,48 @@ export const decFormat = {
   severity: "error",
   message:
     "Looks like there is a format issue with your Encrypted text. We recommend using the original text file supplied!",
-}
+};
 
 export const decGeneric = {
   show: true,
   severity: "error",
-  message:
-    "Something went wrong! Please try again.",
-}
+  message: "Something went wrong! Please try again.",
+};
 
 export const decPW = {
   show: true,
   severity: "error",
   message: "Passphrase is incorrect!",
-}
+};
 
 export const decSuccess = {
-      show: true,
-      severity: "success",
-      message: "Successfully decrypted!",
-    }
+  show: true,
+  severity: "success",
+  message: "Successfully decrypted!",
+};
+
+export const encSuccess = {
+  show: true,
+  message: "Encryption Complete",
+  severity: "success",
+}
+
+export const encError = {
+  show: true,
+  message: "Something went wrong! Please try again.",
+  severity: "error",
+};
+
+export const resetAlert = {
+  show: false,
+  message: "",
+  severity: "",
+};
+
+
+export const keyError = {
+  show: true,
+  message: "Invalid RSA Key! Please try again.",
+  severity: "error",
+};
+

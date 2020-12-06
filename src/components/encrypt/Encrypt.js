@@ -7,7 +7,8 @@ import EncTypeTab from "../utils/EncTypeTab";
 import EncryptForm from "./EncryptForm";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import Expire from "../utils/Expire";
+import { resetAlert, encSuccess, encError } from "../utils/utils";
+
 
 const openpgp = require("openpgp");
 
@@ -38,31 +39,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Encrypt = (props) => {
-  let NullAlert = {
-    show: 0,
-    message: null,
-    severity: null,
-
-  };
 
   const classes = useStyles();
   // const [outputTag, setOutputTag] = useState();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
-  const [alert, setAlert] = useState(NullAlert);
-  const [armorTxt, setArmorTxt] = useState()
+  const [alert, setAlert] = useState(resetAlert);
+  const [armorTxt, setArmorTxt] = useState();
 
   const byteEncrypt = async (
     passPhrase,
     pubKey,
     uploadedFile,
-    fileMetaData
+    ext,
+    binInd
   ) => {
+
+    try {
     setLoader(true);
+
+    let inputMessage =
+    binInd
+        ? openpgp.message.fromBinary(uploadedFile)
+        : openpgp.message.fromText(uploadedFile);
+
     let encIn = {
-      message: openpgp.message.fromBinary(uploadedFile), // input as Message object
-      armor: false, // don't ASCII armor (for Uint8Array output)
+      message: inputMessage,
+      armor: false,
     };
 
     pubKey
@@ -70,53 +74,33 @@ const Encrypt = (props) => {
       : (encIn.passwords = [passPhrase]);
 
     const { message } = await openpgp.encrypt(encIn);
-    const encrypted = message.packets.write();
-    setArmorTxt({armorTxt: message.armor(), ext:fileMetaData.type})
+    binInd && message.packets.write();
+
+
+    setArmorTxt({ armorTxt: message.armor(), ext: ext });
     outputHandler();
-  };
-
-  const textEncrypt = async (passPhrase, pubKey, textInput) => {
-    setLoader(true);
-
-    let encIn = {
-      message: openpgp.message.fromText(textInput),
-      armor: false,
-    };
-
-    try {
-      pubKey
-        ? (encIn.publicKeys = pubKey) //(await openpgp.key.readArmored(pubKey)).keys)
-        : (encIn.passwords = [passPhrase]);
-
-      const { message } = await openpgp.encrypt(encIn);
-      setArmorTxt({armorTxt: message.armor(), ext:'txt'})
-      outputHandler();
-    } catch (e) {
-      let wrongKey =
-        "Error encrypting message: No keys, passwords, or session key provided.";
-      if (e.message === wrongKey && pubKey) {
-        setAlert({
-          show: true,
-          message: "Something went wrong! Please try again.",
-          severity: "error",
-        });
-      }
+  } catch (e) {
+    setAlert(encError);
     }
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlert(resetAlert);
+  };
+
   const outputHandler = () => {
-      setAlert({
-        show: true,
-        message: "Encryption Complete",
-        severity: "success",
-      });
+    setAlert(encSuccess);
     setSuccess(true);
     setLoader(false);
   };
 
   const reset = () => {
     setSuccess(false);
-    setAlert(NullAlert);
+    setAlert(resetAlert);
   };
 
   const handleEncType = (type) => {
@@ -125,31 +109,49 @@ const Encrypt = (props) => {
 
   let form = (
     <EncryptForm
-      textEncrypt={textEncrypt}
-      byteEncrypt={byteEncrypt}
+      handleEncrypt={byteEncrypt}
       encType={encType}
-      loader = {loader}
+      loader={loader}
     />
   );
 
   return (
     <>
-      <div className={classes.alert}>
+      {/* <div className={classes.alert}>
         {success ? ( //&& <Alert severity={alert.severity}>{alert.message}</Alert> }
           <Expire>
             <Alert severity={alert.severity}>{alert.message}</Alert>
           </Expire>
         ) : null}
-      </div>
-      {!success && <EncTypeTab handleEncType={handleEncType} />}
+      </div> */}
+      {alert.show && (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "left" }}
+          open={alert.show}
+          autoHideDuration={10000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
+
+      {!success && <EncTypeTab handleType={handleEncType} />}
       <Grid container wrap="nowrap" spacing={0}>
         <Grid item></Grid>
         <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>
             {encType === 0 ? "AES 256 Encryption" : "RSA  Encryption"}
           </Typography>
-          {success ? <Result // outputTag={outputTag} 
-          reset={reset} armorTxt={armorTxt}/> : form}
+          {success ? (
+            <Result // outputTag={outputTag}
+              reset={reset}
+              armorTxt={armorTxt}
+            />
+          ) : (
+            form
+          )}
         </Grid>
       </Grid>
     </>

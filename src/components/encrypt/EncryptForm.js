@@ -181,15 +181,13 @@ const EncryptForm = (props) => {
     // (!errCheck && !keyErr)  && handleEncrypt(byteKey)
   };
   const handleEncrypt = (encryptionKey) => {
-    console.log("encrt key ====", encryptionKey);
     let aes, rsa;
     props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
 
     if (inputTypeSelect === "text") {
-      props.textEncrypt(aes, rsa, textInput);
-    } else if (inputTypeSelect === "byte") {
-      console.log(uploadedFile)
-      props.byteEncrypt(aes, rsa, uploadedFile, fileMetaData);
+      props.handleEncrypt(aes, rsa, textInput, 'txt', false);
+    } else {
+      props.handleEncrypt(aes, rsa, uploadedFile, fileMetaData.ext, true);
     }
   };
 

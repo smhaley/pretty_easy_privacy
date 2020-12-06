@@ -10,6 +10,9 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import { keyError } from "../utils/utils";
+import Snackbar from "@material-ui/core/Snackbar";
+
 
 const openpgp = require("openpgp");
 
@@ -70,11 +73,23 @@ const KeyInput = (props) => {
   const classes = useStyles();
   let resetErr = { err: false, key: false, message: false };
 
+
+  // const [alert, setAlert] = useState(resetAlert);
   const [byteKey, setByteKey] = useState();
   const [inputTypeSelect, setInputTypeSelect] = useState("byte");
   const [formTextInputError, setFormTextInputError] = useState(resetErr);
   const [formByteInputError, setFormByteInputError] = useState(resetErr);
   const [fileMetaData, setFileMetaData] = useState();
+
+
+  // const handleClose = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+
+  //   setAlert(resetAlert);
+  // };
+
 
   const handleTextInput = (e) => {
     setByteKey(e.target.value);

@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Display from "../utils/BrowserResult";
 import { mimes } from "../utils/utils";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -38,8 +40,10 @@ const Result = (props) => {
 
   const [openEnc, setOpenEnc] = useState(false);
 
-  const outputHandler = (decryptedVal) => {
+  let disableCopy =
+    outbound.outbound.length > 10000 || outbound.type === "byte";
 
+  const outputHandler = (decryptedVal) => {
     const element = document.createElement("a");
     let file;
     if (outbound.type === "byte") {
@@ -67,16 +71,20 @@ const Result = (props) => {
           Retrieve Encrypted Data
         </Typography>
         <Box mb={2}>
-          <Button
-            disabled={outbound.type === "byte" ? true : false}
-            // onClick={() => window.open(props.outputTag.href)}
-            onClick={() => setOpenEnc(!openEnc)}
-            variant="outlined"
-            color={"secondary"}
-            className={classes.button}
-          >
-            In Browser
-          </Button>
+              <Button
+                disabled={disableCopy}
+                onClick={() => setOpenEnc(!openEnc)}
+                variant="outlined"
+                color={"secondary"}
+                className={classes.button}
+              >
+                In Browser
+              </Button>
+          {disableCopy && (
+            <FormHelperText style={{ paddingLeft: "8px" }}>
+              Result too Large
+            </FormHelperText>
+          )}
           <Button
             // onClick={() => props.outputTag.click()}
             onClick={() => outputHandler(outbound)}
