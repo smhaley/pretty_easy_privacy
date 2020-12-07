@@ -13,7 +13,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import PassPhrase from "../utils/Passphrase";
 import KeyInput from "./KeyInput";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -202,8 +201,8 @@ const DecryptForm = (props) => {
   }
 
   //rename error submit
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = () => {
+    // e.preventDefault();
     setErrors(resetErrors);
 
     let byteErr,
@@ -260,15 +259,12 @@ const DecryptForm = (props) => {
     if (!errCheck && !keyErr) {
       handleEncrypt(byteKey);
     }
-    // (!errCheck && !keyErr)  && handleEncrypt(byteKey)
   };
   const handleEncrypt = (encryptionKey) => {
-    console.log("encrt key ====", encryptionKey);
     let aes, rsa;
     props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
 
     if (fileType === "text") {
-      // props.textEncrypt(aes, rsa, textInput, fileExt);
       props.byteEncrypt(aes, rsa, textInput, {fileType: fileType, ext: fileExt });
     } else if (fileType === "byte") {
       console.log('uploadedFile');
@@ -389,8 +385,6 @@ const DecryptForm = (props) => {
       ) : (
         <KeyInput
           handleKeyEncrypt={handleKeyEncrypt}
-          // handleFormSubmit={handleFormSubmit}
-          // handleEncrypt={handleEncrypt}
         />
       )}
     </form>

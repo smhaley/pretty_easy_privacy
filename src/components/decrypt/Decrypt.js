@@ -74,6 +74,8 @@ const Decrypt = (props) => {
     setLoader(true);
     setAlert(utils.resetAlert);
     console.log("byte dec meth");
+
+    
     let encIn;
     try {
       encIn = {
@@ -84,23 +86,24 @@ const Decrypt = (props) => {
       let format =
         e.message === "Misformed armored text" ||
         e.message === "String contains an invalid character";
-      console.log("format", format);
       format === true ?
         setAlert(utils.decFormat) :
         setAlert(utils.decGeneric)
       return;
     }
+console.log('pw',  [passPhrase])
+console.log('pkey',  privateKey)
 
     privateKey
       ? (encIn.privateKeys = privateKey)
       : (encIn.passwords = [passPhrase]);
-
+console.log('encIn = ,',  encIn)
     try {
       const { data: decrypted } = await openpgp.decrypt(encIn);
       let bufferType = await FileType.fromBuffer(decrypted);
 
       let outFileType = utils.extSelect(bufferType, decType);
-
+console.log('dec', decrypted)
       setOutBound({
         outbound: decrypted,
         ext: outFileType,

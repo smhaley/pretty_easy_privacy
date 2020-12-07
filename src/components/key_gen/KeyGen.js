@@ -217,12 +217,6 @@ const Result = (props) => {
 
   return (
     <>
-      <Box></Box>
-      {/* <h3>Key Result</h3>
-      <div className={classes.result}>
-        <pre>{key.privateKeyArmored}</pre>
-      </div> */}
-
       <Grid container wrap="nowrap" spacing={0}>
         <Grid item></Grid>
         <Grid item xs>
@@ -287,60 +281,3 @@ const Result = (props) => {
   );
 };
 export default KeyGen;
-
-// const Display = (props) => {
-//   const classes = useStyles();
-//   const [openSnack, setOpenSnack] = useState({
-//     open: false,
-//     vertical: "bottom",
-//     horizontal: "left",
-//   });
-
-//   const { vertical, horizontal, open } = openSnack;
-
-//   let inputId = props.id;
-//   let keyIn = props.val;
-
-//   const handleCopy = () => {
-//     setOpenSnack({ ...openSnack, open: true });
-//     let copyText = document.getElementById(inputId).textContent;
-//     const textArea = document.createElement("textarea");
-//     textArea.setAttribute("id", "copy");
-//     textArea.textContent = copyText;
-//     document.body.append(textArea);
-//     textArea.select();
-//     textArea.setSelectionRange(0, 99999); /*For mobile devices*/
-
-//     /* Copy the text inside the text field */
-//     document.execCommand("copy");
-//     textArea.remove();
-//   };
-
-//   const handleClose = () => {
-//     setOpenSnack({ ...openSnack, open: false });
-//   };
-//   return (
-//     <>
-//       <div className={classes.copy}>
-//         <Tooltip title="Copy">
-//           <IconButton aria-label="Copy" onClick={handleCopy}>
-//             <FileCopyIcon />
-//           </IconButton>
-//         </Tooltip>
-//       </div>
-//       <Paper className={classes.paper}>
-//         <div className={classes.result}>
-//           <pre id={inputId}>{keyIn}</pre>
-//         </div>
-//       </Paper>
-
-//       <Snackbar
-//         anchorOrigin={{ vertical, horizontal }}
-//         open={open}
-//         onClose={handleClose}
-//         message="Copied to clipboard"
-//         key={vertical + horizontal}
-//       />
-//     </>
-//   );
-// };

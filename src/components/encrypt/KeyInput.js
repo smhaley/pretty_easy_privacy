@@ -95,11 +95,9 @@ const KeyInput = (props) => {
   };
 
   const readKey = (e) => {
-    // setFilerLoader(true);
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
-    // reader.readAsArrayBuffer(file);
     reader.readAsText(file);
     setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
     reader.onload = () => {
@@ -108,7 +106,6 @@ const KeyInput = (props) => {
     reader.onerror = function () {
       console.log("error");
     };
-    //TODO fire ERROR
   };
 
   let inputType;

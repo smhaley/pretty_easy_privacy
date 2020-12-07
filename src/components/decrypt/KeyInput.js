@@ -10,9 +10,9 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import { keyError } from "../utils/utils";
 import Snackbar from "@material-ui/core/Snackbar";
-
+import Alert from "@material-ui/lab/Alert";
+import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
 
 const openpgp = require("openpgp");
 
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const InFile = (props) => {
-
   const handleDelete = () => {
     props.setUploadedFile(null);
     props.setFileMetaData(null);
@@ -38,9 +37,7 @@ const InFile = (props) => {
   );
   return (
     <Box>
-      <FormLabel component="legend">
-        Select RSA Key:
-      </FormLabel>
+      <FormLabel component="legend">Select RSA Key:</FormLabel>
       <Box mt={1}>
         <Button
           onClick={() => document.getElementById("keyInput").click()}
@@ -48,9 +45,11 @@ const InFile = (props) => {
           color="secondary"
         >
           Key Browse
-        </Button>{" "}
+        </Button>
+
         {selectedFile}
-        {props.err.err && (
+        {props.err.err 
+        && (
           <p
             class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
             id="pw-in-helper-text"
@@ -71,25 +70,28 @@ const InFile = (props) => {
 
 const KeyInput = (props) => {
   const classes = useStyles();
+
   let resetErr = { err: false, key: false, message: false };
 
-
-  // const [alert, setAlert] = useState(resetAlert);
+  const [alert, setAlert] = useState(resetAlert);
   const [byteKey, setByteKey] = useState();
   const [inputTypeSelect, setInputTypeSelect] = useState("byte");
   const [formTextInputError, setFormTextInputError] = useState(resetErr);
   const [formByteInputError, setFormByteInputError] = useState(resetErr);
   const [fileMetaData, setFileMetaData] = useState();
+  //CHANGE
+  const [passPhraseError, setPassPhraseError] = useState(resetErr);
+  const [passPhrase, setPassPhrase] = useState();
 
+  const handlePassPhrase = (e) => setPassPhrase(e.target.value);
 
-  // const handleClose = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
-  //   setAlert(resetAlert);
-  // };
-
+    setAlert(resetAlert);
+  };
 
   const handleTextInput = (e) => {
     setByteKey(e.target.value);
@@ -100,11 +102,9 @@ const KeyInput = (props) => {
   };
 
   const readKey = (e) => {
-    // setFilerLoader(true);
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
-    // reader.readAsArrayBuffer(file);
     reader.readAsText(file);
     setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
     reader.onload = () => {
@@ -113,7 +113,6 @@ const KeyInput = (props) => {
     reader.onerror = function () {
       console.log("error");
     };
-    //TODO fire ERROR
   };
 
   let inputType;
@@ -146,15 +145,16 @@ const KeyInput = (props) => {
     );
   }
 
-  const handleSubmit = async () => {
-    //TODO need to split out?
-    console.log("submit");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setAlert(resetAlert);
     setFormTextInputError(resetErr);
     setFormByteInputError(resetErr);
-    let err, rsaKey;
+
+    let err = false, outkey, privateKey;
+    
     if (!byteKey || byteKey === "") {
-      if (inputType === "text") {
-       
+      if (inputTypeSelect === "text") {
         setFormTextInputError({
           ...formTextInputError,
           err: true,
@@ -167,82 +167,102 @@ const KeyInput = (props) => {
           message: "Key File Required",
         });
       }
-      err = true;
+      err = true;   
+    
     } else {
-      rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];
-      if (typeof rsaKey == "undefined") {
-        if (inputType === "text") {
-          setFormTextInputError({
-            err: true,
-            key: true,
-            message: "Invalid RSA Key",
-          });
-        } else {
-          setFormByteInputError({
-            err: true,
-            key: true,
-            message: "Invalid RSA Key",
-          });
-        }
+      //CHANGE
+      // rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];/
+
+      try {
+  
+        const {
+          keys: [privateKey],
+        } = await openpgp.key.readArmored(byteKey);
+        await privateKey.decrypt(passPhrase);
+        outkey = [privateKey]
+      } catch (e) {
+        e.message === "Incorrect key passphrase" && setAlert(privKeyPassError);
+        e.message === "privateKey is undefined" && setAlert(keyError);
         err = true;
-      } else {
-        err = false;
       }
     }
+
+    console.log('sent PK!!!!!!!!!!!!!!!!!!!!!!!!!!', outkey);
     //continue to snag error in other input
-    props.handleKeyEncrypt(rsaKey, err);
+    props.handleKeyEncrypt(outkey, err);
   };
 
   return (
-    <Box>
-      <Box pt={3} mt={3}>
-        <div className={classes.keyHead}>
-          <h3>Key Input</h3>
-        </div>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Key Format</FormLabel>
-          <RadioGroup
-            row
-            aria-label="position"
-            name="position"
-            value={inputTypeSelect}
-            defaultValue="top"
-            onChange={handleInputType}
-          >
-            <FormControlLabel
-              value="byte"
-              control={<Radio color="secondary" />}
-              label="File"
-              labelPlacement="start"
-              // onChange={() => setInputTypeSelect(1)}
-            />
-            <FormControlLabel
-              value="text"
-              control={<Radio color="primary" />}
-              label="Text"
-              labelPlacement="start"
-              // onChange={() => setInputTypeSelect(0)}
-            />
-          </RadioGroup>
-        </FormControl>
-      </Box>
-      <Box>
-        <FormLabel
-          component="legend"
-       >
-        </FormLabel>
-        <Box mt={3}>{inputType}</Box>
-      </Box>
-      <Box pt={3}>
-        <Button
-          variant="contained"
-          color={"primary"}
-          onClick={handleSubmit}
+    <>
+      {alert.show && (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "left" }}
+          open={alert.show}
+          autoHideDuration={10000}
+          onClose={handleClose}
         >
-          Encrypt!
-        </Button>
+          <Alert onClose={handleClose} severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
+      <Box>
+        <Box pt={3} mt={3}>
+          <div className={classes.keyHead}>
+            <h3>Key Input</h3>
+          </div>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Key Format</FormLabel>
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={inputTypeSelect}
+              defaultValue="top"
+              onChange={handleInputType}
+            >
+              <FormControlLabel
+                value="byte"
+                control={<Radio color="secondary" />}
+                label="File"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                value="text"
+                control={<Radio color="primary" />}
+                label="Text"
+                labelPlacement="start"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
+        <Box>
+          <FormLabel component="legend"></FormLabel>
+          <Box mt={3}>{inputType}</Box>
+        </Box>
+        <Box pt={3}>
+          <TextField
+            required
+            // helperText={
+            //   errors.passPhraseMissingError && "PassPhrase Required!"
+            // }
+            onChange={handlePassPhrase}
+            // className={props.class}
+            // error={errors.passPhraseMissingError}
+            id="pw-in private key"
+            type="password"
+            label={"Private Key PassPhrase"}
+            variant="outlined"
+            // variant="filled"
+          />
+        </Box>
+        <Box pt={3}>
+          <Button variant="contained" color={"primary"} onClick={handleSubmit}>
+            Encrypt!
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

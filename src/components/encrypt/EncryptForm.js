@@ -235,8 +235,6 @@ const EncryptForm = (props) => {
       ) : (
         <KeyInput
           handleKeyEncrypt={handleKeyEncrypt}
-          // handleFormSubmit={handleFormSubmit}
-          // handleEncrypt={handleEncrypt}
         />
       )}
     </form>

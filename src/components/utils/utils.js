@@ -65,3 +65,9 @@ export const keyError = {
   severity: "error",
 };
 
+export const privKeyPassError = {
+  show: true,
+  message: "Incorrect Passphrase! Please try again.",
+  severity: "error",
+};
+
