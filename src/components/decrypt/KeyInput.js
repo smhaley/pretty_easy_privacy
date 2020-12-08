@@ -13,6 +13,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
+import PassPhrase from "../utils/Passphrase";
 
 const openpgp = require("openpgp");
 
@@ -48,8 +49,7 @@ const InFile = (props) => {
         </Button>
 
         {selectedFile}
-        {props.err.err 
-        && (
+        {props.err.err && (
           <p
             class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
             id="pw-in-helper-text"
@@ -80,8 +80,8 @@ const KeyInput = (props) => {
   const [formByteInputError, setFormByteInputError] = useState(resetErr);
   const [fileMetaData, setFileMetaData] = useState();
   //CHANGE
-  const [passPhraseError, setPassPhraseError] = useState(resetErr);
-  const [passPhrase, setPassPhrase] = useState();
+  const [passPhraseError, setPassPhraseError] = useState(false);
+  const [passPhrase, setPassPhrase] = useState('');
 
   const handlePassPhrase = (e) => setPassPhrase(e.target.value);
 
@@ -89,7 +89,6 @@ const KeyInput = (props) => {
     if (reason === "clickaway") {
       return;
     }
-
     setAlert(resetAlert);
   };
 
@@ -110,9 +109,7 @@ const KeyInput = (props) => {
     reader.onload = () => {
       setByteKey(reader.result);
     };
-    reader.onerror = function () {
-      console.log("error");
-    };
+    reader.onerror = function () {};
   };
 
   let inputType;
@@ -145,14 +142,25 @@ const KeyInput = (props) => {
     );
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const removeErrors = () => {
     setAlert(resetAlert);
     setFormTextInputError(resetErr);
     setFormByteInputError(resetErr);
+    setPassPhraseError(false)
+  };
 
-    let err = false, outkey, privateKey;
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    removeErrors();
+
+    let err = false,
+      outkey
+
+    if (passPhrase===''){
+      setPassPhraseError(true)
+      err = true
+    }
+
     if (!byteKey || byteKey === "") {
       if (inputTypeSelect === "text") {
         setFormTextInputError({
@@ -167,29 +175,33 @@ const KeyInput = (props) => {
           message: "Key File Required",
         });
       }
-      err = true;   
-    
+      err = true;
     } else {
-      //CHANGE
-      // rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];/
 
-      try {
-  
-        const {
-          keys: [privateKey],
-        } = await openpgp.key.readArmored(byteKey);
-        await privateKey.decrypt(passPhrase);
-        outkey = [privateKey]
-      } catch (e) {
-        e.message === "Incorrect key passphrase" && setAlert(privKeyPassError);
-        e.message === "privateKey is undefined" && setAlert(keyError);
-        err = true;
-      }
+
+      ({key: outkey, error:err} = await handlePrivateKey(byteKey, passPhrase))
     }
-
-    console.log('sent PK!!!!!!!!!!!!!!!!!!!!!!!!!!', outkey);
+ 
     //continue to snag error in other input
+
     props.handleKeyEncrypt(outkey, err);
+  };
+
+  const handlePrivateKey = async (byteKey, passPhrase) => {
+    let output
+    try {
+      const {
+        keys: [privateKey],
+      } = await openpgp.key.readArmored(byteKey);
+      await privateKey.decrypt(passPhrase);
+      output = [privateKey]
+      console.log({key: output, error:false})
+      return {key: output, error:false};
+    } catch (e) {
+      e.message === "Incorrect key passphrase" && setAlert(privKeyPassError);
+      e.message === "privateKey is undefined" && setAlert(keyError);
+      return {key: undefined, error:true};
+    }
   };
 
   return (
@@ -243,12 +255,12 @@ const KeyInput = (props) => {
         <Box pt={3}>
           <TextField
             required
-            // helperText={
-            //   errors.passPhraseMissingError && "PassPhrase Required!"
-            // }
+            helperText={
+              passPhraseError && "PassPhrase Required!"
+            }
             onChange={handlePassPhrase}
             // className={props.class}
-            // error={errors.passPhraseMissingError}
+            error={passPhraseError}
             id="pw-in private key"
             type="password"
             label={"Private Key PassPhrase"}

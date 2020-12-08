@@ -143,7 +143,9 @@ const KeyInput = (props) => {
     setAlert(resetAlert);
     setFormTextInputError(resetErr);
     setFormByteInputError(resetErr);
-    let err, rsaKey;
+    let err = false,
+     rsaKey;
+     
     if (!byteKey || byteKey === "") {
       if (inputTypeSelect === "text") {
         setFormTextInputError({
@@ -160,22 +162,23 @@ const KeyInput = (props) => {
       }
       err = true;
     } else {
-      rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];
-      if (typeof rsaKey == "undefined") {
-        if (inputTypeSelect === "text") {
-          setAlert(keyError);
-        } else {
-          setAlert(keyError);
-        }
-        err = true;
-      } else {
-        err = false;
-      }
+      ({key: rsaKey, error:err} = await handlePublicKey(byteKey))
     }
-
-    //continue to snag error in other input
     props.handleKeyEncrypt(rsaKey, err);
   };
+
+const handlePublicKey = async (byteKey) => {
+  let rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];
+  console.log(rsaKey)
+  if (!rsaKey){
+    setAlert(keyError);
+    return {key:undefined, error:true}
+  } else {
+    return {key:rsaKey, error:false}
+  }
+
+  
+}
 
   return (
     <>

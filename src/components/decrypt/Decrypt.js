@@ -48,9 +48,9 @@ const Decrypt = (props) => {
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
   const [alert, setAlert] = useState(utils.resetAlert);
-  const [armorTxt, setArmorTxt] = useState();
+  // const [armorTxt, setArmorTxt] = useState();
   const [outbound, setOutBound] = useState();
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -58,7 +58,7 @@ const Decrypt = (props) => {
     }
 
     setAlert(utils.resetAlert);
-    // setOpen(false);
+
   };
 
   const byteDecrypt = async (
@@ -90,16 +90,11 @@ const Decrypt = (props) => {
 
       decType.fileType==='byte' && (encIn.format = 'binary')
 
-      console.log(encIn)
     try {
       const { data: decrypted } = await openpgp.decrypt(encIn);
-      
-
-      
-      // let bufferType = await FileType.fromBuffer(decrypted);
 
       let outFileType = utils.extSelect(decrypted, decType);
-      console.log("dec", decrypted);
+
       setOutBound({
         outbound: decrypted,
         ext: outFileType,
