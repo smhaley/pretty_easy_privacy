@@ -37,6 +37,7 @@ const Result = (props) => {
   const classes = useStyles();
 
   let outbound = props.outbound;
+  console.log(outbound)
 
   const [openEnc, setOpenEnc] = useState(false);
 

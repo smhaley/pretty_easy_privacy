@@ -201,8 +201,8 @@ const DecryptForm = (props) => {
   }
 
   //rename error submit
-  const handleFormSubmit = () => {
-    // e.preventDefault();
+  const handleFormSubmit = (e) => {
+    e && e.preventDefault();
     setErrors(resetErrors);
 
     let byteErr,

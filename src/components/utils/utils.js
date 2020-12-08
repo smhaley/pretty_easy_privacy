@@ -1,3 +1,5 @@
+const FileType = require("file-type");
+
 export const mimes = {
   txt: "text/plain",
   csv: "text/csv",
@@ -5,10 +7,15 @@ export const mimes = {
   css: "text/css",
 };
 
-export const extSelect = (bufferType, decType) => {
-  if (typeof bufferType !== "undefined") {
+export const extSelect = async (decrypted, decType) => {
+  let bufferType
+  if (decType.fileType==='byte'){
+    bufferType =  await FileType.fromBuffer(decrypted);
+  }
+
+  if (bufferType) {
     return bufferType.ext;
-  } else if (typeof bufferType === "undefined" && decType.fileType === "text") {
+  } else if (decType.fileType === "text") {
     return decType.ext;
   } else {
     return "txt";

@@ -9,8 +9,7 @@ import Alert from "@material-ui/lab/Alert";
 import Expire from "../utils/Expire";
 import Snackbar from "@material-ui/core/Snackbar";
 import * as utils from "../utils/utils";
-
-
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 const openpgp = require("openpgp");
 const FileType = require("file-type");
@@ -43,8 +42,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Decrypt = (props) => {
-
-
   const classes = useStyles();
   // const [outputTag, setOutputTag] = useState();
   const [success, setSuccess] = useState(false);
@@ -73,50 +70,48 @@ const Decrypt = (props) => {
   ) => {
     setLoader(true);
     setAlert(utils.resetAlert);
-    console.log("byte dec meth");
 
-    
     let encIn;
     try {
       encIn = {
         message: await openpgp.message.readArmored(textInput),
-        format: "binary",
+        // format: "binary",
       };
     } catch (e) {
       let format =
         e.message === "Misformed armored text" ||
         e.message === "String contains an invalid character";
-      format === true ?
-        setAlert(utils.decFormat) :
-        setAlert(utils.decGeneric)
+      format === true ? setAlert(utils.decFormat) : setAlert(utils.decGeneric);
       return;
     }
-console.log('pw',  [passPhrase])
-console.log('pkey',  privateKey)
-
     privateKey
       ? (encIn.privateKeys = privateKey)
       : (encIn.passwords = [passPhrase]);
-console.log('encIn = ,',  encIn)
+
+      decType.fileType==='byte' && (encIn.format = 'binary')
+
+      console.log(encIn)
     try {
       const { data: decrypted } = await openpgp.decrypt(encIn);
-      let bufferType = await FileType.fromBuffer(decrypted);
+      
 
-      let outFileType = utils.extSelect(bufferType, decType);
-console.log('dec', decrypted)
+      
+      // let bufferType = await FileType.fromBuffer(decrypted);
+
+      let outFileType = utils.extSelect(decrypted, decType);
+      console.log("dec", decrypted);
       setOutBound({
         outbound: decrypted,
         ext: outFileType,
         type: decType.fileType,
-      }); 
-      outputHandler()
+      });
+      outputHandler();
     } catch (e) {
       e.message ===
         "Error decrypting message: Session key decryption failed." &&
         setAlert(utils.decPW);
-      // setOpen(true);
       return;
-    }  
+    }
   };
 
   const outputHandler = () => {
@@ -134,25 +129,23 @@ console.log('dec', decrypted)
   };
 
   let form = (
-    <DecryptForm
-      byteEncrypt={byteDecrypt}
-      encType={encType}
-      loader={loader}
-    />
+    <DecryptForm byteEncrypt={byteDecrypt} encType={encType} loader={loader} />
   );
 
   return (
     <>
-{/* {  alert.show &&    <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        open={alert.show}
-        autoHideDuration={10000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity={alert.severity}>
-          {alert.message}
-        </Alert>
-      </Snackbar>} */}
+      {alert.show && (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "left" }}
+          open={alert.show}
+          autoHideDuration={10000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
 
       {!success && <EncTypeTab handleType={handleDecType} />}
       <Grid container wrap="nowrap" spacing={0}>
