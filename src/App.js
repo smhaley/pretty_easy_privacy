@@ -7,6 +7,7 @@ import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 import KeyGen from "./components/key_gen/KeyGen";
+import Paper from "@material-ui/core/Paper";
 import "./App.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,9 +22,27 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "10px",
     margin: "auto",
   },
-  main: {
-    marginLleft: "10px",
-    // marginRight: "auto",
+
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    // backgroundColor:'#fafffd',//'#f8f5fc',
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
   },
 }));
 
@@ -63,11 +82,11 @@ const App = () => {
         ) : null}
       </div>
 
-      <Container className={classes.main}>
+      <Container className={classes.layout}>
         {/* <Grid container justify="center"> */}
-        <div className={classes.main}>
+        <Paper className={classes.paper}>
           {state}
-          </div>
+          </Paper>
         {/* </Grid> */}
       </Container>
     </div>

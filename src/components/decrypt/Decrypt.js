@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Result from "./DecResult";
 import EncTypeTab from "../utils/EncTypeTab";
@@ -12,9 +14,10 @@ import { snackLocation } from "../utils/config";
 
 const openpgp = require("openpgp");
 const FileType = require("file-type");
-// const readChunk = require('read-chunk');
+
 
 const useStyles = makeStyles((theme) => ({
+  
   heading: {
     // marginTop: "15px",
     marginBottom: "30px",
@@ -26,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     border: "initial",
     padding: "initial",
     fontFamily: "inherit",
+  },
+  main: {
+    width: "80%",
   },
   root: {
     display: "flex",
@@ -55,12 +61,7 @@ const Decrypt = (props) => {
     setAlert(utils.resetAlert);
   };
 
-  const byteDecrypt = async (
-    passPhrase,
-    privateKey,
-    textInput,
-    decType
-  ) => {
+  const byteDecrypt = async (passPhrase, privateKey, textInput, decType) => {
     setLoader(true);
     setAlert(utils.resetAlert);
 
@@ -122,28 +123,38 @@ const Decrypt = (props) => {
 
   return (
     <>
-      {alert.show && (
-        <Snackbar
-          anchorOrigin={snackLocation}
-          open={alert.show}
-          autoHideDuration={10000}
-          onClose={handleClose}
-        >
-          <Alert onClose={handleClose} severity={alert.severity}>
-            {alert.message}
-          </Alert>
-        </Snackbar>
-      )}
+        {alert.show && (
+          <Snackbar
+            anchorOrigin={snackLocation}
+            open={alert.show}
+            autoHideDuration={10000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity={alert.severity}>
+              {alert.message}
+            </Alert>
+          </Snackbar>
+        )}
 
-      {!success && <EncTypeTab handleType={handleDecType} />}
-      <Grid container wrap="nowrap" spacing={0}>
-        <Grid item xs>
-          <Typography className={classes.heading} variant="h5" gutterBottom>
-            {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
-          </Typography>
-          {success ? <Result reset={reset} outbound={outbound} /> : form}
+        {!success && <EncTypeTab handleType={handleDecType} />}
+
+        {/* <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+          > */}
+
+        <Grid container wrap="nowrap" spacing={0}>
+          <Grid item xs>
+            <Typography className={classes.heading} variant="h5" gutterBottom>
+              {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
+            </Typography>
+              {success ? <Result reset={reset} outbound={outbound} /> : form}
+        
+          </Grid>
         </Grid>
-      </Grid>
+ 
     </>
   );
 };
