@@ -31,13 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//id, outbound
-
 const Result = (props) => {
   const classes = useStyles();
 
   let outbound = props.outbound;
-  console.log(outbound)
 
   const [openEnc, setOpenEnc] = useState(false);
 
@@ -97,11 +94,6 @@ const Result = (props) => {
           </Button>
           {openEnc && <Display val={outbound.outbound} id="encryptedResult" />}
         </Box>
-        {/* <Paper className={classes.paper}>
-        <div className={classes.result}>
-          <pre id={'test'}>{props.outbound}</pre>
-        </div>
-      </Paper> */}
         <Box>
           <Button
             onClick={props.reset}

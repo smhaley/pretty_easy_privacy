@@ -12,13 +12,23 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import { resetAlert, keyError } from "../utils/utils";
+import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {snackLocation} from '../utils/config';
 
 const openpgp = require("openpgp");
 
 const useStyles = makeStyles((theme) => ({
   keyHead: {
     color: "rgba(0, 0, 0, 0.54)",
+  },
+  buttonProgress: {
+    // color: green[500],
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
   },
 }));
 
@@ -45,7 +55,8 @@ const InFile = (props) => {
           color="secondary"
         >
           Key Browse
-        </Button>{" "}
+        </Button>
+
         {selectedFile}
         {props.err.err && (
           <p
@@ -69,6 +80,9 @@ const InFile = (props) => {
 const KeyInput = (props) => {
   const classes = useStyles();
 
+  let privateKey = props.privateKey
+  let encrypt = props.encrypt
+
   let resetErr = { err: false, key: false, message: false };
 
   const [alert, setAlert] = useState(resetAlert);
@@ -77,12 +91,15 @@ const KeyInput = (props) => {
   const [formTextInputError, setFormTextInputError] = useState(resetErr);
   const [formByteInputError, setFormByteInputError] = useState(resetErr);
   const [fileMetaData, setFileMetaData] = useState();
+  const [passPhraseError, setPassPhraseError] = useState(false);
+  const [passPhrase, setPassPhrase] = useState("");
+
+  const handlePassPhrase = (e) => setPassPhrase(e.target.value);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setAlert(resetAlert);
   };
 
@@ -103,9 +120,7 @@ const KeyInput = (props) => {
     reader.onload = () => {
       setByteKey(reader.result);
     };
-    reader.onerror = function () {
-      console.log("error");
-    };
+    reader.onerror = function () {};
   };
 
   let inputType;
@@ -138,14 +153,25 @@ const KeyInput = (props) => {
     );
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const removeErrors = () => {
     setAlert(resetAlert);
     setFormTextInputError(resetErr);
     setFormByteInputError(resetErr);
+    setPassPhraseError(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    removeErrors();
+
     let err = false,
-     rsaKey;
-     
+      outkey;
+
+    if (passPhrase === "") {
+      setPassPhraseError(true);
+      err = true;
+    }
+
     if (!byteKey || byteKey === "") {
       if (inputTypeSelect === "text") {
         setFormTextInputError({
@@ -162,29 +188,51 @@ const KeyInput = (props) => {
       }
       err = true;
     } else {
-      ({key: rsaKey, error:err} = await handlePublicKey(byteKey))
+      privateKey
+        ? ({ key: outkey, error: err } = await handlePrivateKey(
+            byteKey,
+            passPhrase
+          ))
+        : ({ key: outkey, error: err } = await handlePublicKey(byteKey));
     }
-    props.handleKeyEncrypt(rsaKey, err);
+
+    //continue to snag error in other input
+
+    props.handleKeyEncrypt(outkey, err);
   };
 
-const handlePublicKey = async (byteKey) => {
-  let rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];
-  console.log(rsaKey)
-  if (!rsaKey){
-    setAlert(keyError);
-    return {key:undefined, error:true}
-  } else {
-    return {key:rsaKey, error:false}
-  }
+  const handlePublicKey = async (byteKey) => {
+    let rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];
+    if (!rsaKey) {
+      setAlert(keyError);
+      return { key: undefined, error: true };
+    } else {
+      return { key: rsaKey, error: false };
+    }
+  };
 
-  
-}
+  const handlePrivateKey = async (byteKey, passPhrase) => {
+    let output;
+    try {
+      const {
+        keys: [privateKey],
+      } = await openpgp.key.readArmored(byteKey);
+      await privateKey.decrypt(passPhrase);
+      output = [privateKey];
+      console.log({ key: output, error: false });
+      return { key: output, error: false };
+    } catch (e) {
+      e.message === "Incorrect key passphrase" && setAlert(privKeyPassError);
+      e.message === "privateKey is undefined" && setAlert(keyError);
+      return { key: undefined, error: true };
+    }
+  };
 
   return (
     <>
       {alert.show && (
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "left" }}
+          anchorOrigin={snackLocation}
           open={alert.show}
           autoHideDuration={10000}
           onClose={handleClose}
@@ -228,9 +276,32 @@ const handlePublicKey = async (byteKey) => {
           <FormLabel component="legend"></FormLabel>
           <Box mt={3}>{inputType}</Box>
         </Box>
+        {privateKey && (
+          <Box pt={3}>
+            <TextField
+              required
+              helperText={passPhraseError && "PassPhrase Required!"}
+              onChange={handlePassPhrase}
+              // className={props.class}
+              error={passPhraseError}
+              id="pw-in private key"
+              type="password"
+              label={"Private Key PassPhrase"}
+              variant="outlined"
+              // variant="filled"
+            />
+          </Box>
+        )}
         <Box pt={3}>
-          <Button variant="contained" color={"primary"} onClick={handleSubmit}>
-            Encrypt!
+          <Button variant="contained" color={"primary"} onClick={handleSubmit} disabled={props.loading}>
+            {encrypt ? "Encrypt!" : "Decrypt!"}
+            {props.loading && (
+            <CircularProgress
+              size={24}
+              color="primary"
+              className={classes.buttonProgress}
+            />
+          )}
           </Button>
         </Box>
       </Box>

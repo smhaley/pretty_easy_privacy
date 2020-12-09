@@ -13,11 +13,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import KeyInput from "./KeyInput";
+import KeyInput from "../utils/KeyInput";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormHelperText from "@material-ui/core/FormHelperText";
-
-const openpgp = require("openpgp");
 
 //todo file type (text, csv) or image based
 
@@ -116,7 +114,6 @@ const DecryptForm = (props) => {
   const [textInput, textInputState] = useState("");
   const [errors, setErrors] = useState(resetErrors);
   const [passPhrase, passPhraseState] = useState("");
-  const [fileLoader, setFilerLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState();
   const [fileType, setFileType] = useState("");
   const [fileExt, setFileExt] = useState("");
@@ -128,21 +125,15 @@ const DecryptForm = (props) => {
 
   const handleFileType = (e) => {
     let extIn = e.target.value;
-    setFileExt(extIn)
-    if (extIn === "txt" ||extIn === "csv") {
-      setFileType('text');
+    setFileExt(extIn);
+    if (extIn === "txt" || extIn === "csv") {
+      setFileType("text");
     } else {
-      //'byte'
-      setFileType('byte');
+      setFileType("byte");
     }
   };
 
-  // const handleTextExt =(e) => {
-  //   setFileMetaData({...fileMetaData, textExt:e.target.value})
-  // }
-
   const readFile = (e) => {
-    setFilerLoader(true);
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
@@ -152,9 +143,8 @@ const DecryptForm = (props) => {
     reader.onload = function () {
       setUploadedFile(new Uint8Array(reader.result));
     };
-
     reader.onerror = function () {};
-    setFilerLoader(false);
+
   };
 
   //text input
@@ -200,7 +190,6 @@ const DecryptForm = (props) => {
     );
   }
 
-  //rename error submit
   const handleFormSubmit = (e) => {
     e && e.preventDefault();
     setErrors(resetErrors);
@@ -233,7 +222,7 @@ const DecryptForm = (props) => {
       pwErr = true;
       totalErr = true;
     } else if (props.encType === 0 && totalErr === false) {
-      handleEncrypt(passPhrase);
+      handleDecrypt(passPhrase);
     }
 
     setErrors({
@@ -246,34 +235,29 @@ const DecryptForm = (props) => {
     return totalErr;
   };
 
-  console.log(fileType === "text" && fileExt === "");
-
-  ///use qwargs
-
-  // const handleAesSubmit(e) => {
-  //   e.preventDefault();
-  // }
-
-  const handleKeyEncrypt = (byteKey, keyErr) => {
+  const handleKeyDecrypt = (byteKey, keyErr) => {
     let errCheck = handleFormSubmit();
     if (!errCheck && !keyErr) {
-      handleEncrypt(byteKey);
+      handleDecrypt(byteKey);
     }
   };
-  const handleEncrypt = (encryptionKey) => {
+  const handleDecrypt = (encryptionKey) => {
     let aes, rsa;
     props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
 
     if (fileType === "text") {
-      props.byteEncrypt(aes, rsa, textInput, {fileType: fileType, ext: fileExt });
+      props.byteDecrypt(aes, rsa, textInput, {
+        fileType: fileType,
+        ext: fileExt,
+      });
     } else if (fileType === "byte") {
-      console.log('uploadedFile');
-      props.byteEncrypt(aes, rsa, textInput, {fileType: fileType, ext: fileExt });
+      props.byteDecrypt(aes, rsa, textInput, {
+        fileType: fileType,
+        ext: fileExt,
+      });
     }
   };
-  // console.log(fileMetaData);
   return (
-    // <form onSubmit={(e) => props.handleSubmit(e, inputTypeSelect)}>
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <Box mt={4} mb={4}>
         <FormControl component="fieldset">
@@ -291,14 +275,12 @@ const DecryptForm = (props) => {
               control={<Radio color="primary" />}
               label="Text Input"
               labelPlacement="start"
-              // onChange={() => setInputTypeSelect(0)}
             />
             <FormControlLabel
               value="byte"
               control={<Radio color="secondary" />}
               label="File Input"
               labelPlacement="start"
-              // onChange={() => setInputTypeSelect(1)}
             />
           </RadioGroup>
         </FormControl>
@@ -319,16 +301,13 @@ const DecryptForm = (props) => {
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
             value={fileExt}
-            // renderValue={fileType}
-            // onChange={(e ) => handleFileType()}
             onChange={handleFileType}
             className={classes.dropSelect}
             label="Text FIle Type"
           >
-            <MenuItem value={"txt" }>.txt</MenuItem>
-            <MenuItem value={ "csv" }>.csv</MenuItem>
-            <MenuItem value={'byte' }>Something Else</MenuItem>
-            {/* <MenuItem value={30}></MenuItem> */}
+            <MenuItem value={"txt"}>.txt</MenuItem>
+            <MenuItem value={"csv"}>.csv</MenuItem>
+            <MenuItem value={"byte"}>Something Else</MenuItem>
           </Select>
           {errors.fileTypeErr && (
             <FormHelperText>
@@ -341,26 +320,18 @@ const DecryptForm = (props) => {
       {props.encType === 0 ? (
         <>
           <Box mt={4} mb={4}>
-            {/* <Box pb={1}> */}
-            {/* <Grid container spacing={1}>
-          <Grid item> */}
             <TextField
               required
               helperText={
                 errors.passPhraseMissingError && "PassPhrase Required!"
               }
               onChange={handlePassPhrase}
-              // className={props.class}
               error={errors.passPhraseMissingError}
               id="pw-in"
               type="password"
               label={"PassPhrase"}
               variant="outlined"
-              // variant="filled"
             />
-
-            {/* </Grid>
-        </Grid> */}
           </Box>
           <Box pt={3}>
             <Button
@@ -369,7 +340,6 @@ const DecryptForm = (props) => {
               variant="contained"
               color={"primary"}
               disabled={props.loading}
-              // onClick={handleSubmit}
             >
               Decrypt
               {props.loading && (
@@ -384,7 +354,10 @@ const DecryptForm = (props) => {
         </>
       ) : (
         <KeyInput
-          handleKeyEncrypt={handleKeyEncrypt}
+          loading={props.loader}
+          privateKey={true}
+          encrypt={false}
+          handleKeyEncrypt={handleKeyDecrypt}
         />
       )}
     </form>
@@ -392,49 +365,3 @@ const DecryptForm = (props) => {
 };
 
 export default DecryptForm;
-
-// <Box>
-// {/* <Box pb={1}> */}
-// <Grid container spacing={1}>
-//   <Grid item>
-//     <TextField
-//       required
-//       helperText={
-//         errors.passPhraseMissingError && "PassPhrase Required!"
-//       }
-//       onChange={handlePassPhrase}
-//       className={props.class}
-//       error={errors.passPhraseMissingError}
-//       id="pw-in"
-//       type="password"
-//       label={"PassPhrase"}
-//       variant="outlined"
-//       // variant="filled"
-//     />
-//   </Grid>
-//   {passPhrase.length > 0 && (
-//     <Grid className={classes.pw} item>
-//       {strength.resp}
-//     </Grid>
-//   )}
-// </Grid>
-// </Box>
-
-// <Box pt={3}>
-// <Button
-//   type="submit"
-//   variant="contained"
-//   color={"primary"}
-//   disabled={props.loading}
-//   onClick={handleSubmit}
-// >
-//   {props.mainButtonText}
-//   {props.loading && (
-//     <CircularProgress
-//       size={24}
-//       color="primary"
-//       className={classes.buttonProgress}
-//     />
-//   )}
-// </Button>
-// </Box>

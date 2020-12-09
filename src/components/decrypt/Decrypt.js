@@ -2,14 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Result from "./Result";
+import Result from "./DecResult";
 import EncTypeTab from "../utils/EncTypeTab";
 import DecryptForm from "./DecryptForm";
 import Alert from "@material-ui/lab/Alert";
-import Expire from "../utils/Expire";
 import Snackbar from "@material-ui/core/Snackbar";
 import * as utils from "../utils/utils";
-import { ContactSupportOutlined } from "@material-ui/icons";
+import { snackLocation } from "../utils/config";
 
 const openpgp = require("openpgp");
 const FileType = require("file-type");
@@ -43,22 +42,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Decrypt = (props) => {
   const classes = useStyles();
-  // const [outputTag, setOutputTag] = useState();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
   const [alert, setAlert] = useState(utils.resetAlert);
-  // const [armorTxt, setArmorTxt] = useState();
   const [outbound, setOutBound] = useState();
-  // const [open, setOpen] = React.useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setAlert(utils.resetAlert);
-
   };
 
   const byteDecrypt = async (
@@ -66,7 +60,6 @@ const Decrypt = (props) => {
     privateKey,
     textInput,
     decType
-    // fileMetaData
   ) => {
     setLoader(true);
     setAlert(utils.resetAlert);
@@ -75,7 +68,6 @@ const Decrypt = (props) => {
     try {
       encIn = {
         message: await openpgp.message.readArmored(textInput),
-        // format: "binary",
       };
     } catch (e) {
       let format =
@@ -88,12 +80,12 @@ const Decrypt = (props) => {
       ? (encIn.privateKeys = privateKey)
       : (encIn.passwords = [passPhrase]);
 
-      decType.fileType==='byte' && (encIn.format = 'binary')
+    decType.fileType === "byte" && (encIn.format = "binary");
 
     try {
       const { data: decrypted } = await openpgp.decrypt(encIn);
 
-      let outFileType = utils.extSelect(decrypted, decType);
+      let outFileType = await utils.extSelect(decrypted, decType);
 
       setOutBound({
         outbound: decrypted,
@@ -111,6 +103,7 @@ const Decrypt = (props) => {
 
   const outputHandler = () => {
     setSuccess(true);
+    setLoader(false);
     setAlert(utils.decSuccess);
   };
 
@@ -124,14 +117,14 @@ const Decrypt = (props) => {
   };
 
   let form = (
-    <DecryptForm byteEncrypt={byteDecrypt} encType={encType} loader={loader} />
+    <DecryptForm byteDecrypt={byteDecrypt} encType={encType} loader={loader} />
   );
 
   return (
     <>
       {alert.show && (
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "left" }}
+          anchorOrigin={snackLocation}
           open={alert.show}
           autoHideDuration={10000}
           onClose={handleClose}
@@ -144,19 +137,11 @@ const Decrypt = (props) => {
 
       {!success && <EncTypeTab handleType={handleDecType} />}
       <Grid container wrap="nowrap" spacing={0}>
-        {/* <Grid item></Grid> */}
         <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>
             {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
           </Typography>
-          {success ? (
-            <Result // outputTag={outputTag}
-              reset={reset}
-              outbound={outbound}
-            />
-          ) : (
-            form
-          )}
+          {success ? <Result reset={reset} outbound={outbound} /> : form}
         </Grid>
       </Grid>
     </>

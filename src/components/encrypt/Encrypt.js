@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Result from "./Result";
+import Result from "./EncResult";
 import EncTypeTab from "../utils/EncTypeTab";
 import EncryptForm from "./EncryptForm";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { resetAlert, encSuccess, encError } from "../utils/utils";
+import {snackLocation} from '../utils/config';
 
 
 const openpgp = require("openpgp");
@@ -41,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 const Encrypt = (props) => {
 
   const classes = useStyles();
-  // const [outputTag, setOutputTag] = useState();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
@@ -70,7 +70,7 @@ const Encrypt = (props) => {
     };
 
     pubKey
-      ? (encIn.publicKeys = pubKey) //(await openpgp.key.readArmored(pubKey)).keys)
+      ? (encIn.publicKeys = pubKey)
       : (encIn.passwords = [passPhrase]);
 
     const { message } = await openpgp.encrypt(encIn);
@@ -117,16 +117,9 @@ const Encrypt = (props) => {
 
   return (
     <>
-      {/* <div className={classes.alert}>
-        {success ? ( //&& <Alert severity={alert.severity}>{alert.message}</Alert> }
-          <Expire>
-            <Alert severity={alert.severity}>{alert.message}</Alert>
-          </Expire>
-        ) : null}
-      </div> */}
       {alert.show && (
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "left" }}
+          anchorOrigin={snackLocation}
           open={alert.show}
           autoHideDuration={10000}
           onClose={handleClose}
@@ -145,7 +138,7 @@ const Encrypt = (props) => {
             {encType === 0 ? "AES 256 Encryption" : "RSA  Encryption"}
           </Typography>
           {success ? (
-            <Result // outputTag={outputTag}
+            <Result
               reset={reset}
               armorTxt={armorTxt}
             />

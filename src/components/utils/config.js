@@ -1,0 +1,1 @@
+export const snackLocation = { vertical: "bottom", horizontal: "left" }
