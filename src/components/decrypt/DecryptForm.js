@@ -66,14 +66,14 @@ const InFile = (props) => {
   );
   return (
     <Box>
-      <FormLabel component="legend">Select a File Object:</FormLabel>
-      <Box mt={1}>
+      {/* <FormLabel component="legend">Select a File Object:</FormLabel> */}
+      {/* <Box mt={1}> */}
         <Button
           onClick={() => document.getElementById("inp").click()}
           variant="outlined"
           color="secondary"
         >
-          Browse
+          Browse for PGP File
         </Button>{" "}
         {selectedFile}
         {props.formByteInputError && (
@@ -90,7 +90,7 @@ const InFile = (props) => {
           style={{ visibility: "hidden" }}
           onChange={props.readFile}
         />
-      </Box>
+      {/* </Box> */}
     </Box>
   );
 };
@@ -143,7 +143,6 @@ const DecryptForm = (props) => {
       setUploadedFile(new Uint8Array(reader.result));
     };
     reader.onerror = function () {};
-
   };
 
   //text input
@@ -163,18 +162,20 @@ const DecryptForm = (props) => {
   let inputType;
   if (inputTypeSelect === "text") {
     inputType = (
-      <TextField
-        helperText={errors.formTextInputError && "Please Select a file object!"}
-        className={classes.textBox}
-        fullWidth={true}
-        error={errors.formTextInputError}
-        id="outlined-multiline-static"
-        label="Text to Encrypt"
-        multiline
-        rows={10}
-        onChange={handleTextInput}
-        variant="outlined"
-      />
+        <TextField
+          helperText={
+            errors.formTextInputError && "Please Select a file object!"
+          }
+          className={classes.textBox}
+          fullWidth={true}
+          error={errors.formTextInputError}
+          id="outlined-multiline-static"
+          label="Enter text to decrypt here"
+          multiline
+          rows={10}
+          onChange={handleTextInput}
+          variant="outlined"
+        />
     );
   } else {
     inputType = (
@@ -257,7 +258,7 @@ const DecryptForm = (props) => {
   };
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
-      <Box mt={4} mb={4}>
+      <Box mb={3}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Input Format</FormLabel>
           <RadioGroup
@@ -271,21 +272,20 @@ const DecryptForm = (props) => {
             <FormControlLabel
               value="text"
               control={<Radio color="primary" />}
-              label="Text Input"
+              label="Paste my gibberish"
               labelPlacement="start"
             />
             <FormControlLabel
               value="byte"
               control={<Radio color="secondary" />}
-              label="File Input"
+              label="Load my gibberish"
               labelPlacement="start"
             />
           </RadioGroup>
         </FormControl>
       </Box>
-      {inputType}
-
-      <Box mt={4} mb={4}>
+      <Box pb={3}>{inputType}</Box>
+      <Box pb={3}>
         <FormControl
           variant="outlined"
           className={classes.formControl}
@@ -317,7 +317,7 @@ const DecryptForm = (props) => {
 
       {props.encType === 0 ? (
         <>
-          <Box mt={4} mb={4}>
+          <Box pb={3}>
             <TextField
               required
               helperText={

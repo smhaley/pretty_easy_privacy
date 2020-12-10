@@ -30,7 +30,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -12,
     marginLeft: -12,
   },
-}));
+  hr: {
+    color: "rgba(0, 0, 0, 0.54)",
+  }
+}
+));
 
 const InFile = (props) => {
   const handleDelete = () => {
@@ -242,12 +246,12 @@ const KeyInput = (props) => {
         </Snackbar>
       )}
       <Box>
-        <Box pt={3} mt={3}>
+        <Box>
+          <hr className={classes.hr}></hr>
           <div className={classes.keyHead}>
             <h3>Key Input</h3>
           </div>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Key Format</FormLabel>
             <RadioGroup
               row
               aria-label="position"
@@ -259,13 +263,13 @@ const KeyInput = (props) => {
               <FormControlLabel
                 value="byte"
                 control={<Radio color="secondary" />}
-                label="File"
+                label="Import from file"
                 labelPlacement="start"
               />
               <FormControlLabel
                 value="text"
                 control={<Radio color="primary" />}
-                label="Text"
+                label="Paste in text"
                 labelPlacement="start"
               />
             </RadioGroup>

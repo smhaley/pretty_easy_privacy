@@ -120,18 +120,18 @@ const EncryptForm = (props) => {
   let inputType;
   if (inputTypeSelect === "text") {
     inputType = (
-      <TextField
-        helperText={formTextInputError && "Please Select a file object!"}
-        className={classes.textBox}
-        fullWidth={true}
-        error={formTextInputError}
-        id="outlined-multiline-static"
-        label="Text to Encrypt"
-        multiline
-        rows={10}
-        onChange={handleTextInput}
-        variant="outlined"
-      />
+          <TextField
+          helperText={formTextInputError && "Please Select a file object!"}
+          className={classes.textBox}
+          fullWidth={true}
+          error={formTextInputError}
+          id="outlined-multiline-static"
+          label="Text to Encrypt"
+          multiline
+          rows={10}
+          onChange={handleTextInput}
+          variant="outlined"
+        />
     );
   } else {
     inputType = (
@@ -182,7 +182,7 @@ const EncryptForm = (props) => {
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <Box mt={4} mb={4}>
         <FormControl component="fieldset">
-          <FormLabel component="legend">Input Format</FormLabel>
+    
           <RadioGroup
             row
             aria-label="position"
@@ -194,20 +194,19 @@ const EncryptForm = (props) => {
             <FormControlLabel
               value="text"
               control={<Radio color="primary" />}
-              label="Text Input"
+              label="Type my secret"
               labelPlacement="start"
             />
             <FormControlLabel
               value="byte"
               control={<Radio color="secondary" />}
-              label="File Input"
+              label="Load my secret"
               labelPlacement="start"
             />
           </RadioGroup>
         </FormControl>
       </Box>
-      {inputType}
-
+      <Box pb={3}>{inputType}</Box>
       {props.encType === 0 ? (
         <PassPhrase
           mainButtonText={"Encrypt"}

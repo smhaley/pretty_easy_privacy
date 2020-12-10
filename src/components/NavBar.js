@@ -50,7 +50,7 @@ const NavBar = (props) => {
           <Typography variant="h6" className={classes.title}>
             Pretty Easy Privacy
           </Typography>
-          <IconButton>
+          <IconButton aria-label="github.com" onClick={() => window.open('https://shawnh87.github.io/pretty_easy_privacy/')}>
             <GitHubIcon color="secondary" />
           </IconButton>
         </Toolbar>
