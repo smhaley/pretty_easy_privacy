@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const InFile = (props) => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const handleDelete = () => {
     props.setUploadedFile(null);
@@ -89,12 +89,10 @@ const EncryptForm = (props) => {
   const [formTextInputError, setFormTextInputError] = useState(false);
   const [formByteInputError, setFormByteInputError] = useState(false);
 
-  const [fileLoader, setFilerLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState();
   const [fileMetaData, setFileMetaData] = useState();
 
   const readFile = (e) => {
-    setFilerLoader(true);
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
@@ -106,12 +104,10 @@ const EncryptForm = (props) => {
     };
 
     reader.onerror = function () {};
-    setFilerLoader(false);
   };
 
   //text input
   const handleTextInput = (e) => {
-    console.log(e.target.value);
     textInputState(e.target.value);
   };
 
@@ -122,7 +118,7 @@ const EncryptForm = (props) => {
   };
 
   let inputType;
-  if (inputTypeSelect == "text") {
+  if (inputTypeSelect === "text") {
     inputType = (
       <TextField
         helperText={formTextInputError && "Please Select a file object!"}

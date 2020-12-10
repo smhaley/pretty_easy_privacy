@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Result from "./DecResult";
 import EncTypeTab from "../utils/EncTypeTab";
@@ -13,11 +11,8 @@ import * as utils from "../utils/utils";
 import { snackLocation } from "../utils/config";
 
 const openpgp = require("openpgp");
-const FileType = require("file-type");
-
 
 const useStyles = makeStyles((theme) => ({
-  
   heading: {
     // marginTop: "15px",
     marginBottom: "30px",
@@ -123,38 +118,36 @@ const Decrypt = (props) => {
 
   return (
     <>
-        {alert.show && (
-          <Snackbar
-            anchorOrigin={snackLocation}
-            open={alert.show}
-            autoHideDuration={10000}
-            onClose={handleClose}
-          >
-            <Alert onClose={handleClose} severity={alert.severity}>
-              {alert.message}
-            </Alert>
-          </Snackbar>
-        )}
+      {alert.show && (
+        <Snackbar
+          anchorOrigin={snackLocation}
+          open={alert.show}
+          autoHideDuration={10000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
 
-        {!success && <EncTypeTab handleType={handleDecType} />}
+      {!success && <EncTypeTab handleType={handleDecType} />}
 
-        {/* <Box
+      {/* <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
           minHeight="100vh"
           > */}
 
-        <Grid container wrap="nowrap" spacing={0}>
-          <Grid item xs>
-            <Typography className={classes.heading} variant="h5" gutterBottom>
-              {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
-            </Typography>
-              {success ? <Result reset={reset} outbound={outbound} /> : form}
-        
-          </Grid>
+      <Grid container wrap="nowrap" spacing={0}>
+        <Grid item xs>
+          <Typography className={classes.heading} variant="h5" gutterBottom>
+            {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
+          </Typography>
+          {success ? <Result reset={reset} outbound={outbound} /> : form}
         </Grid>
- 
+      </Grid>
     </>
   );
 };

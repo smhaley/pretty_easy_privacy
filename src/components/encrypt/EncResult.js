@@ -38,25 +38,16 @@ const Result = (props) => {
   const [openEnc, setOpenEnc] = useState(false);
 
   let armorTxt = props.armorTxt;
-  let disableCopy = armorTxt.armorTxt.length > 10000 ;
+  let disableCopy = armorTxt.armorTxt.length > 10000;
 
   const outputHandler = (textVal) => {
     const element = document.createElement("a");
     const file = new Blob([textVal.armorTxt], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
     element.download =
-      element.href.split("/")[3] + "_" + textVal.ext + "_" + ".aes"; //make random name
+      `${element.href.split("/")[3]}_${textVal.ext}_.aes"`;
     element.click();
     element.remove();
-    // setOutputTag(element);
-    // console.log(element);
-    // setAlert({
-    //   show: true,
-    //   message: "Encryption Complete",
-    //   severity: "success",
-    // });
-    // setSuccess(true);
-    // setLoader(false);
   };
 
   return (
@@ -67,17 +58,17 @@ const Result = (props) => {
           Retrieve Encrypted Data
         </Typography>
         <Box mb={2}>
-            <Button
-              disabled={disableCopy}
-              onClick={() => setOpenEnc(!openEnc)}
-              variant="outlined"
-              color={"secondary"}
-              className={classes.button}
-            >
-              In Browser
-            </Button>
+          <Button
+            disabled={disableCopy}
+            onClick={() => setOpenEnc(!openEnc)}
+            variant="outlined"
+            color={"secondary"}
+            className={classes.button}
+          >
+            In Browser
+          </Button>
 
-            <Button
+          <Button
             onClick={() => outputHandler(armorTxt)}
             variant="outlined"
             color={"secondary"}
@@ -85,7 +76,11 @@ const Result = (props) => {
           >
             Download
           </Button>
-          {disableCopy && <FormHelperText style={{paddingLeft: '8px'}}>Result too Large</FormHelperText>}
+          {disableCopy && (
+            <FormHelperText style={{ paddingLeft: "8px" }}>
+              Result too Large
+            </FormHelperText>
+          )}
           {openEnc && <Display val={armorTxt.armorTxt} id="encryptedResult" />}
         </Box>
         {/* <Paper className={classes.paper}>

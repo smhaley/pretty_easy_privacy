@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -50,8 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const InFile = (props) => {
-  const classes = useStyles();
-  // const label = props.err.errInd ? props.err.errLabel : props.err.label;
+  // const classes = useStyles();
 
   const handleDelete = () => {
     props.setUploadedFile(null);
@@ -149,7 +148,6 @@ const DecryptForm = (props) => {
 
   //text input
   const handleTextInput = (e) => {
-    console.log(e.target.value);
     textInputState(e.target.value);
   };
 
@@ -163,7 +161,7 @@ const DecryptForm = (props) => {
   };
 
   let inputType;
-  if (inputTypeSelect == "text") {
+  if (inputTypeSelect === "text") {
     inputType = (
       <TextField
         helperText={errors.formTextInputError && "Please Select a file object!"}

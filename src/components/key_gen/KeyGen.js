@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 const KeyGen = (props) => {
   const classes = useStyles();
-  const [confirmPassPhrase, setConfirmPassPhrase] = useState();
   const [key, setKey] = useState(undefined);
   const [keyFields, setKeyFields] = useState({ name: "", email: "", pw: "" });
   const [loading, setLoading] = useState(false);
@@ -63,7 +62,6 @@ const KeyGen = (props) => {
       passphrase: passKey,
     });
     setKey(key);
-    console.log(Object.keys(key));
     setLoading(false);
   };
 
@@ -113,7 +111,6 @@ const KeyGen = (props) => {
   };
 
   const handleConfirm = (key) => {
-    console.log(key);
     handleCreate(key);
   };
 

@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import NavBarMenu from './NavBarMenu'
+import NavBarMenu from "./NavBarMenu";
+import { menuOptions } from "./utils/config";
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,19 +16,21 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     // marginRight: 'auto',
   },
-  title: {
+  state: {
     flexGrow: 1,
+  },
+  title: {
+    textAlign: "center",
+    // flexGrow: 1,
   },
 }));
 
 const NavBar = (props) => {
-
-
   const classes = useStyles();
+
   const menuStateHandler = (state) => {
-    props.setMenuState(state)
-  
-    }
+    props.setMenuState(state);
+  };
 
   return (
     <div>
@@ -40,11 +42,17 @@ const NavBar = (props) => {
             color="inherit"
             aria-label="menu"
           >
-              <NavBarMenu menuStateHandler = {menuStateHandler}/>
+            <NavBarMenu menuStateHandler={menuStateHandler} />
           </IconButton>
-          <Typography variant="title" color="inherit">
-            PEP - Pretty Easy Privacy
+          <Typography variant="h6" className={classes.state}>
+            {menuOptions[props.appState]}
           </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Pretty Easy Privacy
+          </Typography>
+          <IconButton>
+            <GitHubIcon color="secondary" />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>

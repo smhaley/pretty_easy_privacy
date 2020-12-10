@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -124,7 +124,7 @@ const KeyInput = (props) => {
   };
 
   let inputType;
-  if (inputTypeSelect == "text") {
+  if (inputTypeSelect === "text") {
     inputType = (
       <TextField
         helperText={formTextInputError.err && formTextInputError.message}
@@ -219,7 +219,6 @@ const KeyInput = (props) => {
       } = await openpgp.key.readArmored(byteKey);
       await privateKey.decrypt(passPhrase);
       output = [privateKey];
-      console.log({ key: output, error: false });
       return { key: output, error: false };
     } catch (e) {
       e.message === "Incorrect key passphrase" && setAlert(privKeyPassError);
