@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/pretty_easy_privacy/static/css/main.e4d23b9e.chunk.css",
+    "main.js": "/pretty_easy_privacy/static/js/main.8dad1e9c.chunk.js",
+    "main.js.map": "/pretty_easy_privacy/static/js/main.8dad1e9c.chunk.js.map",
+    "runtime-main.js": "/pretty_easy_privacy/static/js/runtime-main.6600669f.js",
+    "runtime-main.js.map": "/pretty_easy_privacy/static/js/runtime-main.6600669f.js.map",
+    "static/js/2.be834b2e.chunk.js": "/pretty_easy_privacy/static/js/2.be834b2e.chunk.js",
+    "static/js/2.be834b2e.chunk.js.map": "/pretty_easy_privacy/static/js/2.be834b2e.chunk.js.map",
+    "index.html": "/pretty_easy_privacy/index.html",
+    "precache-manifest.603ca4abd2e0ce6bc0a0a7d04187ec6d.js": "/pretty_easy_privacy/precache-manifest.603ca4abd2e0ce6bc0a0a7d04187ec6d.js",
+    "service-worker.js": "/pretty_easy_privacy/service-worker.js",
+    "static/css/main.e4d23b9e.chunk.css.map": "/pretty_easy_privacy/static/css/main.e4d23b9e.chunk.css.map",
+    "static/js/2.be834b2e.chunk.js.LICENSE.txt": "/pretty_easy_privacy/static/js/2.be834b2e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6600669f.js",
+    "static/js/2.be834b2e.chunk.js",
+    "static/css/main.e4d23b9e.chunk.css",
+    "static/js/main.8dad1e9c.chunk.js"
+  ]
+}
