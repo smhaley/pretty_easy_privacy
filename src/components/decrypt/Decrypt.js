@@ -133,13 +133,6 @@ const Decrypt = (props) => {
 
       {!success && <EncTypeTab handleType={handleDecType} />}
 
-      {/* <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          minHeight="100vh"
-          > */}
-
       <Grid container wrap="nowrap" spacing={0}>
         <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>

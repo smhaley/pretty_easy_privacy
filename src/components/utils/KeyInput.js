@@ -15,6 +15,7 @@ import Alert from "@material-ui/lab/Alert";
 import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {snackLocation} from '../utils/config';
+import { grey } from "@material-ui/core/colors";
 
 const openpgp = require("openpgp");
 
@@ -32,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
   },
   hr: {
     color: "rgba(0, 0, 0, 0.54)",
+  },
+  main: {
+    backgroundColor: '#FAFAFA',
+    // width: '100%'
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      padding: theme.spacing(2),
+    },
   }
 }
 ));
@@ -232,7 +241,7 @@ const KeyInput = (props) => {
   };
 
   return (
-    <>
+    <div className={classes.main}>
       {alert.show && (
         <Snackbar
           anchorOrigin={snackLocation}
@@ -247,7 +256,7 @@ const KeyInput = (props) => {
       )}
       <Box>
         <Box>
-          <hr className={classes.hr}></hr>
+          {/* <hr className={classes.hr}></hr> */}
           <div className={classes.keyHead}>
             <h3>Key Input</h3>
           </div>
@@ -308,7 +317,7 @@ const KeyInput = (props) => {
           </Button>
         </Box>
       </Box>
-    </>
+    </div>
   );
 };
 

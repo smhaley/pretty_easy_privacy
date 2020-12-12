@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import NavBarMenu from "./NavBarMenu";
 import { menuOptions } from "./utils/config";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import Drawer from '@material-ui/core/Drawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,8 +56,17 @@ const NavBar = (props) => {
           </IconButton>
         </Toolbar>
       </AppBar>
+      
     </div>
   );
 };
 
 export default NavBar;
+
+{/* <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      ></Drawer> */}

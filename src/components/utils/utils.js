@@ -77,4 +77,3 @@ export const privKeyPassError = {
   message: "Incorrect Passphrase! Please try again.",
   severity: "error",
 };
-

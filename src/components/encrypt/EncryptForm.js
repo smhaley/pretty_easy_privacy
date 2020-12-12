@@ -29,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
   textBox: {
     maxWidth: "700px",
   },
+  main: {
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      padding: theme.spacing(2),
+    },
+  }
+  
 }));
 
 const InFile = (props) => {
@@ -224,6 +231,7 @@ const EncryptForm = (props) => {
         />
       )}
     </form>
+
   );
 };
 

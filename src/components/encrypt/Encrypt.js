@@ -32,14 +32,18 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
   },
-  alert: {
-    width: "95%",
-    // paddingTop: "5px",
-    margin: "auto",
-  },
+  main: {
+    backgroundColor: '#FAFAFA',
+    // padding:'100px',
+    // width: '100%',
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      padding: theme.spacing(2),
+    },
+  }
 }));
 
-const Encrypt = (props) => {
+const Encrypt = () => {
 
   const classes = useStyles();
   const [success, setSuccess] = useState(false);
@@ -116,7 +120,8 @@ const Encrypt = (props) => {
   );
 
   return (
-    <>
+    <div className={classes.main}>
+      
       {alert.show && (
         <Snackbar
           anchorOrigin={snackLocation}
@@ -147,7 +152,7 @@ const Encrypt = (props) => {
           )}
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 
