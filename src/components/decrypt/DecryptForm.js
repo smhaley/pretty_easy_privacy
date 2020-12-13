@@ -20,11 +20,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 //todo file type (text, csv) or image based
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
+
   pwMeter: {
     width: "225px",
   },
@@ -47,6 +43,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -12,
     marginLeft: -12,
   },
+  main: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
+  },
 }));
 
 const InFile = (props) => {
@@ -68,28 +75,28 @@ const InFile = (props) => {
     <Box>
       {/* <FormLabel component="legend">Select a File Object:</FormLabel> */}
       {/* <Box mt={1}> */}
-        <Button
-          onClick={() => document.getElementById("inp").click()}
-          variant="outlined"
-          color="secondary"
+      <Button
+        onClick={() => document.getElementById("inp").click()}
+        variant="outlined"
+        color="secondary"
+      >
+        Browse for PGP File
+      </Button>{" "}
+      {selectedFile}
+      {props.formByteInputError && (
+        <p
+          class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
+          id="pw-in-helper-text"
         >
-          Browse for PGP File
-        </Button>{" "}
-        {selectedFile}
-        {props.formByteInputError && (
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
-            id="pw-in-helper-text"
-          >
-            File Required
-          </p>
-        )}
-        <input
-          id="inp"
-          type="file"
-          style={{ visibility: "hidden" }}
-          onChange={props.readFile}
-        />
+          File Required
+        </p>
+      )}
+      <input
+        id="inp"
+        type="file"
+        style={{ visibility: "hidden" }}
+        onChange={props.readFile}
+      />
       {/* </Box> */}
     </Box>
   );
@@ -109,7 +116,7 @@ const DecryptForm = (props) => {
     fileTypeErr: false,
     fileExtErr: false,
   };
-  const [inputTypeSelect, setInputTypeSelect] = useState("text");
+  const [inputTypeSelect, setInputTypeSelect] = useState("byte");
   const [textInput, textInputState] = useState("");
   const [errors, setErrors] = useState(resetErrors);
   const [passPhrase, passPhraseState] = useState("");
@@ -162,20 +169,18 @@ const DecryptForm = (props) => {
   let inputType;
   if (inputTypeSelect === "text") {
     inputType = (
-        <TextField
-          helperText={
-            errors.formTextInputError && "Please Select a file object!"
-          }
-          className={classes.textBox}
-          fullWidth={true}
-          error={errors.formTextInputError}
-          id="outlined-multiline-static"
-          label="Enter text to decrypt here"
-          multiline
-          rows={10}
-          onChange={handleTextInput}
-          variant="outlined"
-        />
+      <TextField
+        helperText={errors.formTextInputError && "Please Select a file object!"}
+        className={classes.textBox}
+        fullWidth={true}
+        error={errors.formTextInputError}
+        id="outlined-multiline-static"
+        label="Enter something like: -----BEGIN PGP MESSAGE-----"
+        multiline
+        rows={10}
+        onChange={handleTextInput}
+        variant="outlined"
+      />
     );
   } else {
     inputType = (
@@ -258,66 +263,68 @@ const DecryptForm = (props) => {
   };
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
-      <Box mb={3}>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Input Format</FormLabel>
-          <RadioGroup
-            row
-            aria-label="position"
-            name="position"
-            value={inputTypeSelect}
-            defaultValue="top"
-            onChange={handleInputType}
+      <div className={classes.main}>
+        <Box mb={2}>
+          <FormControl component="fieldset">
+            {/* <FormLabel component="legend">Input Format</FormLabel> */}
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={inputTypeSelect}
+              defaultValue="top"
+              onChange={handleInputType}
+            >
+              <FormControlLabel
+                value="text"
+                control={<Radio color="primary" />}
+                label="Paste my gibberish"
+                labelPlacement="right"
+              />
+              <FormControlLabel
+                value="byte"
+                control={<Radio color="secondary" />}
+                label="Load my gibberish"
+                labelPlacement="right"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
+        <Box pb={4}>{inputType}</Box>
+        <Box pb={2}>
+          <FormControl
+            variant="outlined"
+            className={classes.formControl}
+            error={errors.fileTypeErr ? true : false}
           >
-            <FormControlLabel
-              value="text"
-              control={<Radio color="primary" />}
-              label="Paste my gibberish"
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value="byte"
-              control={<Radio color="secondary" />}
-              label="Load my gibberish"
-              labelPlacement="start"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Box>
-      <Box pb={3}>{inputType}</Box>
-      <Box pb={3}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          error={errors.fileTypeErr ? true : false}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            File Type
-          </InputLabel>
-          <Select
-            required
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={fileExt}
-            onChange={handleFileType}
-            className={classes.dropSelect}
-            label="Text FIle Type"
-          >
-            <MenuItem value={"txt"}>.txt</MenuItem>
-            <MenuItem value={"csv"}>.csv</MenuItem>
-            <MenuItem value={"byte"}>Something Else</MenuItem>
-          </Select>
-          {errors.fileTypeErr && (
-            <FormHelperText>
-              Please enter the format of the decrypted file
-            </FormHelperText>
-          )}
-        </FormControl>
-      </Box>
+            <InputLabel id="demo-simple-select-outlined-label">
+              File Type
+            </InputLabel>
+            <Select
+              required
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={fileExt}
+              onChange={handleFileType}
+              className={classes.dropSelect}
+              label="Text FIle Type"
+            >
+              <MenuItem value={"txt"}>.txt</MenuItem>
+              <MenuItem value={"csv"}>.csv</MenuItem>
+              <MenuItem value={"byte"}>Something Else</MenuItem>
+            </Select>
+            {errors.fileTypeErr && (
+              <FormHelperText>
+                Please enter the format of the decrypted file
+              </FormHelperText>
+            )}
+          </FormControl>
+        </Box>
+      </div>
 
       {props.encType === 0 ? (
-        <>
-          <Box pb={3}>
+        <div className={classes.main}>
+          <Box>
             <TextField
               required
               helperText={
@@ -349,7 +356,7 @@ const DecryptForm = (props) => {
               )}
             </Button>
           </Box>
-        </>
+        </div>
       ) : (
         <KeyInput
           loading={props.loader}

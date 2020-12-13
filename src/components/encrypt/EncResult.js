@@ -10,11 +10,20 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 //todo disbale in browser if 'larger'
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
+  main: {
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacing(2),
+    },
   },
+
   result: {
     // marginTop: '200px',
     height: "100px",
@@ -44,20 +53,25 @@ const Result = (props) => {
     const element = document.createElement("a");
     const file = new Blob([textVal.armorTxt], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download =
-      `${element.href.split("/")[3]}_${textVal.ext}_.aes"`;
+    element.download = `${element.href.split("/")[3]}_${textVal.ext}_.aes"`;
     element.click();
     element.remove();
   };
 
   return (
-    <Grid container wrap="nowrap" spacing={0}>
-      <Grid item></Grid>
-      <Grid item xs>
-        <Typography className={classes.heading} variant="h6" gutterBottom>
-          Retrieve Encrypted Data
+    <div className={classes.main}>
+      <p>Here are your results!</p>
+      <p>
+        {" "}
+        We recommend downloading and stashing the file.</p>
+        <p>Don't worry, if you
+        prefer working with text yourself, we provide that too.{" "}</p>
+
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Encrypted Data:
         </Typography>
-        <Box mb={2}>
+        <Box mb={2} pr={4}>
           <Button
             disabled={disableCopy}
             onClick={() => setOpenEnc(!openEnc)}
@@ -65,7 +79,7 @@ const Result = (props) => {
             color={"secondary"}
             className={classes.button}
           >
-            In Browser
+            {!openEnc ? "In Browser" : "Hide"}
           </Button>
 
           <Button
@@ -83,11 +97,6 @@ const Result = (props) => {
           )}
           {openEnc && <Display val={armorTxt.armorTxt} id="encryptedResult" />}
         </Box>
-        {/* <Paper className={classes.paper}>
-        <div className={classes.result}>
-          <pre id={'test'}>{props.armorTxt}</pre>
-        </div>
-      </Paper> */}
         <Box>
           <Button
             onClick={props.reset}
@@ -99,8 +108,8 @@ const Result = (props) => {
             New Encryption{" "}
           </Button>
         </Box>
-      </Grid>
-    </Grid>
+      </Box>
+    </div>
   );
 };
 

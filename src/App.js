@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   content: {
-    backgroundColor: "white",
     flexGrow: 1,
     padding: theme.spacing(3),
   },
@@ -209,11 +208,11 @@ function App(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {/* <Paper className={classes.paper}>aaa</Paper> */}
-        {/* <Container className={classes.layout}> */}
+        <div className={classes.layout}>
           <Paper className={classes.paper} elevation={0}>
            {state}
           </Paper>
-        {/* </Container> */}
+        </div>
       </main>
     </div>
   );

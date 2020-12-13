@@ -10,7 +10,7 @@ const AntTabs = withStyles({
     // width: '700px'
   },
   indicator: {
-    backgroundColor: "#1890ff",
+    backgroundColor: "#1de9b6",
   },
 })(Tabs);
 
@@ -33,45 +33,20 @@ const AntTab = withStyles((theme) => ({
       '"Segoe UI Symbol"',
     ].join(","),
     "&:hover": {
-      color: "#40a9ff",
+      color: "#4aedc4",
       opacity: 1,
     },
     "&$selected": {
-      color: "#1890ff",
+      color: "#1de9b6",
       fontWeight: theme.typography.fontWeightMedium,
     },
     "&:focus": {
-      color: "#40a9ff",
+      color: "#1de9b6",
     },
   },
   selected: {},
 }))((props) => <Tab disableRipple {...props} />);
 
-// const StyledTabs = withStyles({
-//   indicator: {
-//     display: "flex",
-//     justifyContent: "center",
-//     backgroundColor: "transparent",
-//     "& > span": {
-//       maxWidth: 40,
-//       width: "100%",
-//       backgroundColor: "#635ee7",
-//     },
-//   },
-// })((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
-
-// const StyledTab = withStyles((theme) => ({
-//   root: {
-//     textTransform: "none",
-//     color: "#fff",
-//     fontWeight: theme.typography.fontWeightRegular,
-//     fontSize: theme.typography.pxToRem(15),
-//     marginRight: theme.spacing(1),
-//     "&:focus": {
-//       opacity: 1,
-//     },
-//   },
-// }))((props) => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     // marginRight:'50%',
   },
   padding: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
   demo1: {
     backgroundColor: theme.palette.background.paper,

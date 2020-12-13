@@ -12,6 +12,9 @@ const theme = createMuiTheme({
   palette: {
     primary: deepPurple,
     secondary: teal,
+    background: {
+      default: "#ffffff"
+    },
   },
 },
 );

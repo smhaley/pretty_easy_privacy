@@ -147,7 +147,6 @@ const PassPhrase = (props) => {
   return (
     <div className={classes.main}>
       <Box>
-        {/* <Box pb={1}> */}
         <Grid container spacing={1}>
           <Grid item>
             <TextField

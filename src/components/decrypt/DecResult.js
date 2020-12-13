@@ -9,10 +9,18 @@ import { mimes } from "../utils/utils";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
+  main: {
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacing(2),
+    },
   },
   result: {
     // marginTop: '200px',
@@ -60,22 +68,21 @@ const Result = (props) => {
   };
 
   return (
-    <Grid container wrap="nowrap" spacing={0}>
-      <Grid item></Grid>
-      <Grid item xs>
-        <Typography className={classes.heading} variant="h6" gutterBottom>
-          Retrieve Encrypted Data
+    <div className={classes.main}>
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Decrypted Data:
         </Typography>
-        <Box mb={2}>
-              <Button
-                disabled={disableCopy}
-                onClick={() => setOpenEnc(!openEnc)}
-                variant="outlined"
-                color={"secondary"}
-                className={classes.button}
-              >
-                In Browser
-              </Button>
+        <Box mb={2} pr={4}>
+          <Button
+            disabled={disableCopy}
+            onClick={() => setOpenEnc(!openEnc)}
+            variant="outlined"
+            color={"secondary"}
+            className={classes.button}
+          >
+           {!openEnc ? 'In Browser': 'Hide'}
+          </Button>
           {disableCopy && (
             <FormHelperText style={{ paddingLeft: "8px" }}>
               Result too Large
@@ -103,8 +110,8 @@ const Result = (props) => {
             New Decryption{" "}
           </Button>
         </Box>
-      </Grid>
-    </Grid>
+      </Box>
+    </div>
   );
 };
 

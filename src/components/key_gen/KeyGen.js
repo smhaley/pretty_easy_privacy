@@ -7,8 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import PassPhrase from "../utils/Passphrase";
 
-
-import Display from '../utils/BrowserResult'
+import Display from "../utils/BrowserResult";
 
 const openpgp = require("openpgp");
 
@@ -21,14 +20,22 @@ const useStyles = makeStyles((theme) => ({
   },
 
   main: {
-    marginTop: "50px",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
   },
 
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
+  // heading: {
+  //   marginTop: "15px",
+  //   marginBottom: "30px",
+  //   textAlign: "left",
+  // },
   button: {
     margin: "5px",
   },
@@ -115,15 +122,23 @@ const KeyGen = (props) => {
   };
 
   return (
-    <>
+    <div>
       {typeof key == "undefined" ? (
         <>
-          <Typography className={classes.heading} variant="h5" gutterBottom>
-            RSA Key Generation
-          </Typography>
-          <div className={classes.main}>
-            <form onSubmit={(e) => handleFormSubmit(e)}>
-              <Box mb={3}>
+          <form onSubmit={(e) => handleFormSubmit(e)}>
+            <div className={classes.main}>
+              <Typography className={classes.heading} variant="h5" gutterBottom>
+                RSA Key Generation
+              </Typography>
+              <Box pb={4} pt={2}>
+                <p>Creating Keys is simple. Just fill out this form.</p>
+                <p>
+                  No worries if you don't want to use your name or email addres.
+                  Just make one up!
+                </p>
+                <b>Just don't lose you Private Key and Passphrase!</b>
+              </Box>
+              <Box pb={4}>
                 <TextField
                   required
                   className={classes.formField}
@@ -137,7 +152,7 @@ const KeyGen = (props) => {
                 />
               </Box>
 
-              <Box mb={3}>
+              <Box>
                 {" "}
                 <TextField
                   required
@@ -153,25 +168,23 @@ const KeyGen = (props) => {
                   variant="outlined"
                 />
               </Box>
-              <Box mb={3}></Box>
-              <PassPhrase
-                class={classes.pwInput}
-                loading={loading}
-                mainButtonText={"Generate"}
-                modalButtonText={"Submit"}
-                handleSubmit={handleFormSubmit}
-                handleConfirm={handleConfirm}
-              />
-            </form>
-          </div>
+            </div>
+            <PassPhrase
+              class={classes.pwInput}
+              loading={loading}
+              mainButtonText={"Generate"}
+              modalButtonText={"Submit"}
+              handleSubmit={handleFormSubmit}
+              handleConfirm={handleConfirm}
+            />
+          </form>
         </>
       ) : (
         <Result encKeys={key} />
       )}
-    </>
+    </div>
   );
 };
-
 
 const Result = (props) => {
   const classes = useStyles();
@@ -179,13 +192,13 @@ const Result = (props) => {
   const [openPub, setOpenPub] = useState(false);
   const [openPriv, setOpenPriv] = useState(false);
 
-  const dlKey = (key,name) => {
+  const dlKey = (key, name) => {
     const element = document.createElement("a");
     const file = new Blob([key], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = name+'.txt'
-    element.click()
-    element.remove()
+    element.download = name + ".txt";
+    element.click();
+    element.remove();
   };
 
   let encKeys = props.encKeys;
@@ -212,7 +225,7 @@ const Result = (props) => {
               {openPriv ? "Hide" : "In Browser"}
             </Button>
             <Button
-              onClick={() => dlKey(encKeys.privateKeyArmored, 'private_key')}
+              onClick={() => dlKey(encKeys.privateKeyArmored, "private_key")}
               variant="outlined"
               color={"primary"}
               className={classes.button}
@@ -237,7 +250,7 @@ const Result = (props) => {
               {openPub ? "Hide" : "In Browser"}
             </Button>
             <Button
-              onClick={() => dlKey(encKeys.publicKeyArmored, 'public_key')}
+              onClick={() => dlKey(encKeys.publicKeyArmored, "public_key")}
               variant="outlined"
               color={"secondary"}
               className={classes.button}

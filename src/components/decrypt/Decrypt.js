@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Result from "./DecResult";
 import EncTypeTab from "../utils/EncTypeTab";
@@ -13,10 +13,13 @@ import { snackLocation } from "../utils/config";
 const openpgp = require("openpgp");
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    // marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
+  header: {
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+    },
   },
   pre: {
     fontSize: "inherit",
@@ -25,19 +28,11 @@ const useStyles = makeStyles((theme) => ({
     padding: "initial",
     fontFamily: "inherit",
   },
-  main: {
-    width: "80%",
-  },
   root: {
     display: "flex",
     "& > * + *": {
       marginLeft: theme.spacing(2),
     },
-  },
-  alert: {
-    width: "95%",
-    // paddingTop: "5px",
-    margin: "auto",
   },
 }));
 
@@ -117,7 +112,7 @@ const Decrypt = (props) => {
   );
 
   return (
-    <>
+    <div>
       {alert.show && (
         <Snackbar
           anchorOrigin={snackLocation}
@@ -130,18 +125,20 @@ const Decrypt = (props) => {
           </Alert>
         </Snackbar>
       )}
-
-      {!success && <EncTypeTab handleType={handleDecType} />}
-
-      <Grid container wrap="nowrap" spacing={0}>
-        <Grid item xs>
-          <Typography className={classes.heading} variant="h5" gutterBottom>
+      <div>
+        <div className={classes.header}>
+          {!success && <EncTypeTab handleType={handleDecType} />}
+          <Typography variant="h5" gutterBottom>
             {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
           </Typography>
-          {success ? <Result reset={reset} outbound={outbound} /> : form}
-        </Grid>
-      </Grid>
-    </>
+          <Box pt={2} pb={1}>
+          <p>Decrypt by simply completing this form.</p>
+
+          </Box>
+        </div>
+        {success ? <Result reset={reset} outbound={outbound} /> : form}
+      </div>
+    </div>
   );
 };
 

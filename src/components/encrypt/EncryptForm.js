@@ -14,11 +14,11 @@ import PassPhrase from "../utils/Passphrase";
 import KeyInput from "../utils/KeyInput";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
+  // heading: {
+  //   marginTop: "15px",
+  //   marginBottom: "30px",
+  //   textAlign: "left",
+  // },
   pwMeter: {
     width: "225px",
   },
@@ -30,16 +30,20 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "700px",
   },
   main: {
-    padding: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      padding: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
     },
-  }
-  
+  },
 }));
 
 const InFile = (props) => {
-  // const classes = useStyles();
+  const classes = useStyles();
 
   const handleDelete = () => {
     props.setUploadedFile(null);
@@ -127,18 +131,18 @@ const EncryptForm = (props) => {
   let inputType;
   if (inputTypeSelect === "text") {
     inputType = (
-          <TextField
-          helperText={formTextInputError && "Please Select a file object!"}
-          className={classes.textBox}
-          fullWidth={true}
-          error={formTextInputError}
-          id="outlined-multiline-static"
-          label="Text to Encrypt"
-          multiline
-          rows={10}
-          onChange={handleTextInput}
-          variant="outlined"
-        />
+      <TextField
+        helperText={formTextInputError && "Please Select a file object!"}
+        className={classes.textBox}
+        fullWidth={true}
+        error={formTextInputError}
+        id="outlined-multiline-static"
+        label="Text to Encrypt"
+        multiline
+        rows={10}
+        onChange={handleTextInput}
+        variant="outlined"
+      />
     );
   } else {
     inputType = (
@@ -187,33 +191,35 @@ const EncryptForm = (props) => {
 
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
-      <Box mt={4} mb={4}>
-        <FormControl component="fieldset">
-    
-          <RadioGroup
-            row
-            aria-label="position"
-            name="position"
-            value={inputTypeSelect}
-            defaultValue="top"
-            onChange={handleInputType}
-          >
-            <FormControlLabel
-              value="text"
-              control={<Radio color="primary" />}
-              label="Type my secret"
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value="byte"
-              control={<Radio color="secondary" />}
-              label="Load my secret"
-              labelPlacement="start"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Box>
-      <Box pb={3}>{inputType}</Box>
+      <div className={classes.main}>
+        <Box mb={2}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={inputTypeSelect}
+              defaultValue="top"
+              onChange={handleInputType}
+            >
+              <FormControlLabel
+                value="text"
+                control={<Radio color="primary" />}
+                label="Type my secret"
+                labelPlacement="right"
+              />
+              <FormControlLabel
+                value="byte"
+                control={<Radio color="secondary" />}
+                label="Load my secret"
+                labelPlacement="right"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
+
+        <Box>{inputType}</Box>
+      </div>
       {props.encType === 0 ? (
         <PassPhrase
           mainButtonText={"Encrypt"}
@@ -231,7 +237,6 @@ const EncryptForm = (props) => {
         />
       )}
     </form>
-
   );
 };
 
