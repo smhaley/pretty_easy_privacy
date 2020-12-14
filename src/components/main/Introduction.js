@@ -58,7 +58,7 @@ const Introduction = (props) => {
           <Typography variant="h6" gutterBottom>
             Encrytion powered by
             <Link href="https://openpgpjs.org/">
-                <img className={classes.image} src={openpgpjs50}></img>
+              <img className={classes.image} src={openpgpjs50}></img>
             </Link>
           </Typography>
         </Box>
@@ -214,7 +214,6 @@ const Introduction = (props) => {
                 url="https://www.youtube.com/watch?v=S9JGmA5_unY"
                 width="100%"
               />
-              <p></p>
             </div>
           </Box>
         </div>

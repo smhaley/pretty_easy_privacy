@@ -1,10 +1,9 @@
-
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Encrypt from "./components/encrypt/Encrypt";
 import Decrypt from "./components/decrypt/Decrypt";
 import KeyGen from "./components/key_gen/KeyGen";
-import Introduction from "./components/main/Introduction"
-import GetStarted from "./components/main/GetStarted"
+import Introduction from "./components/main/Introduction";
+import GetStarted from "./components/main/GetStarted";
 import Link from "@material-ui/core/Link";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -22,6 +21,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Container } from "@material-ui/core";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import Resources from "./components/main/Resources";
 
 const drawerWidth = 240;
 
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   titleBarIcons: {
-    marginLeft: 'auto'
+    marginLeft: "auto",
     // flex: 1,
   },
   drawer: {
@@ -93,18 +93,20 @@ function App(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [menuState, setMenuState] = useState(2);
+  const [menuState, setMenuState] = useState(3);
 
   let state;
   if (menuState === 1) {
     state = <Introduction />;
   } else if (menuState === 2) {
     state = <GetStarted />;
-  }else if (menuState === 3) {
-    state = <Encrypt />;
+  } else if (menuState === 3) {
+    state = <Resources />;
   } else if (menuState === 4) {
-    state = <Decrypt />;
+    state = <Encrypt />;
   } else if (menuState === 5) {
+    state = <Decrypt />;
+  } else if (menuState === 6) {
     state = <KeyGen />;
   }
 
@@ -114,20 +116,21 @@ function App(props) {
 
   let pages1 = {
     Introduction: 1,
-    'Get Started': 2,
+    "Get Started": 2,
+    Resources: 3,
   };
-  let pages2 = { Encrypt: 3, Decrypt: 4, "Key Generation": 5 };
+  let pages2 = { Encrypt: 4, Decrypt: 5, "Key Generation": 6 };
 
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Introduction", 'Get Started'].map((text, index) => (
+        {["Introduction", "Get Started", 'Resources'].map((text, index) => (
           <ListItem
             button
             key={text}
-            selected={pages1[text]===menuState}
+            selected={pages1[text] === menuState}
             onClick={() => setMenuState(pages1[text])}
           >
             <ListItemText primary={text} />
@@ -139,7 +142,7 @@ function App(props) {
         {Object.keys(pages2).map((text, index) => (
           <ListItem
             button
-            selected={pages2[text]===menuState}
+            selected={pages2[text] === menuState}
             value={pages2[text]}
             key={text}
             onClick={() => setMenuState(pages2[text])}
@@ -172,11 +175,11 @@ function App(props) {
             Pretty Easy Privacy
           </Typography>
           <div className={classes.titleBarIcons}>
-          <IconButton  aria-label="github.com">
-          <Link href= 'https://github.com/shawnh87/pretty_easy_privacy'>
-            <GitHubIcon color="secondary" />
-            </Link>
-          </IconButton>
+            <IconButton aria-label="github.com">
+              <Link href="https://github.com/shawnh87/pretty_easy_privacy">
+                <GitHubIcon color="secondary" />
+              </Link>
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
@@ -216,7 +219,7 @@ function App(props) {
         {/* <Paper className={classes.paper}>aaa</Paper> */}
         <div className={classes.layout}>
           <Paper className={classes.paper} elevation={0}>
-           {state}
+            {state}
           </Paper>
         </div>
       </main>
