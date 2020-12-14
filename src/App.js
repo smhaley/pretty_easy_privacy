@@ -4,7 +4,7 @@ import Encrypt from "./components/encrypt/Encrypt";
 import Decrypt from "./components/decrypt/Decrypt";
 import KeyGen from "./components/key_gen/KeyGen";
 import Introduction from "./components/main/Introduction"
-import Help from "./components/main/GetStarted"
+import GetStarted from "./components/main/GetStarted"
 import Link from "@material-ui/core/Link";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -93,13 +93,13 @@ function App(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [menuState, setMenuState] = useState(1);
+  const [menuState, setMenuState] = useState(2);
 
   let state;
   if (menuState === 1) {
     state = <Introduction />;
   } else if (menuState === 2) {
-    state = <Help />;
+    state = <GetStarted />;
   }else if (menuState === 3) {
     state = <Encrypt />;
   } else if (menuState === 4) {
