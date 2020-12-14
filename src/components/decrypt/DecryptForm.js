@@ -279,13 +279,13 @@ const DecryptForm = (props) => {
                 value="text"
                 control={<Radio color="primary" />}
                 label="Paste my gibberish"
-                labelPlacement="right"
+                labelPlacement="end"
               />
               <FormControlLabel
                 value="byte"
                 control={<Radio color="secondary" />}
                 label="Load my gibberish"
-                labelPlacement="right"
+                labelPlacement="end"
               />
             </RadioGroup>
           </FormControl>

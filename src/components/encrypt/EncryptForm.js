@@ -59,14 +59,13 @@ const InFile = (props) => {
   );
   return (
     <Box>
-      <FormLabel component="legend">Select a File Object:</FormLabel>
       <Box mt={1}>
         <Button
           onClick={() => document.getElementById("inp").click()}
           variant="outlined"
           color="secondary"
         >
-          Browse
+         Browse for file
         </Button>{" "}
         {selectedFile}
         {props.formByteInputError && (
@@ -206,13 +205,13 @@ const EncryptForm = (props) => {
                 value="text"
                 control={<Radio color="primary" />}
                 label="Type my secret"
-                labelPlacement="right"
+                labelPlacement="end"
               />
               <FormControlLabel
                 value="byte"
                 control={<Radio color="secondary" />}
                 label="Load my secret"
-                labelPlacement="right"
+                labelPlacement="end"
               />
             </RadioGroup>
           </FormControl>

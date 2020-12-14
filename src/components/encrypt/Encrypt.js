@@ -122,7 +122,7 @@ const Encrypt = () => {
           {!success && <EncTypeTab handleType={handleEncType} />}
           
           <Typography className={classes.heading} variant="h5" gutterBottom>
-            {encType === 0 ? "AES 256 Encryption" : "RSA  Encryption"}
+            {encType === 0 ? <b>AES 256 Encryption</b> : <b>RSA  Encryption</b>}
           </Typography>
 
           <Box pt={2} pb={2}>

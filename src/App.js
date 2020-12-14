@@ -3,7 +3,9 @@ import React, {useState} from "react";
 import Encrypt from "./components/encrypt/Encrypt";
 import Decrypt from "./components/decrypt/Decrypt";
 import KeyGen from "./components/key_gen/KeyGen";
-import PropTypes from "prop-types";
+import Introduction from "./components/main/Introduction"
+import Help from "./components/main/GetStarted"
+import Link from "@material-ui/core/Link";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -12,7 +14,6 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -92,10 +93,14 @@ function App(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [menuState, setMenuState] = useState(3);
+  const [menuState, setMenuState] = useState(1);
 
   let state;
-  if (menuState === 3) {
+  if (menuState === 1) {
+    state = <Introduction />;
+  } else if (menuState === 2) {
+    state = <Help />;
+  }else if (menuState === 3) {
     state = <Encrypt />;
   } else if (menuState === 4) {
     state = <Decrypt />;
@@ -109,7 +114,7 @@ function App(props) {
 
   let pages1 = {
     Introduction: 1,
-    Help: 2,
+    'Get Started': 2,
   };
   let pages2 = { Encrypt: 3, Decrypt: 4, "Key Generation": 5 };
 
@@ -118,12 +123,11 @@ function App(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Introduction", "Help"].map((text, index) => (
+        {["Introduction", 'Get Started'].map((text, index) => (
           <ListItem
             button
             key={text}
             selected={pages1[text]===menuState}
-            disabled={true}
             onClick={() => setMenuState(pages1[text])}
           >
             <ListItemText primary={text} />
@@ -168,8 +172,10 @@ function App(props) {
             Pretty Easy Privacy
           </Typography>
           <div className={classes.titleBarIcons}>
-          <IconButton  aria-label="github.com" onClick={() => window.open('https://shawnh87.github.io/pretty_easy_privacy/')}>
+          <IconButton  aria-label="github.com">
+          <Link href= 'https://github.com/shawnh87/pretty_easy_privacy'>
             <GitHubIcon color="secondary" />
+            </Link>
           </IconButton>
           </div>
         </Toolbar>

@@ -128,7 +128,7 @@ const KeyGen = (props) => {
           <form onSubmit={(e) => handleFormSubmit(e)}>
             <div className={classes.main}>
               <Typography className={classes.heading} variant="h5" gutterBottom>
-                RSA Key Generation
+                <b> RSA Key Generation</b>
               </Typography>
               <Box pb={4} pt={2}>
                 <p>Creating Keys is simple. Just fill out this form.</p>

@@ -129,7 +129,7 @@ const Decrypt = (props) => {
         <div className={classes.header}>
           {!success && <EncTypeTab handleType={handleDecType} />}
           <Typography variant="h5" gutterBottom>
-            {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
+            {encType === 0 ? <b>AES 256 Decryption</b>: <b>RSA  Decryption</b>}
           </Typography>
           <Box pt={2} pb={1}>
           <p>Decrypt by simply completing this form.</p>

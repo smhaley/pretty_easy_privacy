@@ -60,14 +60,13 @@ const InFile = (props) => {
   );
   return (
     <Box>
-      <FormLabel component="legend">Select RSA Key:</FormLabel>
       <Box mt={1}>
         <Button
           onClick={() => document.getElementById("keyInput").click()}
           variant="outlined"
           color="secondary"
         >
-          Key Browse
+          Browse for RSA Key
         </Button>
 
         {selectedFile}
@@ -273,13 +272,13 @@ const KeyInput = (props) => {
                 value="byte"
                 control={<Radio color="secondary" />}
                 label="Import from file"
-                labelPlacement="start"
+                labelPlacement="end"
               />
               <FormControlLabel
                 value="text"
                 control={<Radio color="primary" />}
                 label="Paste in text"
-                labelPlacement="start"
+                labelPlacement="end"
               />
             </RadioGroup>
           </FormControl>
