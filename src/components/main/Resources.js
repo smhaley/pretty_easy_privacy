@@ -81,13 +81,20 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
               </pre>
             </div>
           </Paper>
-
-          <p>Try it out!</p>
-          <p>
-            Head over to <b>Decrypt</b>. Select text input. Select .txt file
-            type. Enter 'bad!' into the password field. Hit Decrypt!
-          </p>
-          <p>See the result?</p>
+          <br />
+          <Typography>Try it out!</Typography>
+          <Box pl={2}>
+            <p>
+              Head over to <b>Decrypt</b>.
+            </p>
+            <p>Select text input.</p>
+            <p>Select .txt file type.</p>
+            <p>
+              Enter <b>bad!</b> into the password field.
+            </p>
+            <p>Hit Decrypt!</p>
+            <p>See the result?</p>
+          </Box>
           <br />
           <Typography variant="h6" gutterBottom>
             How does AES 256 work exactly?

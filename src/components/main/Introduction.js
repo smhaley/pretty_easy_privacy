@@ -128,7 +128,7 @@ const Introduction = (props) => {
           </Typography>
           <p>Please don't trust us.</p>
           <p>
-          The site is statically hosted entirely on github.
+            The site is statically hosted entirely on github.
             <b> No data is being transferred from your device to a server. </b>
           </p>
           <p>More simply, the ✨ happens right in your browser!</p>
@@ -155,10 +155,10 @@ const Introduction = (props) => {
             A few examples are: <b>Gpg4win</b> for windows, <b>Mac GPG</b> for
             mac, or just plain <b>GnuPG</b> for linux distros.
           </p>
+          <p>So why not just use these to handle encryption?</p>
           <p>
-            So why not just use these to handle encryption? They are cumbersome
-            and lack a user interface. However, the will get your data for you
-            should this site disappear.
+            They are cumbersome and lack a user interface. However, they will
+            decrypt your data for you should this site disappear.
           </p>
 
           <p>

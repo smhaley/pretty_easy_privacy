@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Link from "@material-ui/core/Link";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   pwMeter: {
@@ -52,7 +53,14 @@ const GetStarted = (props) => {
         </Box>
         <Box p={2}>
           <Typography variant="h6" gutterBottom>
-            Just a couple things.
+            Just a couple things...
+          </Typography>
+          <br />
+          <Typography variant="p" color="primary">
+            <b>
+              If you're just starting out with encryption we recommend that you
+              stick with Passphrase Encryption.
+            </b>
           </Typography>
           <p>
             The format of the encrypted result <b>matters</b> for decryption.
@@ -67,23 +75,19 @@ const GetStarted = (props) => {
             Sure, change the silly name. We just encourage leaving the contents
             of the file alone. This will keep decryption seamless.
           </p>
-          <p>
-            <b>
-              The top section refers to passphrase Encrypted files. We recommend
-              starting here.
-            </b>
-          </p>
-          <p>
-            This just means that top green tab should be toggled to
-            <b>Passphrase</b>.{" "}
-          </p>
+
+          <br />
+          <Typography variant="h6" color="secondary">
+            Passphrase Encryption
+          </Typography>
+          <Divider />
           <br />
           <Typography variant="h6" gutterBottom>
-            Let's Encrypt!
+            Encrypting with a passphrase (Start here)
           </Typography>
           <p>
-            Head on over the the Encrypt section. Once there simply type in some
-            text or upload a file.
+            Head on over the the <b>Encrypt</b> section. Once there simply type
+            in some text or upload a file.
           </p>
           <p>
             Toss in a{" "}
@@ -122,24 +126,31 @@ const GetStarted = (props) => {
             If you can't remember just select <b>Something Else</b>.
           </p>
           <p>Enter your passphrase. Done.</p>
+
+          <Typography color="primary">
+            <b>That's everything you need to passphrase encrypt your data!</b>{" "}
+            🎉
+          </Typography>
+          <br />
+          <br />
+          <Typography variant="h6" color="secondary">
+            Key Based Encryption
+          </Typography>
+          <Divider />
           <br />
           <Typography variant="h6" gutterBottom>
             What's this thing about keys?
           </Typography>
           <p>
-            Keys, or key pairs are just an alternative method to decrypt. It
-            let's you decrypt without a passphrase.
-          </p>
-
-          <p>
-            We recommend sticking with passphrases at first. Especially if you
-            just want to encrypt personal files.
+            Keys, or key pairs are just an alternative method to using a
+            passphrase. Like we mentioned above, at first you should just stick
+            with passphrase encryption.
           </p>
           <p>
-            Check the <b>Resources</b> section for more info on asymmetric
-            encryption.
+            Check the <b>Resources</b> section for more info on how asymmetric
+            encryption works. 
           </p>
-          <p>Otherwise, check out below.</p>
+          <p>If you think it's right for you, check out below.</p>
           <br />
         </Box>
         <div className={classes.technical}>
@@ -201,9 +212,9 @@ const GetStarted = (props) => {
               Same deal for decrytpion.
             </p>
             <p>
-              Just fill out the form, let us know what format you expect the output
-              file to be (text, csv, or literally anyting else). Upload or enter
-              your <b>private key</b> and affiliated passphrase.
+              Just fill out the form, let us know what format you expect the
+              output file to be (text, csv, or literally anyting else). Upload
+              or enter your <b>private key</b> and affiliated passphrase.
             </p>
             <p>That's all there is to it.</p>
             <br />
