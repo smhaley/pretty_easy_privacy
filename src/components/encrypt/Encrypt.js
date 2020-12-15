@@ -104,7 +104,6 @@ const Encrypt = () => {
     />
   );
 
-  console.log(JSON.stringify(armorTxt))
   return (
     <div>
       {alert.show && (

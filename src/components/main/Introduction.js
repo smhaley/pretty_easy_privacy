@@ -172,7 +172,7 @@ const Introduction = (props) => {
         <div className={classes.technical}>
           <Box p={2}>
             <Typography variant="h6" gutterBottom>
-              A little technical mumbo Jumbo.
+              A few technical details.
             </Typography>
             <p>
               At the moment all symmetric passphrase encryption with PEP uses
@@ -191,7 +191,7 @@ const Introduction = (props) => {
             </p>
             <p>
               And yes, we know there is no key signing. For messaging and
-              communication we strongly encourage some of the app noted above.
+              communication we strongly encourage some of the apps noted above.
             </p>
             <br />
             <Typography variant="h6" gutterBottom>
