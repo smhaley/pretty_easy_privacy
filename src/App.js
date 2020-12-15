@@ -93,7 +93,7 @@ function App(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [menuState, setMenuState] = useState(3);
+  const [menuState, setMenuState] = useState(1);
 
   let state;
   if (menuState === 1) {
