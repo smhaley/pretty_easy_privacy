@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ef4ee6be8279f2062dc437d4f6a28811",
+    "revision": "3667e889728c792b5995479ed7fa376c",
     "url": "/pretty_easy_privacy/index.html"
   },
   {
-    "revision": "f9867fb8f37aeff49fcf",
+    "revision": "1fe1414cefde65da7bec",
     "url": "/pretty_easy_privacy/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pretty_easy_privacy/static/js/2.9795b3a4.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f9867fb8f37aeff49fcf",
-    "url": "/pretty_easy_privacy/static/js/main.84b74958.chunk.js"
+    "revision": "1fe1414cefde65da7bec",
+    "url": "/pretty_easy_privacy/static/js/main.7e93cb78.chunk.js"
   },
   {
     "revision": "d70ae422072cf9991729",
