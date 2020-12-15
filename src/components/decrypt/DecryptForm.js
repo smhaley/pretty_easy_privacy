@@ -282,15 +282,15 @@ const DecryptForm = (props) => {
               onChange={handleInputType}
             >
               <FormControlLabel
-                value="text"
-                control={<Radio color="primary" />}
-                label="Paste my gibberish"
-                labelPlacement="end"
-              />
-              <FormControlLabel
                 value="byte"
                 control={<Radio color="secondary" />}
                 label="Load my gibberish"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="text"
+                control={<Radio color="primary" />}
+                label="Paste my gibberish"
                 labelPlacement="end"
               />
             </RadioGroup>

@@ -94,7 +94,7 @@ const EncryptForm = (props) => {
   //on unmout clear all state
   //is pw comp to handle all passphrase work
 
-  const [inputTypeSelect, setInputTypeSelect] = useState("text");
+  const [inputTypeSelect, setInputTypeSelect] = useState("byte");
   const [textInput, textInputState] = useState("");
   const [formTextInputError, setFormTextInputError] = useState(false);
   const [formByteInputError, setFormByteInputError] = useState(false);
@@ -206,15 +206,15 @@ const EncryptForm = (props) => {
               onChange={handleInputType}
             >
               <FormControlLabel
-                value="text"
-                control={<Radio color="primary" />}
-                label="Type my secret"
-                labelPlacement="end"
-              />
-              <FormControlLabel
                 value="byte"
                 control={<Radio color="secondary" />}
                 label="Load my secret"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="text"
+                control={<Radio color="primary" />}
+                label="Type my secret"
                 labelPlacement="end"
               />
             </RadioGroup>
