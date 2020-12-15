@@ -2,12 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import signal from "../imgs/signal.png";
-import openpgpjs50 from "../imgs/openpgpjs50.png";
-import whatsapp from "../imgs/whatsapp.png";
-import GitHubIcon from "@material-ui/icons/GitHub";
 import Link from "@material-ui/core/Link";
-import ReactPlayer from "react-player/youtube";
 
 const useStyles = makeStyles((theme) => ({
   pwMeter: {
@@ -60,7 +55,7 @@ const GetStarted = (props) => {
             Just a couple things.
           </Typography>
           <p>
-            The format of the encrypted result <b>matters</b>.
+            The format of the encrypted result <b>matters</b> for decryption.
           </p>
           <p>
             In general,{" "}
@@ -70,15 +65,18 @@ const GetStarted = (props) => {
           </p>
           <p>
             Sure, change the silly name. We just encourage leaving the contents
-            of the file alone. This will keep decryption seemless.
+            of the file alone. This will keep decryption seamless.
           </p>
           <p>
             <b>
-              The top section refers to passphrase Encrypted files. We
-              recommend starting here.
+              The top section refers to passphrase Encrypted files. We recommend
+              starting here.
             </b>
           </p>
-          <p>This just means that top green tab should be toggled to <b>Passphrase</b>, cause that's what we are encrypting with! </p>
+          <p>
+            This just means that top green tab should be toggled to
+            <b>Passphrase</b>.{" "}
+          </p>
           <br />
           <Typography variant="h6" gutterBottom>
             Let's Encrypt!
@@ -98,9 +96,9 @@ const GetStarted = (props) => {
           </p>
           <p>Hit encrypt. Done.</p>
           <p>
-            Either copy the output or download the file result and stash in your
-            favorite place. Public free cloud? DOn't worry, Google wont be able
-            to creep on this.
+            Either copy the output or download the file result and stash it in
+            your favorite place. Free public cloud? Don't worry, Google wont be
+            able to creep on this.
           </p>
           <br />
           <Typography variant="h6" gutterBottom>
@@ -117,13 +115,31 @@ const GetStarted = (props) => {
           </p>
           <p>One. Extra. Step.</p>
           <p>
-            Select the file type you expect. We kept it simple, text, csv, or
+            Select the file type you expect. We kept it simple: text, csv, or
             everything else.
           </p>
           <p>
             If you can't remember just select <b>Something Else</b>.
           </p>
-          <p>Enter you passphrase. Done.</p>
+          <p>Enter your passphrase. Done.</p>
+          <br />
+          <Typography variant="h6" gutterBottom>
+            What's this thing about keys?
+          </Typography>
+          <p>
+            Keys, or key pairs are just an alternative method to decrypt. It
+            let's you decrypt without a passphrase.
+          </p>
+
+          <p>
+            We recommend sticking with passphrases at first. Especially if you
+            just want to encrypt personal files.
+          </p>
+          <p>
+            Check the <b>Resources</b> section for more info on asymmetric
+            encryption.
+          </p>
+          <p>Otherwise, check out below.</p>
           <br />
         </Box>
         <div className={classes.technical}>
@@ -135,18 +151,17 @@ const GetStarted = (props) => {
               We do offer asymmetric encryption decryption and key generation.
             </p>
             <p>
-              First, head over to <b>Help</b> and learn a bit about how this
-              works.
+              First, head over to <b>Resources</b> and learn a bit about how
+              this works.
             </p>
             <p>Alright, got it? Good.</p>
             <br />
             <Typography variant="h6" gutterBottom>
-              Do I need to go the hardware store for a key?
+              Do I need to go the hardware store?
             </Typography>
             <p>
-              Of course not! We will give you 4096 bit RSA key for free! Just
-              head over to <b>Key Generation</b> and fill out that simple form.
-              That's it!
+              Of course not! We will give you a 4096 bit RSA key for free! Visit{" "}
+              <b>Key Generation</b> and fill out the form. That's it!
             </p>
             <p>
               Use any name or email address you want. Remember, this data
@@ -158,40 +173,36 @@ const GetStarted = (props) => {
             </p>
             <p>You will get two keys. One public and one private.</p>
             <p>
-              You can give out the public key to your friends. It can be used to
-              encrypt files{" "}
+              You can give out the public key to your friends. It's sole purpose
+              is to encrypt files that
               <b>only your private key and passphrase can decrypt</b>.
             </p>
-            <span style={{ color: "red" }}>
+            <Typography color="error">
               <b>NEVER GIVE OUT YOUR PRIVATE KEY!</b>
-            </span>
-            <p>
-              This is used only by you to decrypt files encrypted with your
-              public key.
-            </p>
+            </Typography>
             <br />
             <Typography variant="h6" gutterBottom>
-              Encrypt (version 2)
+              Encrypt with asymmetry
             </Typography>
             <p>
               Head to the <b>Encrypt</b> section. On the top, select Asymmetric.
             </p>
             <p>
-              Now you should be good to go. THe only difference from symmetric
-              encryption is you simply input or upload a public key.
+              Now you should be good to go. The only difference from symmetric
+              encryption is that you must input or upload a public key.
             </p>
             <p>Seriously. That's the only difference.</p>
             <br />
             <Typography variant="h6" gutterBottom>
-              Decrypt the asymmetric variant.
+              Decrypt the asymmetric way.
             </Typography>
             <p>
               Remember that top selector we mentioned for asymmetric encrytion?
-              Same deal of decrytpion.
+              Same deal for decrytpion.
             </p>
             <p>
-              Just fill out the form, let us know what format you expect the
-              file is (text, csv, or literally anyting else). Upload or enter
+              Just fill out the form, let us know what format you expect the output
+              file to be (text, csv, or literally anyting else). Upload or enter
               your <b>private key</b> and affiliated passphrase.
             </p>
             <p>That's all there is to it.</p>

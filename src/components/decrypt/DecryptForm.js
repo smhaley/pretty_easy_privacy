@@ -20,7 +20,6 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 //todo file type (text, csv) or image based
 
 const useStyles = makeStyles((theme) => ({
-
   pwMeter: {
     width: "225px",
   },
@@ -104,10 +103,6 @@ const InFile = (props) => {
 
 const DecryptForm = (props) => {
   const classes = useStyles();
-
-  //update-> handle all Files wor here. send up to handle enc + output
-  //on unmout clear all state
-  //is pw comp to handle all passphrase work
 
   let resetErrors = {
     formTextInputError: false,
@@ -265,6 +260,17 @@ const DecryptForm = (props) => {
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <div className={classes.main}>
         <Box mb={2}>
+          <Box pt={2} pb={2}>
+            <p>Simply supply you encrypted file or text.</p>
+            <p>Let us know the expected output format.</p>
+            {props.encType === 0 ? (
+              <p>Supply your passphrase.</p>
+            ) : (
+              <p>Supply your private key and passphrase.</p>
+            )}
+
+            <p>Decrypt.</p>
+          </Box>
           <FormControl component="fieldset">
             {/* <FormLabel component="legend">Input Format</FormLabel> */}
             <RadioGroup

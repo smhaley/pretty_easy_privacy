@@ -65,7 +65,7 @@ const InFile = (props) => {
           variant="outlined"
           color="secondary"
         >
-         Browse for file
+          Browse for file
         </Button>{" "}
         {selectedFile}
         {props.formByteInputError && (
@@ -191,6 +191,10 @@ const EncryptForm = (props) => {
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <div className={classes.main}>
+        <Box pt={2} pb={2}>
+          <p>To Encrypt, simply fill out this form.</p>
+          {props.encType === 0 && <b>Just don't lose your Passphrase!</b>}
+        </Box>
         <Box mb={2}>
           <FormControl component="fieldset">
             <RadioGroup

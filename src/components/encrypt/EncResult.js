@@ -60,17 +60,19 @@ const Result = (props) => {
 
   return (
     <div className={classes.main}>
-      <p>Here are your results!</p>
-      <p>
-        {" "}
-        We recommend downloading and stashing the file.</p>
-        <p>Don't worry, if you
-        prefer working with text yourself, we provide that too.{" "}</p>
-
-      <Box>
+      <Box pt={2}>
         <Typography variant="h6" gutterBottom>
           Encrypted Data:
         </Typography>
+        <Box >
+          <p>Here are your results.</p>
+          <p> We recommend downloading the file.</p>
+          <p>
+            Don't worry, if you prefer working with text yourself, we provide
+            that too.{" "}
+          </p>
+          <br/>
+        </Box>
         <Box mb={2} pr={4}>
           <Button
             disabled={disableCopy}

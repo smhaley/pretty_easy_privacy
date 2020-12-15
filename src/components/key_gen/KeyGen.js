@@ -31,25 +31,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  // heading: {
-  //   marginTop: "15px",
-  //   marginBottom: "30px",
-  //   textAlign: "left",
-  // },
   button: {
     margin: "5px",
   },
-  // copy: {
-  //   marginLeft: "318px",
-  // },
+
   alert: {
-    // marginRight: "310px",
     width: "200px",
     height: "10px",
   },
 }));
 
 const KeyGen = (props) => {
+
   const classes = useStyles();
   const [key, setKey] = useState(undefined);
   const [keyFields, setKeyFields] = useState({ name: "", email: "", pw: "" });
@@ -122,7 +115,7 @@ const KeyGen = (props) => {
   };
 
   return (
-    <div>
+    <Box p={2}>
       {typeof key == "undefined" ? (
         <>
           <form onSubmit={(e) => handleFormSubmit(e)}>
@@ -147,7 +140,6 @@ const KeyGen = (props) => {
                   onChange={handleName}
                   error={errors.name}
                   helperText={errors.name && "Text Required!"}
-                  // defaultValue="Hello World"
                   variant="outlined"
                 />
               </Box>
@@ -164,7 +156,6 @@ const KeyGen = (props) => {
                   helperText={
                     (errors.emailNull || errors.emailFormat) && errors.emMessage
                   }
-                  // defaultValue="Hello World"
                   variant="outlined"
                 />
               </Box>
@@ -182,7 +173,7 @@ const KeyGen = (props) => {
       ) : (
         <Result encKeys={key} />
       )}
-    </div>
+    </Box>
   );
 };
 
@@ -204,18 +195,33 @@ const Result = (props) => {
   let encKeys = props.encKeys;
 
   return (
-    <>
-      <Grid container wrap="nowrap" spacing={0}>
-        <Grid item></Grid>
-        <Grid item xs>
+      <div className={classes.main}>
+        <Box>
           <Typography className={classes.heading} variant="h5" gutterBottom>
-            Key Result
+            <b> Key Results </b>
           </Typography>
+          <br />
+          <br />
 
-          <Typography className={classes.heading} variant="h6" gutterBottom>
+          <Typography
+            className={classes.heading}
+            color="primary"
+            variant="h6"
+            gutterBottom
+          >
             Private Key
           </Typography>
-          <Box mb={2}>
+
+          <Box pb={2}>
+            <Typography color="error">
+              <b>The private is private. NEVER SHARE YOUR PRIVATE KEY</b>
+            </Typography>
+            <p>
+              Use the private key for decrypting data encrypted with your public
+              key.
+            </p>
+          </Box>
+          <Box pb={4}>
             <Button
               onClick={() => setOpenPriv(!openPriv)}
               variant="outlined"
@@ -237,9 +243,22 @@ const Result = (props) => {
               <Display val={encKeys.privateKeyArmored} id="privateKey" />
             )}
           </Box>
-          <Typography className={classes.heading} variant="h6" gutterBottom>
+          <Typography
+            color="secondary"
+            className={classes.heading}
+            variant="h6"
+            gutterBottom
+          >
             Public Key
           </Typography>
+
+          <Box pb={2}>
+            <p>The public key is public. You could share it with anyone.</p>
+            <p>
+              The public key encrypts files that only your private key can
+              decrypt.
+            </p>
+          </Box>
           <Box mb={2}>
             <Button
               onClick={() => setOpenPub(!openPub)}
@@ -262,10 +281,8 @@ const Result = (props) => {
               <Display val={encKeys.publicKeyArmored} id="publicKey" />
             )}
           </Box>
-          <Box></Box>
-        </Grid>
-      </Grid>
-    </>
+        </Box>
+      </div>
   );
 };
 export default KeyGen;

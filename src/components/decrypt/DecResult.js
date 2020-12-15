@@ -68,10 +68,11 @@ const Result = (props) => {
 
   return (
     <div className={classes.main}>
-      <Box>
+      <Box pt={2}>
         <Typography variant="h6" gutterBottom>
-          Decrypted Data:
+          Decrypted Data::
         </Typography>
+
         <Box mb={2} pr={4}>
           <Button
             disabled={disableCopy}
@@ -80,7 +81,7 @@ const Result = (props) => {
             color={"secondary"}
             className={classes.button}
           >
-           {!openEnc ? 'In Browser': 'Hide'}
+            {!openEnc ? "In Browser" : "Hide"}
           </Button>
           {disableCopy && (
             <FormHelperText style={{ paddingLeft: "8px" }}>

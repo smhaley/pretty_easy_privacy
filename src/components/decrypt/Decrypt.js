@@ -125,19 +125,15 @@ const Decrypt = (props) => {
           </Alert>
         </Snackbar>
       )}
-      <div>
+      <Box p={2}>
         <div className={classes.header}>
           {!success && <EncTypeTab handleType={handleDecType} />}
           <Typography variant="h5" gutterBottom>
-            {encType === 0 ? <b>AES 256 Decryption</b>: <b>RSA  Decryption</b>}
+            {encType === 0 ? <b>Passphrase Decryption</b>: <b>Key Decryption</b>}
           </Typography>
-          <Box pt={2} pb={1}>
-          <p>Decrypt by simply completing this form.</p>
-
-          </Box>
         </div>
         {success ? <Result reset={reset} outbound={outbound} /> : form}
-      </div>
+      </Box>
     </div>
   );
 };

@@ -54,25 +54,18 @@ const Introduction = (props) => {
           <Typography variant="h5" gutterBottom>
             <b>Pretty Easy Privacy</b>
           </Typography>
-
-          <Typography variant="h6" gutterBottom>
-            Encrytion powered by
-            <Link href="https://openpgpjs.org/">
-              <img className={classes.image} src={openpgpjs50}></img>
-            </Link>
-          </Typography>
         </Box>
         <Box p={2}>
           <Typography variant="h6" gutterBottom>
             Yeah, it's that easy.
           </Typography>
           <p>
-            Pretty Easy Privacy (PEP) is a simple service for encrypting data.
-            That's it.
+            Pretty Easy Privacy (PEP) is a service for encrypting data. That's
+            it.
           </p>
           <p>
-            Have a file you want to securly store on you machine or Google
-            Drive? PEP make passphrase protecting files and text simple.
+            Have a file you want to securely store on you machine or Google
+            Drive? PEP makes passphrase protecting files and text simple.
           </p>
           <br />
 
@@ -89,7 +82,7 @@ const Introduction = (props) => {
           </p>
           <p>
             At it's core, PEP offers three simple input forms: Passphrase file
-            encryption, Asymetric file encryption, and Key Generation.
+            encryption, Asymmetric file encryption, and Key Generation.
           </p>
           <br />
           <Typography variant="h6" gutterBottom>
@@ -107,8 +100,8 @@ const Introduction = (props) => {
             .
           </p>
           <p>
-            PEP is a simple and very effective way to passphrase (or key
-            protect) your information.{" "}
+            PEP is a simple and very effective way to passphrase (or key)
+            encrypt your information.
           </p>
 
           <p>
@@ -135,8 +128,8 @@ const Introduction = (props) => {
           </Typography>
           <p>Please don't trust us.</p>
           <p>
-            The site is staticly hosted entirly on github.
-            <b> No data is being transfered from your device to a server. </b>
+          The site is statically hosted entirely on github.
+            <b> No data is being transferred from your device to a server. </b>
           </p>
           <p>More simply, the ✨ happens right in your browser!</p>
           <p>
@@ -165,7 +158,7 @@ const Introduction = (props) => {
           <p>
             So why not just use these to handle encryption? They are cumbersome
             and lack a user interface. However, the will get your data for you
-            if this site were to disapear.
+            should this site disappear.
           </p>
 
           <p>
@@ -190,10 +183,10 @@ const Introduction = (props) => {
               </Link>
               .
             </p>
-            <p>Assymetric encryption is also handled via openPGP.js</p>
+            <p>Asymmetric encryption is also handled via openPGP.js</p>
             <p>
-              Currently all asymetric keys generated are RSA 4096 bits. If
-              additional encryption algoritms or bit lengths are needed, drop a
+              Currently all asymmetric keys generated are RSA 4096 bits. If
+              additional encryption algorithms or bit lengths are needed, drop a
               line in github. We can add them in real quick.
             </p>
             <p>
@@ -202,19 +195,11 @@ const Introduction = (props) => {
             </p>
             <br />
             <Typography variant="h6" gutterBottom>
-              AES 256, how strong is that?
+              Encryption powered by
+              <Link href="https://openpgpjs.org/">
+                <img className={classes.image} src={openpgpjs50}></img>
+              </Link>
             </Typography>
-            <p>
-              Really strong. Really, really strong. Unless your passphrase isn't
-              very good.
-            </p>
-            <div className={classes.playerWrapper}>
-              <ReactPlayer
-                className="react-player"
-                url="https://www.youtube.com/watch?v=S9JGmA5_unY"
-                width="100%"
-              />
-            </div>
           </Box>
         </div>
       </Box>

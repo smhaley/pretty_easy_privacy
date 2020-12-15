@@ -103,6 +103,8 @@ const Encrypt = () => {
       loader={loader}
     />
   );
+
+  console.log(JSON.stringify(armorTxt))
   return (
     <div>
       {alert.show && (
@@ -117,23 +119,16 @@ const Encrypt = () => {
           </Alert>
         </Snackbar>
       )}
-      <div>
+      <Box p={2}>
         <div className={classes.header}>
           {!success && <EncTypeTab handleType={handleEncType} />}
           
           <Typography className={classes.heading} variant="h5" gutterBottom>
-            {encType === 0 ? <b>AES 256 Encryption</b> : <b>RSA  Encryption</b>}
+            {encType === 0 ? <b>Passphrase Encryption</b> : <b>Key Encryption</b>}
           </Typography>
-
-          <Box pt={2} pb={2}>
-            <p>To Encrypt, simply fill out this form.</p>
-            {encType === 0 && <b>Just don't lose your Passphrase!</b>}
-          
-
-          </Box> 
         </div>
         {success ? <Result reset={reset} armorTxt={armorTxt} /> : form}
-      </div>
+      </Box>
     </div>
   );
 };
