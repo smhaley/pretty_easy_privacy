@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(0, 0, 0, 0.54)",
   },
   buttonProgress: {
-    // color: green[500],
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -36,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     backgroundColor: '#FAFAFA',
-    // width: '100%'
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       padding: theme.spacing(2),

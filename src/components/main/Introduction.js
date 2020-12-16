@@ -10,20 +10,11 @@ import Link from "@material-ui/core/Link";
 import ReactPlayer from "react-player/youtube";
 
 const useStyles = makeStyles((theme) => ({
-  pwMeter: {
-    width: "225px",
-  },
+
   image: {
     verticalAlign: "bottom",
   },
 
-  pw: {
-    color: "#777fa7",
-    marginTop: "18px",
-  },
-  textBox: {
-    maxWidth: "700px",
-  },
   technical: {
     backgroundColor: "#FAFAFA",
   },
@@ -39,10 +30,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  reactPlayer: {
-    paddingTop: "56.25%;", // Percentage ratio for 16:9
-    position: "relative", // Set to relative
-  },
 }));
 
 const Introduction = (props) => {
@@ -115,10 +102,10 @@ const Introduction = (props) => {
           <Box ml={2}>
             <div>
               <a href={"https://www.signal.org/"}>
-                <img src={signal} />
+                <img src={signal} alt='Signal'/>
               </a>{" "}
               <a href={"https://www.whatsapp.com/"}>
-                <img src={whatsapp} />
+                <img src={whatsapp} alt='Whatsapp'/>
               </a>
             </div>
           </Box>
@@ -197,7 +184,7 @@ const Introduction = (props) => {
             <Typography variant="h6" gutterBottom>
               Encryption powered by
               <Link href="https://openpgpjs.org/">
-                <img className={classes.image} src={openpgpjs50}></img>
+                <img className={classes.image} src={openpgpjs50} alt='OpenPGP.JS'></img>
               </Link>
             </Typography>
           </Box>

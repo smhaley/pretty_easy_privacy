@@ -14,18 +14,7 @@ import PassPhrase from "../utils/Passphrase";
 import KeyInput from "../utils/KeyInput";
 
 const useStyles = makeStyles((theme) => ({
-  // heading: {
-  //   marginTop: "15px",
-  //   marginBottom: "30px",
-  //   textAlign: "left",
-  // },
-  pwMeter: {
-    width: "225px",
-  },
-  pw: {
-    color: "#777fa7",
-    marginTop: "18px",
-  },
+
   textBox: {
     maxWidth: "700px",
   },

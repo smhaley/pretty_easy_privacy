@@ -13,17 +13,6 @@ import { snackLocation } from "../utils/config";
 const openpgp = require("openpgp");
 
 const useStyles = makeStyles((theme) => ({
-  // heading: {
-  //   marginBottom: theme.spacing(2),
-  //   textAlign: "left",
-  // },
-  pre: {
-    fontSize: "inherit",
-    color: "inherit",
-    border: "initial",
-    padding: "initial",
-    fontFamily: "inherit",
-  },
   root: {
     display: "flex",
     "& > * + *": {
@@ -121,9 +110,13 @@ const Encrypt = () => {
       <Box p={2}>
         <div className={classes.header}>
           {!success && <EncTypeTab handleType={handleEncType} />}
-          
+
           <Typography className={classes.heading} variant="h5" gutterBottom>
-            {encType === 0 ? <b>Passphrase Encryption</b> : <b>Key Encryption</b>}
+            {encType === 0 ? (
+              <b>Passphrase Encryption</b>
+            ) : (
+              <b>Key Encryption</b>
+            )}
           </Typography>
         </div>
         {success ? <Result reset={reset} armorTxt={armorTxt} /> : form}

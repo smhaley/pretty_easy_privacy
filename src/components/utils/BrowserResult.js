@@ -10,14 +10,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 const useStyles = makeStyles((theme) => ({
 
   result: {
-    // marginTop: '200px',
-    height: "100px",
-    width: "350px",
+    maxHeight: "100px",
+    maxWidth: "350px",
     overflowY: "scroll",
-  },
-  paper: {
-    height: "100px",
-    width: "350px",
   },
   button: {
     margin: "5px",
@@ -68,10 +63,8 @@ const useStyles = makeStyles((theme) => ({
             </IconButton>
           </Tooltip>
         </div>
-        <Paper className={classes.paper}>
-          <div className={classes.result}>
+        <Paper className={classes.result}>
             <pre id={inputId}>{keyIn}</pre>
-          </div>
         </Paper>
   
         <Snackbar

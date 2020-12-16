@@ -6,10 +6,6 @@ import Paper from "@material-ui/core/Paper";
 import ReactPlayer from "react-player/youtube";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    height: "180px",
-    width: "450px",
-  },
   image: {
     verticalAlign: "bottom",
   },
@@ -22,16 +18,10 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "pre-wrap",
     wordBreak: "keep-all",
   },
-
-  pw: {
-    color: "#777fa7",
-    marginTop: "18px",
-  },
-  textBox: {
-    maxWidth: "700px",
-  },
-  technical: {
-    backgroundColor: "#FAFAFA",
+  tryIt: {
+    margin: 0,
+    padding: 0,
+    lineHeight : '20px'
   },
   main: {
     paddingLeft: theme.spacing(2),
@@ -66,10 +56,9 @@ const Resources = (props) => {
             So what does encrypted data look like?
           </Typography>
           <p>Here is an example:</p>
-          <Paper className={classes.paper}>
-            <div className={classes.result}>
-              <pre>
-                {`-----BEGIN PGP MESSAGE-----
+          <Paper className={classes.result}>
+            <pre>
+              {`-----BEGIN PGP MESSAGE-----
 Version: OpenPGP.js v4.10.8
 Comment: https://openpgpjs.org
 
@@ -78,8 +67,7 @@ h8WB0ksBI6AFxdv/TcM9MIY6YNMzTjYUO/+OPnrVC14DihZxnbp75lwWvAQW
 zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
 =Id/5
 -----END PGP MESSAGE-----`}
-              </pre>
-            </div>
+            </pre>
           </Paper>
           <br />
           <Typography>Try it out!</Typography>

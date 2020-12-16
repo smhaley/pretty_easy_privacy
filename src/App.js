@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import Encrypt from "./components/encrypt/Encrypt";
-import Decrypt from "./components/decrypt/Decrypt";
-import KeyGen from "./components/key_gen/KeyGen";
+import React, { useState, Suspense, useEffect } from "react";
 import Introduction from "./components/main/Introduction";
 import GetStarted from "./components/main/GetStarted";
 import Link from "@material-ui/core/Link";
@@ -21,6 +18,15 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Resources from "./components/main/Resources";
+import DelayedFallback from './components/utils/DelayedFallback'
+
+
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { Container } from "@material-ui/core";
+
+const Encrypt = React.lazy(() => import("./components/encrypt/Encrypt"));
+const Decrypt = React.lazy(() => import("./components/decrypt/Decrypt"));
+const KeyGen = React.lazy(() => import("./components/key_gen/KeyGen"));
 
 const drawerWidth = 240;
 
@@ -30,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
   titleBarIcons: {
     marginLeft: "auto",
-    // flex: 1,
   },
   drawer: {
     zIndex: 0,
@@ -40,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
-    // position: "absolute",
     marginLeft: drawerWidth,
     [theme.breakpoints.up("md")]: {
       zIndex: theme.zIndex.drawer + 1,
@@ -52,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
@@ -62,30 +65,24 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 
   layout: {
     maxWidth: "650px",
-    // marginTop:0,
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
-    // [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-    //   width: 600,
-    //   marginLeft: "auto",
-    //   marginRight: "auto",
-    // },
   },
   paper: {
-    // backgroundColor:'blue',//'#f8f5fc',
-    // marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
-    // padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      // marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
-      // padding: theme.spacing(3),
     },
   },
 }));
+
 
 function App(props) {
   const { window } = props;
@@ -102,11 +99,24 @@ function App(props) {
   } else if (menuState === 3) {
     state = <Resources />;
   } else if (menuState === 4) {
-    state = <Encrypt />;
+    state = (
+      <Suspense fallback={<DelayedFallback />}>
+        <Encrypt />
+      </Suspense>
+    );
   } else if (menuState === 5) {
-    state = <Decrypt />;
+    state = (
+      <Suspense fallback={<DelayedFallback />}>
+        <Decrypt />
+      </Suspense>
+    );
   } else if (menuState === 6) {
-    state = <KeyGen />;
+    state = (
+      <Suspense fallback={<DelayedFallback />}>
+        {" "}
+        <KeyGen />
+      </Suspense>
+    );
   }
 
   const handleDrawerToggle = () => {
@@ -125,7 +135,7 @@ function App(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Introduction", "Get Started", 'Resources'].map((text, index) => (
+        {["Introduction", "Get Started", "Resources"].map((text, index) => (
           <ListItem
             button
             key={text}
@@ -182,6 +192,7 @@ function App(props) {
           </div>
         </Toolbar>
       </AppBar>
+
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
@@ -215,7 +226,6 @@ function App(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {/* <Paper className={classes.paper}>aaa</Paper> */}
         <div className={classes.layout}>
           <Paper className={classes.paper} elevation={0}>
             {state}

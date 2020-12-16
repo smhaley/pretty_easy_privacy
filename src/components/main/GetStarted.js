@@ -6,20 +6,10 @@ import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
-  pwMeter: {
-    width: "225px",
-  },
   image: {
     verticalAlign: "bottom",
   },
 
-  pw: {
-    color: "#777fa7",
-    marginTop: "18px",
-  },
-  textBox: {
-    maxWidth: "700px",
-  },
   technical: {
     backgroundColor: "#FAFAFA",
   },
@@ -33,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(2),
       paddingBottom: theme.spacing(2),
     },
-  },
-
-  reactPlayer: {
-    paddingTop: "56.25%;", // Percentage ratio for 16:9
-    position: "relative", // Set to relative
   },
 }));
 
@@ -56,10 +41,10 @@ const GetStarted = (props) => {
             Just a couple things...
           </Typography>
           <br />
-          <Typography variant="p" color="primary">
+          <Typography color="secondary">
             <b>
-              If you're just starting out with encryption we recommend that you
-              stick with Passphrase Encryption.
+              If you're just starting out, we recommend that you stick with
+              Passphrase Encryption.
             </b>
           </Typography>
           <p>
@@ -77,7 +62,7 @@ const GetStarted = (props) => {
           </p>
 
           <br />
-          <Typography variant="h6" color="secondary">
+          <Typography variant="h6" color="primary">
             Passphrase Encryption
           </Typography>
           <Divider />
@@ -127,13 +112,13 @@ const GetStarted = (props) => {
           </p>
           <p>Enter your passphrase. Done.</p>
 
-          <Typography color="primary">
+          <Typography color="secondary">
             <b>That's everything you need to passphrase encrypt your data!</b>{" "}
             🎉
           </Typography>
           <br />
           <br />
-          <Typography variant="h6" color="secondary">
+          <Typography variant="h6" color="primary">
             Key Based Encryption
           </Typography>
           <Divider />
@@ -148,7 +133,7 @@ const GetStarted = (props) => {
           </p>
           <p>
             Check the <b>Resources</b> section for more info on how asymmetric
-            encryption works. 
+            encryption works.
           </p>
           <p>If you think it's right for you, check out below.</p>
           <br />

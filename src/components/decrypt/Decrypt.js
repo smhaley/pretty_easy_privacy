@@ -21,13 +21,6 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: theme.spacing(2),
     },
   },
-  pre: {
-    fontSize: "inherit",
-    color: "inherit",
-    border: "initial",
-    padding: "initial",
-    fontFamily: "inherit",
-  },
   root: {
     display: "flex",
     "& > * + *": {

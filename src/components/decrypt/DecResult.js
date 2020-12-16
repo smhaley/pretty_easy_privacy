@@ -5,31 +5,14 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Display from "../utils/BrowserResult";
 import { mimes } from "../utils/utils";
-import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    paddingTop: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    padding: theme.spacing(2),
 
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-      paddingTop: theme.spacing(2),
+      padding: theme.spacing(2),
     },
-  },
-  result: {
-    // marginTop: '200px',
-    height: "100px",
-    width: "350px",
-    overflowY: "scroll",
-  },
-  paper: {
-    height: "100px",
-    width: "350px",
   },
   button: {
     margin: "5px",
@@ -61,7 +44,7 @@ const Result = (props) => {
       "pep_output_" +
       element.href.split("/")[3].split("-")[0] +
       "." +
-      decryptedVal.ext; //make random name
+      decryptedVal.ext;
     element.click();
     element.remove();
   };
@@ -70,7 +53,7 @@ const Result = (props) => {
     <div className={classes.main}>
       <Box pt={2}>
         <Typography variant="h6" gutterBottom>
-          Decrypted Data::
+          Decrypted Data
         </Typography>
 
         <Box mb={2} pr={4}>
@@ -83,13 +66,7 @@ const Result = (props) => {
           >
             {!openEnc ? "In Browser" : "Hide"}
           </Button>
-          {disableCopy && (
-            <FormHelperText style={{ paddingLeft: "8px" }}>
-              Result too Large
-            </FormHelperText>
-          )}
           <Button
-            // onClick={() => props.outputTag.click()}
             onClick={() => outputHandler(outbound)}
             variant="outlined"
             color={"secondary"}

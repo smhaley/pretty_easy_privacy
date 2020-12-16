@@ -5,29 +5,19 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Display from "../utils/BrowserResult";
-import FormHelperText from "@material-ui/core/FormHelperText";
-
-//todo disbale in browser if 'larger'
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    paddingTop: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    padding: theme.spacing(2),
 
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-      paddingTop: theme.spacing(2),
+      padding: theme.spacing(2),
     },
   },
 
   result: {
-    // marginTop: '200px',
-    height: "100px",
-    width: "350px",
+    maxHeight: "100px",
+    maxWidth: "350px",
     overflowY: "scroll",
   },
   paper: {
@@ -38,8 +28,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "5px",
   },
 }));
-
-//id, armorTxt
 
 const Result = (props) => {
   const classes = useStyles();
@@ -64,14 +52,14 @@ const Result = (props) => {
         <Typography variant="h6" gutterBottom>
           Encrypted Data:
         </Typography>
-        <Box >
+        <Box>
           <p>Here are your results.</p>
           <p> We recommend downloading the file.</p>
           <p>
             Don't worry, if you prefer working with text yourself, we provide
             that too.{" "}
           </p>
-          <br/>
+          <br />
         </Box>
         <Box mb={2} pr={4}>
           <Button
@@ -92,11 +80,6 @@ const Result = (props) => {
           >
             Download
           </Button>
-          {disableCopy && (
-            <FormHelperText style={{ paddingLeft: "8px" }}>
-              Result too Large
-            </FormHelperText>
-          )}
           {openEnc && <Display val={armorTxt.armorTxt} id="encryptedResult" />}
         </Box>
         <Box>

@@ -20,13 +20,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 //todo file type (text, csv) or image based
 
 const useStyles = makeStyles((theme) => ({
-  pwMeter: {
-    width: "225px",
-  },
-  pw: {
-    color: "#777fa7",
-    marginTop: "18px",
-  },
+
   textBox: {
     maxWidth: "700px",
   },
@@ -35,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     width: "225px",
   },
   buttonProgress: {
-    // color: green[500],
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -72,8 +65,6 @@ const InFile = (props) => {
   );
   return (
     <Box>
-      {/* <FormLabel component="legend">Select a File Object:</FormLabel> */}
-      {/* <Box mt={1}> */}
       <Button
         onClick={() => document.getElementById("inp").click()}
         variant="outlined"

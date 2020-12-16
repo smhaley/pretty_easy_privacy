@@ -35,10 +35,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "5px",
   },
 
-  alert: {
-    width: "200px",
-    height: "10px",
-  },
 }));
 
 const KeyGen = (props) => {
