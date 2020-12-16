@@ -75,7 +75,7 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
             <p>
               Head over to <b>Decrypt</b>.
             </p>
-            <p>Select text input.</p>
+            <p>Select <b>Paste my gibberish</b>.</p>
             <p>Select .txt file type.</p>
             <p>
               Enter <b>bad!</b> into the password field.

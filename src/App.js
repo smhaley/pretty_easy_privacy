@@ -16,19 +16,16 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Resources from "./components/main/Resources";
-import DelayedFallback from './components/utils/DelayedFallback'
-
-
-import LinearProgress from "@material-ui/core/LinearProgress";
-import { Container } from "@material-ui/core";
+import DelayedFallback from "./components/utils/DelayedFallback";
 
 const Encrypt = React.lazy(() => import("./components/encrypt/Encrypt"));
 const Decrypt = React.lazy(() => import("./components/decrypt/Decrypt"));
 const KeyGen = React.lazy(() => import("./components/key_gen/KeyGen"));
 
-const drawerWidth = 240;
+const drawerWidth = 254;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,9 +77,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginBottom: theme.spacing(6),
     },
+    selectText: {
+      textAlight: "right",
+    },
   },
 }));
-
 
 function App(props) {
   const { window } = props;
@@ -147,9 +146,11 @@ function App(props) {
         ))}
       </List>
       <Divider />
+      {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
       <List>
         {Object.keys(pages2).map((text, index) => (
           <ListItem
+            style={{ display: "flex", justifyContent: "flex-end" }}
             button
             selected={pages2[text] === menuState}
             value={pages2[text]}
@@ -160,6 +161,7 @@ function App(props) {
           </ListItem>
         ))}
       </List>
+     {/* </div> */}
     </div>
   );
 
@@ -192,7 +194,6 @@ function App(props) {
           </div>
         </Toolbar>
       </AppBar>
-
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
