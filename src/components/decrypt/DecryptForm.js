@@ -3,8 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
-import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -12,15 +10,12 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import KeyInput from "../utils/KeyInput";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormHelperText from "@material-ui/core/FormHelperText";
-
-//todo file type (text, csv) or image based
+import InFile from "../utils/InFile";
 
 const useStyles = makeStyles((theme) => ({
-
   textBox: {
     maxWidth: "700px",
   },
@@ -48,50 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InFile = (props) => {
-  // const classes = useStyles();
-
-  const handleDelete = () => {
-    props.setUploadedFile(null);
-    props.setFileMetaData(null);
-  };
-  const selectedFile = props.fileMetaData && (
-    <>
-      <FormLabel>{`Selected: ${props.fileMetaData.name}`}</FormLabel>
-      <IconButton onClick={handleDelete}>
-        <DeleteOutlineSharpIcon />
-      </IconButton>
-    </>
-  );
-  return (
-    <Box>
-      <Button
-        onClick={() => document.getElementById("inp").click()}
-        variant="outlined"
-        color="secondary"
-      >
-        Browse for PGP File
-      </Button>{" "}
-      {selectedFile}
-      {props.formByteInputError && (
-        <p
-          class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
-          id="pw-in-helper-text"
-        >
-          File Required
-        </p>
-      )}
-      <input
-        id="inp"
-        type="file"
-        style={{ visibility: "hidden" }}
-        onChange={props.readFile}
-      />
-      {/* </Box> */}
-    </Box>
-  );
-};
-
 const DecryptForm = (props) => {
   const classes = useStyles();
 
@@ -106,13 +57,17 @@ const DecryptForm = (props) => {
   const [textInput, textInputState] = useState("");
   const [errors, setErrors] = useState(resetErrors);
   const [passPhrase, passPhraseState] = useState("");
-  const [uploadedFile, setUploadedFile] = useState();
   const [fileType, setFileType] = useState("");
   const [fileExt, setFileExt] = useState("");
   const [fileMetaData, setFileMetaData] = useState();
 
   const handlePassPhrase = (e) => {
     passPhraseState(e.target.value);
+  };
+
+  const handleDelete = () => {
+    textInputState(undefined);
+    setFileMetaData(undefined);
   };
 
   const handleFileType = (e) => {
@@ -128,14 +83,19 @@ const DecryptForm = (props) => {
   const readFile = (e) => {
     var file = e.target.files[0];
     if (!file) return;
-    var reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+    let reader = new FileReader();
+    reader.readAsText(file);
 
-    reader.onload = function () {
-      setUploadedFile(new Uint8Array(reader.result));
+    let metaData = { name: file.name, type: file.type.replace("/", "_") };
+
+    reader.onloadend = () => {
+      setFileMetaData(metaData);
+      textInputState(reader.result);
     };
-    reader.onerror = function () {};
+
+    reader.onerror = () => {
+      textInputState(undefined);
+    };
   };
 
   //text input
@@ -174,8 +134,8 @@ const DecryptForm = (props) => {
         fileMetaData={fileMetaData}
         formByteInputError={errors.formByteInputError}
         readFile={readFile}
-        setUploadedFile={setUploadedFile}
-        setFileMetaData={setFileMetaData}
+        handleDelete={handleDelete}
+        label="Browse for Encrypted File"
       />
     );
   }
@@ -195,7 +155,7 @@ const DecryptForm = (props) => {
     if (inputTypeSelect === "text" && (!textInput || textInput === "")) {
       textErr = true;
       totalErr = true;
-    } else if (inputTypeSelect === "byte" && !uploadedFile) {
+    } else if (inputTypeSelect === "byte" && (!textInput || textInput === "")) {
       totalErr = true;
       byteErr = true;
     }
@@ -235,32 +195,35 @@ const DecryptForm = (props) => {
     let aes, rsa;
     props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
 
-    if (fileType === "text") {
-      props.byteDecrypt(aes, rsa, textInput, {
-        fileType: fileType,
-        ext: fileExt,
-      });
-    } else if (fileType === "byte") {
-      props.byteDecrypt(aes, rsa, textInput, {
-        fileType: fileType,
-        ext: fileExt,
-      });
-    }
+    props.byteDecrypt(aes, rsa, textInput, {
+      fileType: fileType,
+      ext: fileExt,
+    });
   };
+
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <div className={classes.main}>
         <Box mb={2}>
           <Box pt={2} pb={2}>
-            <p>Simply supply you encrypted file or text.</p>
-            <p>Let us know the expected output format.</p>
+            Simply supply your encrypted file or text.
+            <br />
+            Let us know the expected output format.
+            <br />
             {props.encType === 0 ? (
-              <p>Supply your passphrase.</p>
+              <>
+                {" "}
+                Supply your passphrase.
+                <br />{" "}
+              </>
             ) : (
-              <p>Supply your private key and passphrase.</p>
+              <>
+                Supply your private key and passphrase.
+                <br />
+              </>
             )}
-
-            <p>Decrypt.</p>
+            Decrypt.
+            <br />
           </Box>
           <FormControl component="fieldset">
             {/* <FormLabel component="legend">Input Format</FormLabel> */}

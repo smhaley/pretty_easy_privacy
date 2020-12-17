@@ -2,7 +2,7 @@
   "name": "crypto_demo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://prettyeasyprivacy.xyz",
+  "homepage": "http://github_shawnh87.github.io/pretty_easy_privacy",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",

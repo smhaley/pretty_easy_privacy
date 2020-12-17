@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   tryIt: {
     margin: 0,
     padding: 0,
-    lineHeight : '20px'
+    lineHeight: "20px",
   },
   main: {
     paddingLeft: theme.spacing(2),
@@ -72,16 +72,18 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           <br />
           <Typography>Try it out!</Typography>
           <Box pl={2}>
-            <p>
-              Head over to <b>Decrypt</b>.
-            </p>
-            <p>Select <b>Paste my gibberish</b>.</p>
-            <p>Select .txt file type.</p>
-            <p>
-              Enter <b>bad!</b> into the password field.
-            </p>
-            <p>Hit Decrypt!</p>
-            <p>See the result?</p>
+            Head over to <b>Decrypt</b>.
+            <br />
+            Select <b>Paste my gibberish</b>.
+            <br />
+            Select .txt file type.
+            <br />
+            Enter <b>bad!</b> into the password field.
+            <br />
+            Hit Decrypt!
+            <br />
+            See the result?
+            <br />
           </Box>
           <br />
           <Typography variant="h6" gutterBottom>

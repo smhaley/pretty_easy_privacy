@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
-import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import PassPhrase from "../utils/Passphrase";
 import KeyInput from "../utils/KeyInput";
+import InFile from "../utils/InFile";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -31,63 +28,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InFile = (props) => {
-  const classes = useStyles();
-
-  const handleDelete = () => {
-    props.setUploadedFile(null);
-    props.setFileMetaData(null);
-  };
-  const selectedFile = props.fileMetaData && (
-    <>
-      <FormLabel>{`Selected: ${props.fileMetaData.name}`}</FormLabel>
-      <IconButton onClick={handleDelete}>
-        <DeleteOutlineSharpIcon />
-      </IconButton>
-    </>
-  );
-  return (
-    <Box>
-      <Box mt={1}>
-        <Button
-          onClick={() => document.getElementById("inp").click()}
-          variant="outlined"
-          color="secondary"
-        >
-          Browse for file
-        </Button>{" "}
-        {selectedFile}
-        {props.formByteInputError && (
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
-            id="pw-in-helper-text"
-          >
-            File Required
-          </p>
-        )}
-        <input
-          id="inp"
-          type="file"
-          style={{ visibility: "hidden" }}
-          onChange={props.readFile}
-        />
-      </Box>
-    </Box>
-  );
-};
-
 const EncryptForm = (props) => {
   const classes = useStyles();
-
-  //update-> handle all Files wor here. send up to handle enc + output
-  //on unmout clear all state
-  //is pw comp to handle all passphrase work
 
   const [inputTypeSelect, setInputTypeSelect] = useState("byte");
   const [textInput, textInputState] = useState("");
   const [formTextInputError, setFormTextInputError] = useState(false);
   const [formByteInputError, setFormByteInputError] = useState(false);
-
   const [uploadedFile, setUploadedFile] = useState();
   const [fileMetaData, setFileMetaData] = useState();
 
@@ -96,16 +43,22 @@ const EncryptForm = (props) => {
     if (!file) return;
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
-    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+    
 
-    reader.onload = function () {
+    reader.onloadend = () => {
       setUploadedFile(new Uint8Array(reader.result));
+      setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
     };
 
-    reader.onerror = function () {};
+    reader.onerror = () => {setUploadedFile(undefined)};
   };
 
-  //text input
+ 
+  const handleDelete = () => {
+    setUploadedFile(undefined);
+    setFileMetaData(undefined);
+  };
+
   const handleTextInput = (e) => {
     textInputState(e.target.value);
   };
@@ -138,8 +91,8 @@ const EncryptForm = (props) => {
         fileMetaData={fileMetaData}
         formByteInputError={formByteInputError}
         readFile={readFile}
-        setUploadedFile={setUploadedFile}
-        setFileMetaData={setFileMetaData}
+        handleDelete={handleDelete}
+        label='Browse for File'
       />
     );
   }

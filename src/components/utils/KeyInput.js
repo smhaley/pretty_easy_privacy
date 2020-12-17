@@ -15,7 +15,7 @@ import Alert from "@material-ui/lab/Alert";
 import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {snackLocation} from '../utils/config';
-import { grey } from "@material-ui/core/colors";
+import InFile from "../utils/InFile";
 
 const openpgp = require("openpgp");
 
@@ -43,52 +43,9 @@ const useStyles = makeStyles((theme) => ({
 }
 ));
 
-const InFile = (props) => {
-  const handleDelete = () => {
-    props.setUploadedFile(null);
-    props.setFileMetaData(null);
-  };
-  const selectedFile = props.fileMetaData && (
-    <>
-      <FormLabel>{`Selected: ${props.fileMetaData.name}`}</FormLabel>
-      <IconButton onClick={handleDelete}>
-        <DeleteOutlineSharpIcon />
-      </IconButton>
-    </>
-  );
-  return (
-    <Box>
-      <Box mt={1}>
-        <Button
-          onClick={() => document.getElementById("keyInput").click()}
-          variant="outlined"
-          color="secondary"
-        >
-          Browse for RSA Key
-        </Button>
-
-        {selectedFile}
-        {props.err.err && (
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
-            id="pw-in-helper-text"
-          >
-            {props.err.message}
-          </p>
-        )}
-        <input
-          id="keyInput"
-          type="file"
-          style={{ visibility: "hidden" }}
-          onChange={props.readFile}
-        />
-      </Box>
-    </Box>
-  );
-};
-
 const KeyInput = (props) => {
   const classes = useStyles();
+  console.log('mount')
 
   let privateKey = props.privateKey
   let encrypt = props.encrypt
@@ -105,6 +62,12 @@ const KeyInput = (props) => {
   const [passPhrase, setPassPhrase] = useState("");
 
   const handlePassPhrase = (e) => setPassPhrase(e.target.value);
+
+
+  const handleDelete = () => {
+    setByteKey(undefined);
+    setFileMetaData(undefined);
+  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -126,11 +89,12 @@ const KeyInput = (props) => {
     if (!file) return;
     var reader = new FileReader();
     reader.readAsText(file);
-    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
-    reader.onload = () => {
+
+    reader.onloadend = () => {
+      setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
       setByteKey(reader.result);
     };
-    reader.onerror = function () {};
+    reader.onerror = () => {setByteKey(undefined)};
   };
 
   let inputType;
@@ -152,16 +116,25 @@ const KeyInput = (props) => {
   } else {
     inputType = (
       <InFile
-        buttonLabel={"key browse"}
+        formByteInputError={formByteInputError.err}
+        errMessage={formByteInputError.err.message}
         fileMetaData={fileMetaData}
-        err={formByteInputError}
-        formByteInputError={formByteInputError}
+        label='Key Browse'
+        buttonLabel={"key browse"}
+        handleDelete={handleDelete}
+        fileMetaData={fileMetaData}
         readFile={readKey}
-        setUploadedFile={setByteKey}
-        setFileMetaData={setFileMetaData}
+
+
+        // err={formByteInputError}
+        // formByteInputError={formByteInputError}
+        // readFile={readKey}
+        // setUploadedFile={setByteKey}
+        // setFileMetaData={setFileMetaData}
       />
     );
   }
+  console.log(formByteInputError)
 
   const removeErrors = () => {
     setAlert(resetAlert);

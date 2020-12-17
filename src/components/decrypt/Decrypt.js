@@ -47,6 +47,7 @@ const Decrypt = (props) => {
   const byteDecrypt = async (passPhrase, privateKey, textInput, decType) => {
     setLoader(true);
     setAlert(utils.resetAlert);
+    console.log('ddec', textInput)
 
     let encIn;
     try {
