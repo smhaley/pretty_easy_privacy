@@ -53,12 +53,12 @@ const Result = (props) => {
           Encrypted Data:
         </Typography>
         <Box>
-          <p>Here are your results.</p>
-          <p> We recommend downloading the file.</p>
-          <p>
+          Here are your results.<br/>
+           We recommend downloading the file.<br/>
+          
             Don't worry, if you prefer working with text yourself, we provide
             that too.{" "}
-          </p>
+          <br/>
           <br />
         </Box>
         <Box mb={2} pr={4}>

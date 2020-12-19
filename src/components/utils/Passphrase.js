@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+
 const useStyles = makeStyles((theme) => ({
   pwInput: {
     width: "225px",
@@ -46,7 +47,7 @@ const PassPhraseConfirm = (props) => {
 
   const label = props.confirmError
     ? "Please Try Again"
-    : "PassPhrase Confirmation";
+    : "Passphrase Confirmation";
 
   return (
     <div>
@@ -56,7 +57,7 @@ const PassPhraseConfirm = (props) => {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          PassPhrase Confirmation
+          Passphrase Confirmation
         </DialogTitle>
         <DialogContent>
           <DialogContentText>

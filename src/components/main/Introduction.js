@@ -7,7 +7,7 @@ import openpgpjs50 from "../imgs/openpgpjs50.png";
 import whatsapp from "../imgs/whatsapp.png";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Link from "@material-ui/core/Link";
-import ReactPlayer from "react-player/youtube";
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -68,8 +68,7 @@ const Introduction = (props) => {
             headache.
           </p>
           <p>
-            At it's core, PEP offers three simple input forms: Passphrase file
-            encryption, Asymmetric file encryption, and Key Generation.
+            At it's core, PEP offers three simple input forms: encryption, decryption, and key generation.
           </p>
           <br />
           <Typography variant="h6" gutterBottom>

@@ -144,10 +144,10 @@ const DecryptForm = (props) => {
     e && e.preventDefault();
     setErrors(resetErrors);
 
-    let byteErr,
-      textErr,
-      pwErr,
-      fileTypeErr,
+    let byteErr=false,
+      textErr=false,
+      pwErr= false,
+      fileTypeErr = false,
       fileExtErr = false;
 
     let totalErr = false;

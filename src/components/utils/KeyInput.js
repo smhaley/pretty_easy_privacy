@@ -3,8 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
-import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -16,13 +14,12 @@ import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {snackLocation} from '../utils/config';
 import InFile from "../utils/InFile";
+import Typography from "@material-ui/core/Typography";
 
 const openpgp = require("openpgp");
 
 const useStyles = makeStyles((theme) => ({
-  keyHead: {
-    color: "rgba(0, 0, 0, 0.54)",
-  },
+
   buttonProgress: {
     position: "absolute",
     top: "50%",
@@ -30,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -12,
     marginLeft: -12,
   },
-  hr: {
-    color: "rgba(0, 0, 0, 0.54)",
-  },
+
   main: {
     backgroundColor: '#FAFAFA',
     padding: theme.spacing(2),
@@ -226,10 +221,9 @@ const KeyInput = (props) => {
       )}
       <Box>
         <Box>
-          {/* <hr className={classes.hr}></hr> */}
-          <div className={classes.keyHead}>
-            <h3>Key Input</h3>
-          </div>
+        <Typography color='textPrimary' variant="h6" gutterBottom>
+            <b>Key Input</b>
+          </Typography>
           <FormControl component="fieldset">
             <RadioGroup
               row
@@ -262,15 +256,13 @@ const KeyInput = (props) => {
           <Box pt={3}>
             <TextField
               required
-              helperText={passPhraseError && "PassPhrase Required!"}
+              helperText={passPhraseError && "Passphrase Required!"}
               onChange={handlePassPhrase}
-              // className={props.class}
               error={passPhraseError}
               id="pw-in private key"
               type="password"
-              label={"Private Key PassPhrase"}
+              label={"Private Key Passphrase"}
               variant="outlined"
-              // variant="filled"
             />
           </Box>
         )}

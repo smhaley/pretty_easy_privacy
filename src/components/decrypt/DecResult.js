@@ -53,7 +53,7 @@ const Result = (props) => {
     <div className={classes.main}>
       <Box pt={2}>
         <Typography variant="h6" gutterBottom>
-          Decrypted Data
+          Decrypted Data:
         </Typography>
 
         <Box mb={2} pr={4}>

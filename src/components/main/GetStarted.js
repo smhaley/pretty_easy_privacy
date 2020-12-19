@@ -95,12 +95,12 @@ const GetStarted = (props) => {
           </Typography>
           <p>
             What goes in must come out! So with your file of encrypted gibberish
-            head on over the <b>Decrypt</b>.
+            head on over the <b>Decrypt</b> section.
           </p>
 
           <p>
-            Dealer's choice, paste in the contents of your file of directly
-            upload it. Just remember, format does matter.
+            Dealer's choice, paste in the contents of your file or directly
+            upload. Just remember, format does matter.
           </p>
           <p>One. Extra. Step.</p>
           <p>
@@ -194,11 +194,11 @@ const GetStarted = (props) => {
             </Typography>
             <p>
               Remember that top selector we mentioned for asymmetric encrytion?
-              Same deal for decrytpion.
+              Same deal for decryption.
             </p>
             <p>
               Just fill out the form, let us know what format you expect the
-              output file to be (text, csv, or literally anyting else). Upload
+              output file to be (text, csv, or most anything else). Upload
               or enter your <b>private key</b> and affiliated passphrase.
             </p>
             <p>That's all there is to it.</p>

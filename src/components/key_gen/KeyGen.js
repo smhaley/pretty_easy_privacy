@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import PassPhrase from "../utils/Passphrase";
 
@@ -34,11 +33,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: "5px",
   },
-
 }));
 
 const KeyGen = (props) => {
-
   const classes = useStyles();
   const [key, setKey] = useState(undefined);
   const [keyFields, setKeyFields] = useState({ name: "", email: "", pw: "" });
@@ -120,11 +117,11 @@ const KeyGen = (props) => {
                 <b> RSA Key Generation</b>
               </Typography>
               <Box pb={4} pt={2}>
-                <p>Creating Keys is simple. Just fill out this form.</p>
-                <p>
-                  No worries if you don't want to use your name or email addres.
-                  Just make one up!
-                </p>
+                Creating Keys is simple. Just fill out this form.
+                <br />
+                No worries if you don't want to use your name or email addres.
+                Just make one up!
+                <br />
                 <b>Just don't lose you Private Key and Passphrase!</b>
               </Box>
               <Box pb={4}>
@@ -191,94 +188,92 @@ const Result = (props) => {
   let encKeys = props.encKeys;
 
   return (
-      <div className={classes.main}>
-        <Box>
-          <Typography className={classes.heading} variant="h5" gutterBottom>
-            <b> Key Results </b>
+    <div className={classes.main}>
+      <Box>
+        <Typography className={classes.heading} variant="h5" gutterBottom>
+          <b> Key Results </b>
+        </Typography>
+        <br />
+        <br />
+
+        <Typography
+          className={classes.heading}
+          color="primary"
+          variant="h6"
+          gutterBottom
+        >
+          Private Key
+        </Typography>
+
+        <Box pb={2}>
+          <Typography color="error">
+            <b>The private is private. NEVER SHARE YOUR PRIVATE KEY</b>
           </Typography>
-          <br />
-          <br />
-
-          <Typography
-            className={classes.heading}
-            color="primary"
-            variant="h6"
-            gutterBottom
-          >
-            Private Key
-          </Typography>
-
-          <Box pb={2}>
-            <Typography color="error">
-              <b>The private is private. NEVER SHARE YOUR PRIVATE KEY</b>
-            </Typography>
-            <p>
-              Use the private key for decrypting data encrypted with your public
-              key.
-            </p>
-          </Box>
-          <Box pb={4}>
-            <Button
-              onClick={() => setOpenPriv(!openPriv)}
-              variant="outlined"
-              color={"primary"}
-              className={classes.button}
-            >
-              {openPriv ? "Hide" : "In Browser"}
-            </Button>
-            <Button
-              onClick={() => dlKey(encKeys.privateKeyArmored, "private_key")}
-              variant="outlined"
-              color={"primary"}
-              className={classes.button}
-            >
-              Download
-            </Button>
-
-            {openPriv && (
-              <Display val={encKeys.privateKeyArmored} id="privateKey" />
-            )}
-          </Box>
-          <Typography
-            color="secondary"
-            className={classes.heading}
-            variant="h6"
-            gutterBottom
-          >
-            Public Key
-          </Typography>
-
-          <Box pb={2}>
-            <p>The public key is public. You could share it with anyone.</p>
-            <p>
-              The public key encrypts files that only your private key can
-              decrypt.
-            </p>
-          </Box>
-          <Box mb={2}>
-            <Button
-              onClick={() => setOpenPub(!openPub)}
-              variant="outlined"
-              color={"secondary"}
-              className={classes.button}
-            >
-              {openPub ? "Hide" : "In Browser"}
-            </Button>
-            <Button
-              onClick={() => dlKey(encKeys.publicKeyArmored, "public_key")}
-              variant="outlined"
-              color={"secondary"}
-              className={classes.button}
-            >
-              Download
-            </Button>
-
-            {openPub && (
-              <Display val={encKeys.publicKeyArmored} id="publicKey" />
-            )}
-          </Box>
+          <p>
+            Use the private key for decrypting data encrypted with your public
+            key.
+          </p>
         </Box>
-      </div>
+        <Box pb={4}>
+          <Button
+            onClick={() => setOpenPriv(!openPriv)}
+            variant="outlined"
+            color={"primary"}
+            className={classes.button}
+          >
+            {openPriv ? "Hide" : "In Browser"}
+          </Button>
+          <Button
+            onClick={() => dlKey(encKeys.privateKeyArmored, "private_key")}
+            variant="outlined"
+            color={"primary"}
+            className={classes.button}
+          >
+            Download
+          </Button>
+
+          {openPriv && (
+            <Display val={encKeys.privateKeyArmored} id="privateKey" />
+          )}
+        </Box>
+        <Typography
+          color="secondary"
+          className={classes.heading}
+          variant="h6"
+          gutterBottom
+        >
+          Public Key
+        </Typography>
+
+        <Box pb={2}>
+          <p>The public key is public. You could share it with anyone.</p>
+          <p>
+            The public key encrypts files that only your private key can
+            decrypt.
+          </p>
+        </Box>
+        <Box mb={2}>
+          <Button
+            onClick={() => setOpenPub(!openPub)}
+            variant="outlined"
+            color={"secondary"}
+            className={classes.button}
+          >
+            {openPub ? "Hide" : "In Browser"}
+          </Button>
+          <Button
+            onClick={() => dlKey(encKeys.publicKeyArmored, "public_key")}
+            variant="outlined"
+            color={"secondary"}
+            className={classes.button}
+          >
+            Download
+          </Button>
+
+          {openPub && <Display val={encKeys.publicKeyArmored} id="publicKey" />}
+        </Box>
+      </Box>
+    </div>
   );
 };
 export default KeyGen;

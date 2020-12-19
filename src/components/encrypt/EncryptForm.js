@@ -96,10 +96,8 @@ const EncryptForm = (props) => {
       />
     );
   }
-
+  
   const handleFormSubmit = () => {
-    //TODO Needed?
-    // e && e.preventDefault();
     setFormTextInputError(false);
     setFormByteInputError(false);
 
@@ -134,7 +132,7 @@ const EncryptForm = (props) => {
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <div className={classes.main}>
         <Box pt={2} pb={2}>
-          <p>To Encrypt, simply fill out this form.</p>
+          To Encrypt, simply fill out this form.<br/>
           {props.encType === 0 && <b>Just don't lose your Passphrase!</b>}
         </Box>
         <Box mb={2}>
