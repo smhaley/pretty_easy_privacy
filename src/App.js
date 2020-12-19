@@ -16,16 +16,17 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Resources from "./components/main/Resources";
 import DelayedFallback from "./components/utils/DelayedFallback";
+
 
 const Encrypt = React.lazy(() => import("./components/encrypt/Encrypt"));
 const Decrypt = React.lazy(() => import("./components/decrypt/Decrypt"));
 const KeyGen = React.lazy(() => import("./components/key_gen/KeyGen"));
 
 const drawerWidth = 254;
+const drawerPercent = "20%";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,10 +35,29 @@ const useStyles = makeStyles((theme) => ({
   titleBarIcons: {
     marginLeft: "auto",
   },
+  leftIcons: {
+    marginLeft: theme.spacing(5),
+    [theme.breakpoints.up("md")]: {
+      marginLeft: "7%",
+    },
+  },
+
+
+  rightIcons: {
+    marginRight: "0%",
+
+    [theme.breakpoints.up("lg")]: {
+      marginRight: "20%",
+    },
+    [theme.breakpoints.up("xl")]: {
+      marginRight: "30%",
+    },
+  },
   drawer: {
     zIndex: 0,
     [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
+      width: drawerPercent,
+      minWidth: drawerWidth,
       flexShrink: 0,
     },
   },
@@ -54,9 +74,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   toolbar: theme.mixins.toolbar,
+
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerPercent,
+    minWidth: drawerWidth,
     padding: theme.spacing(3),
+    [theme.breakpoints.up("md")]: {
+     paddingLeft: "5%",
+    },
   },
   content: {
     flexGrow: 1,
@@ -68,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   layout: {
-    maxWidth: "650px",
+    maxWidth: "700px",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
   },
@@ -132,6 +157,7 @@ function App(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
+      
       <Divider />
       <List>
         {["Introduction", "Get Started", "Resources"].map((text, index) => (
@@ -145,12 +171,12 @@ function App(props) {
           </ListItem>
         ))}
       </List>
+
       <Divider />
-      {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
       <List>
+      
         {Object.keys(pages2).map((text, index) => (
           <ListItem
-            style={{ display: "flex", justifyContent: "flex-end" }}
             button
             selected={pages2[text] === menuState}
             value={pages2[text]}
@@ -160,8 +186,9 @@ function App(props) {
             <ListItemText primary={text} />
           </ListItem>
         ))}
+         
       </List>
-     {/* </div> */}
+     
     </div>
   );
 
@@ -173,6 +200,7 @@ function App(props) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
+          <div className={classes.leftIcons}></div>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -185,16 +213,17 @@ function App(props) {
           <Typography variant="h6" noWrap>
             Pretty Easy Privacy
           </Typography>
-          <div className={classes.titleBarIcons}>
+          <div style={{ marginLeft: "auto" }}>
             <IconButton aria-label="github.com">
               <Link href="https://github.com/shawnh87/pretty_easy_privacy">
                 <GitHubIcon color="secondary" />
               </Link>
             </IconButton>
           </div>
+          <div className={classes.rightIcons}></div>
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav className={classes.drawer}>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
