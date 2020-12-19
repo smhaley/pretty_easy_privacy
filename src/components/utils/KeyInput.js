@@ -121,14 +121,8 @@ const KeyInput = (props) => {
         label="Key Browse"
         buttonLabel={"key browse"}
         handleDelete={handleDelete}
-        fileMetaData={fileMetaData}
         readFile={readKey}
-
-        // err={formByteInputError}
-        // formByteInputError={formByteInputError}
-        // readFile={readKey}
-        // setUploadedFile={setByteKey}
-        // setFileMetaData={setFileMetaData}
+        uploading={uploading}
       />
     );
   }

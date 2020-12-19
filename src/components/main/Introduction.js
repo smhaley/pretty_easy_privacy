@@ -117,7 +117,7 @@ const Introduction = (props) => {
             The site is statically hosted entirely on github.
             <b> No data is being transferred from your device to a server. </b>
           </p>
-          <p>More simply, the ✨ happens right in your browser!</p>
+          <p>More simply, the <span role='img' aria-label='magic'>✨</span> happens right in your browser!</p>
           <p>
             <Link
               href="https://github.com/shawnh87/pretty_easy_privacy"

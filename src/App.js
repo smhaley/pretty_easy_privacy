@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useEffect } from "react";
+import React, { useState, Suspense } from "react";
 import Introduction from "./components/main/Introduction";
 import GetStarted from "./components/main/GetStarted";
 import Link from "@material-ui/core/Link";
