@@ -12,14 +12,13 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {snackLocation} from '../utils/config';
+import { snackLocation } from "../utils/config";
 import InFile from "../utils/InFile";
 import Typography from "@material-ui/core/Typography";
 
 const openpgp = require("openpgp");
 
 const useStyles = makeStyles((theme) => ({
-
   buttonProgress: {
     position: "absolute",
     top: "50%",
@@ -29,21 +28,20 @@ const useStyles = makeStyles((theme) => ({
   },
 
   main: {
-    backgroundColor: '#FAFAFA',
+    backgroundColor: "#FAFAFA",
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       padding: theme.spacing(2),
     },
-  }
-}
-));
+  },
+}));
 
 const KeyInput = (props) => {
   const classes = useStyles();
-  console.log('mount')
+  console.log("mount");
 
-  let privateKey = props.privateKey
-  let encrypt = props.encrypt
+  let privateKey = props.privateKey;
+  let encrypt = props.encrypt;
 
   let resetErr = { err: false, key: false, message: false };
 
@@ -55,9 +53,9 @@ const KeyInput = (props) => {
   const [fileMetaData, setFileMetaData] = useState();
   const [passPhraseError, setPassPhraseError] = useState(false);
   const [passPhrase, setPassPhrase] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const handlePassPhrase = (e) => setPassPhrase(e.target.value);
-
 
   const handleDelete = () => {
     setByteKey(undefined);
@@ -83,13 +81,19 @@ const KeyInput = (props) => {
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
+    setUploading(true);
+
     reader.readAsText(file);
 
     reader.onloadend = () => {
       setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
       setByteKey(reader.result);
+      setUploading(false);
     };
-    reader.onerror = () => {setByteKey(undefined)};
+    reader.onerror = () => {
+      setByteKey(undefined);
+      setUploading(false);
+    };
   };
 
   let inputType;
@@ -114,12 +118,11 @@ const KeyInput = (props) => {
         formByteInputError={formByteInputError.err}
         errMessage={formByteInputError.err.message}
         fileMetaData={fileMetaData}
-        label='Key Browse'
+        label="Key Browse"
         buttonLabel={"key browse"}
         handleDelete={handleDelete}
         fileMetaData={fileMetaData}
         readFile={readKey}
-
 
         // err={formByteInputError}
         // formByteInputError={formByteInputError}
@@ -129,7 +132,7 @@ const KeyInput = (props) => {
       />
     );
   }
-  console.log(formByteInputError)
+  console.log(formByteInputError);
 
   const removeErrors = () => {
     setAlert(resetAlert);
@@ -221,7 +224,7 @@ const KeyInput = (props) => {
       )}
       <Box>
         <Box>
-        <Typography color='textPrimary' variant="h6" gutterBottom>
+          <Typography color="textPrimary" variant="h6" gutterBottom>
             <b>Key Input</b>
           </Typography>
           <FormControl component="fieldset">
@@ -267,15 +270,20 @@ const KeyInput = (props) => {
           </Box>
         )}
         <Box pt={3}>
-          <Button variant="contained" color={"primary"} onClick={handleSubmit} disabled={props.loading}>
+          <Button
+            variant="contained"
+            color={"primary"}
+            onClick={handleSubmit}
+            disabled={props.loading}
+          >
             {encrypt ? "Encrypt!" : "Decrypt!"}
             {props.loading && (
-            <CircularProgress
-              size={24}
-              color="primary"
-              className={classes.buttonProgress}
-            />
-          )}
+              <CircularProgress
+                size={24}
+                color="primary"
+                className={classes.buttonProgress}
+              />
+            )}
           </Button>
         </Box>
       </Box>

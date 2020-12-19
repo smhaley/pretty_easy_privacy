@@ -60,6 +60,7 @@ const DecryptForm = (props) => {
   const [fileType, setFileType] = useState("");
   const [fileExt, setFileExt] = useState("");
   const [fileMetaData, setFileMetaData] = useState();
+  const [uploading, setUploading] = useState(false);
 
   const handlePassPhrase = (e) => {
     passPhraseState(e.target.value);
@@ -84,17 +85,20 @@ const DecryptForm = (props) => {
     var file = e.target.files[0];
     if (!file) return;
     let reader = new FileReader();
-    reader.readAsText(file);
+    setUploading(true);
 
+    reader.readAsText(file);
     let metaData = { name: file.name, type: file.type.replace("/", "_") };
 
     reader.onloadend = () => {
       setFileMetaData(metaData);
       textInputState(reader.result);
+      setUploading(false);
     };
 
     reader.onerror = () => {
       textInputState(undefined);
+      setUploading(false);
     };
   };
 
@@ -136,6 +140,8 @@ const DecryptForm = (props) => {
         readFile={readFile}
         handleDelete={handleDelete}
         label="Browse for Encrypted File"
+        uploading={uploading}
+        errMessage={'Text File Required'}
       />
     );
   }
@@ -144,9 +150,9 @@ const DecryptForm = (props) => {
     e && e.preventDefault();
     setErrors(resetErrors);
 
-    let byteErr=false,
-      textErr=false,
-      pwErr= false,
+    let byteErr = false,
+      textErr = false,
+      pwErr = false,
       fileTypeErr = false,
       fileExtErr = false;
 

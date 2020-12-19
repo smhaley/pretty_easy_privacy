@@ -37,20 +37,26 @@ const EncryptForm = (props) => {
   const [formByteInputError, setFormByteInputError] = useState(false);
   const [uploadedFile, setUploadedFile] = useState();
   const [fileMetaData, setFileMetaData] = useState();
-
+  const [uploading, setUploading] = useState(false);
+  
+  
   const readFile = (e) => {
+    
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
-    
+    setUploading(true)
 
     reader.onloadend = () => {
       setUploadedFile(new Uint8Array(reader.result));
       setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+      setUploading(false)
     };
 
-    reader.onerror = () => {setUploadedFile(undefined)};
+    reader.onerror = () => {
+      setUploading(false)
+      setUploadedFile(undefined)};
   };
 
  
@@ -93,6 +99,7 @@ const EncryptForm = (props) => {
         readFile={readFile}
         handleDelete={handleDelete}
         label='Browse for File'
+        uploading={uploading}
       />
     );
   }

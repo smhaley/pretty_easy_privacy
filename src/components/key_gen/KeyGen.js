@@ -207,7 +207,7 @@ const Result = (props) => {
 
         <Box pb={2}>
           <Typography color="error">
-            <b>The private is private. NEVER SHARE YOUR PRIVATE KEY</b>
+            <b>The private key is private. NEVER SHARE YOUR PRIVATE KEY</b>
           </Typography>
           <p>
             Use the private key for decrypting data encrypted with your public
