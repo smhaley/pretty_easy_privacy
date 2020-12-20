@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "20%",
     },
     [theme.breakpoints.up("xl")]: {
-      marginRight: "30%",
+      marginRight: "20%",
     },
   },
   drawer: {
@@ -210,8 +210,9 @@ function App(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Pretty Easy Privacy
+          {/* <img src={logo} alt='Pretty Easy Privacy'/> */}
+          <Typography color='secondary' variant="h5" noWrap>
+           <span role='img' aria-label='Lock and Key'>🔐</span> {' '} <b>PEP</b>
           </Typography>
           <div style={{ marginLeft: "auto" }}>
             <IconButton aria-label="github.com">

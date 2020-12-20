@@ -2,15 +2,16 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import signal from "../imgs/signal.png";
 import openpgpjs50 from "../imgs/openpgpjs50.png";
-import whatsapp from "../imgs/whatsapp.png";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Link from "@material-ui/core/Link";
-
+import SvgIcon from "@material-ui/core/SvgIcon";
+import { ReactComponent as SignalSVG } from "../imgs/signalSVG.svg";
+import { ReactComponent as Whatsapp } from "../imgs/whatsapp.svg";
+import { ReactComponent as Telegram } from "../imgs/telegram.svg";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
-
   image: {
     verticalAlign: "bottom",
   },
@@ -29,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(2),
     },
   },
-
 }));
 
 const Introduction = (props) => {
@@ -68,7 +68,8 @@ const Introduction = (props) => {
             headache.
           </p>
           <p>
-            At it's core, PEP offers three simple input forms: encryption, decryption, and key generation.
+            At it's core, PEP offers three simple input forms: encryption,
+            decryption, and key generation.
           </p>
           <br />
           <Typography variant="h6" gutterBottom>
@@ -98,16 +99,29 @@ const Introduction = (props) => {
             </Link>{" "}
             like:
           </p>
-          <Box ml={2}>
-            <div>
-              <a href={"https://www.signal.org/"}>
-                <img src={signal} alt='Signal'/>
-              </a>{" "}
-              <a href={"https://www.whatsapp.com/"}>
-                <img src={whatsapp} alt='Whatsapp'/>
-              </a>
-            </div>
+
+          <Box pl={3}>
+            <Grid container justify="left" spacing={2}>
+              <Grid item>
+                <Link href={"https://www.whatsapp.com/"}>
+                  <Whatsapp />
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href={"https://telegram.org/"}>
+                  <Telegram />
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href={"https://www.signal.org/"}>
+                  <SvgIcon>
+                    <SignalSVG />
+                  </SvgIcon>
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
+          <Box ml={2}></Box>
           <br />
           <Typography variant="h6" gutterBottom>
             Wait, why should I trust you with my data?
@@ -117,7 +131,13 @@ const Introduction = (props) => {
             The site is statically hosted entirely on github.
             <b> No data is being transferred from your device to a server. </b>
           </p>
-          <p>More simply, the <span role='img' aria-label='magic'>✨</span> happens right in your browser!</p>
+          <p>
+            More simply, the{" "}
+            <span role="img" aria-label="magic">
+              ✨
+            </span>{" "}
+            happens right in your browser!
+          </p>
           <p>
             <Link
               href="https://github.com/shawnh87/pretty_easy_privacy"
@@ -183,7 +203,11 @@ const Introduction = (props) => {
             <Typography variant="h6" gutterBottom>
               Encryption powered by
               <Link href="https://openpgpjs.org/">
-                <img className={classes.image} src={openpgpjs50} alt='OpenPGP.JS'></img>
+                <img
+                  className={classes.image}
+                  src={openpgpjs50}
+                  alt="OpenPGP.JS"
+                ></img>
               </Link>
             </Typography>
           </Box>
