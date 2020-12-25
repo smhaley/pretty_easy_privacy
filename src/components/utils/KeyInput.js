@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 
 const KeyInput = (props) => {
   const classes = useStyles();
-  console.log("mount");
 
   let privateKey = props.privateKey;
   let encrypt = props.encrypt;
@@ -104,7 +103,7 @@ const KeyInput = (props) => {
         className={classes.textBox}
         fullWidth={true}
         error={formTextInputError.err}
-        id="outlined-multiline-static"
+        id="outlined-multiline-static-rsa-key"
         label={"RSA Key Input"}
         multiline
         rows={10}
@@ -126,7 +125,6 @@ const KeyInput = (props) => {
       />
     );
   }
-  console.log(formByteInputError);
 
   const removeErrors = () => {
     setAlert(resetAlert);
@@ -270,7 +268,7 @@ const KeyInput = (props) => {
             onClick={handleSubmit}
             disabled={props.loading}
           >
-            {encrypt ? "Encrypt!" : "Decrypt!"}
+            {encrypt ? "Encrypt" : "Decrypt"}
             {props.loading && (
               <CircularProgress
                 size={24}

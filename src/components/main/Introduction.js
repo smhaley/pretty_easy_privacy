@@ -103,8 +103,10 @@ const Introduction = (props) => {
           <Box pl={3}>
             <Grid container justify="left" spacing={2}>
               <Grid item>
-                <Link href={"https://www.whatsapp.com/"}>
-                  <Whatsapp />
+                <Link href={"https://www.signal.org/"}>
+                  <SvgIcon>
+                    <SignalSVG />
+                  </SvgIcon>
                 </Link>
               </Grid>
               <Grid item>
@@ -113,10 +115,8 @@ const Introduction = (props) => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href={"https://www.signal.org/"}>
-                  <SvgIcon>
-                    <SignalSVG />
-                  </SvgIcon>
+                <Link href={"https://www.whatsapp.com/"}>
+                  <Whatsapp />
                 </Link>
               </Grid>
             </Grid>
