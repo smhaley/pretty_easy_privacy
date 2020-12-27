@@ -196,6 +196,8 @@ const KeyInput = (props) => {
     } catch (e) {
       e.message === "Incorrect key passphrase" && setAlert(privKeyPassError);
       e.message === "privateKey is undefined" && setAlert(keyError);
+      e.message === "Cannot read property 'decrypt' of undefined" &&
+        setAlert(keyError);
       return { key: undefined, error: true };
     }
   };

@@ -219,6 +219,7 @@ const Result = (props) => {
             onClick={() => setOpenPriv(!openPriv)}
             variant="outlined"
             color={"primary"}
+            data-testid="privateKey"
             className={classes.button}
           >
             {openPriv ? "Hide" : "In Browser"}
@@ -257,6 +258,7 @@ const Result = (props) => {
             onClick={() => setOpenPub(!openPub)}
             variant="outlined"
             color={"secondary"}
+            data-testid="publicKey"
             className={classes.button}
           >
             {openPub ? "Hide" : "In Browser"}
