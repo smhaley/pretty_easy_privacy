@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import {Box, Typography} from "@material-ui/core"
 import Result from "./DecResult";
 import EncTypeTab from "../utils/EncTypeTab";
 import DecryptForm from "./DecryptForm";
@@ -9,8 +8,8 @@ import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import * as utils from "../utils/utils";
 import { snackLocation } from "../utils/config";
-
-const openpgp = require("openpgp");
+import {decrypt, message} from "openpgp"
+// const openpgp = require("openpgp");
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -51,7 +50,7 @@ const Decrypt = (props) => {
     let encIn;
     try {
       encIn = {
-        message: await openpgp.message.readArmored(textInput),
+        message: await message.readArmored(textInput),
       };
     } catch (e) {
       let format =
@@ -67,7 +66,7 @@ const Decrypt = (props) => {
     decType.fileType === "byte" && (encIn.format = "binary");
 
     try {
-      const { data: decrypted } = await openpgp.decrypt(encIn);
+      const { data: decrypted } = await decrypt(encIn);
 
       let outFileType = await utils.extSelect(decrypted, decType);
 

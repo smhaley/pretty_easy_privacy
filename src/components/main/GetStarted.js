@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -71,8 +72,11 @@ const GetStarted = (props) => {
             Encrypting with a passphrase (Start here)
           </Typography>
           <p>
-            Head on over the the <b>Encrypt</b> section. Once there simply type
-            in some text or upload a file.
+            Head on over the the{" "}
+            <Link component={RouterLink} to={"/encrypt"}>
+              <b>Encrypt</b>
+            </Link>{" "}
+            section. Once there simply type in some text or upload a file.
           </p>
           <p>
             Toss in a{" "}
@@ -95,7 +99,11 @@ const GetStarted = (props) => {
           </Typography>
           <p>
             What goes in must come out! So with your file of encrypted gibberish
-            head on over the <b>Decrypt</b> section.
+            head on over the{" "}
+            <Link component={RouterLink} to={"/decrypt"}>
+              <b>Decrypt</b>
+            </Link>{" "}
+            section.
           </p>
 
           <p>
@@ -147,8 +155,11 @@ const GetStarted = (props) => {
               We do offer asymmetric encryption decryption and key generation.
             </p>
             <p>
-              First, head over to <b>Resources</b> and learn a bit about how
-              this works.
+              First, head over to{" "}
+              <Link component={RouterLink} to={"/resource"}>
+                <b>Resources</b>
+              </Link>{" "}
+              and learn a bit about how this works.
             </p>
             <p>Alright, got it? Good.</p>
             <br />
@@ -157,7 +168,10 @@ const GetStarted = (props) => {
             </Typography>
             <p>
               Of course not! We will give you a 4096 bit RSA key for free! Visit{" "}
-              <b>Key Generation</b> and fill out the form. That's it!
+              <Link component={RouterLink} to={"/keygen"}>
+                <b>Key Generation</b>
+              </Link>{" "}
+              and fill out the form. That's it!
             </p>
             <p>
               Use any name or email address you want. Remember, this data
@@ -181,7 +195,11 @@ const GetStarted = (props) => {
               Encrypt with asymmetry
             </Typography>
             <p>
-              Head to the <b>Encrypt</b> section. On the top, select Asymmetric.
+              Head to the{" "}
+              <Link component={RouterLink} to={"/encrypt"}>
+                <b>Encrypt</b>
+              </Link>{" "}
+              section. On the top, select Asymmetric.
             </p>
             <p>
               Now you should be good to go. The only difference from symmetric
@@ -198,8 +216,8 @@ const GetStarted = (props) => {
             </p>
             <p>
               Just fill out the form, let us know what format you expect the
-              output file to be (text, csv, or most anything else). Upload
-              or enter your <b>private key</b> and affiliated passphrase.
+              output file to be (text, csv, or most anything else). Upload or
+              enter your <b>private key</b> and affiliated passphrase.
             </p>
             <p>That's all there is to it.</p>
             <br />

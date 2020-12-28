@@ -122,6 +122,7 @@ const KeyGen = (props) => {
                 No worries if you don't want to use your name or email addres.
                 Just make one up!
                 <br />
+                <br />
                 <b>Just don't lose you Private Key and Passphrase!</b>
               </Box>
               <Box pb={4}>

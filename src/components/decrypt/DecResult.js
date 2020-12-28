@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { Button, Box, Typography } from "@material-ui/core";
 import Display from "../utils/BrowserResult";
 import { mimes } from "../utils/utils";
 

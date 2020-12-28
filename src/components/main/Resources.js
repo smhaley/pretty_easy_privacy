@@ -4,6 +4,8 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import ReactPlayer from "react-player/youtube";
+import Link from "@material-ui/core/Link";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -72,7 +74,11 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           <br />
           <Typography>Try it out!</Typography>
           <Box pl={2}>
-            Head over to <b>Decrypt</b>.
+            Head over to{" "}
+            <Link component={RouterLink} to={"/decrypt"}>
+              <b>Decrypt</b>
+            </Link>{" "}
+            .
             <br />
             Select <b>Paste my gibberish</b>.
             <br />

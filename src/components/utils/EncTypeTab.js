@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 const AntTabs = withStyles({
   root: {
     borderBottom: "1px solid #e8e8e8",
-    // width: '700px'
   },
   indicator: {
     backgroundColor: "#1de9b6",
@@ -51,8 +50,6 @@ const AntTab = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    // maxWidth:'600px'
-    // marginRight:'50%',
   },
   padding: {
     padding: theme.spacing(2),
@@ -66,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EncTypeTab(props) {
-  //lift up to reset on load of new tab
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);

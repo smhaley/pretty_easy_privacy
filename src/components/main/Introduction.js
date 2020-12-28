@@ -10,6 +10,7 @@ import { ReactComponent as SignalSVG } from "../imgs/signalSVG.svg";
 import { ReactComponent as Whatsapp } from "../imgs/whatsapp.svg";
 import { ReactComponent as Telegram } from "../imgs/telegram.svg";
 import Grid from "@material-ui/core/Grid";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -54,6 +55,11 @@ const Introduction = (props) => {
             Have a file you want to securely store on you machine or Google
             Drive? PEP makes passphrase protecting files and text simple.
           </p>
+
+          <Link component={RouterLink} to={"/get_started"} color="secondary">
+            <b>Quick Start</b>
+          </Link>
+          <br />
           <br />
 
           <Typography variant="h6" gutterBottom>
@@ -173,6 +179,11 @@ const Introduction = (props) => {
               gnupg.org
             </Link>
           </p>
+          <br />
+          <Link component={RouterLink} to={"/get_started"} color="secondary">
+            <b>Get Started!</b>
+          </Link>
+          <br />
           <br />
         </Box>
         <div className={classes.technical}>
