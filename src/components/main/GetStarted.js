@@ -164,15 +164,19 @@ const GetStarted = (props) => {
               Do I need to go the hardware store?
             </Typography>
             <p>
-              Of course not! We will give you a 4096 bit RSA key for free! Visit{" "}
+              Of course not! We will give you an RSA key for free! Visit{" "}
               <Link component={RouterLink} to={"/keygen"}>
                 <b>Key Generation</b>
               </Link>{" "}
               and fill out the form. That's it!
             </p>
             <p>
-              Use any name or email address you want. Remember, this data
-              doesn't come back to us, everything is in your browser.
+              Use any name or email address you want (real or fake). Remember,
+              this data doesn't come back to us, everything is in your browser.
+            </p>
+            <p>
+              Select an RSA Key Size. We default the size to 2048 bits, but
+              offer much larger options.
             </p>
             <p>
               The passphrase is how you can access your private key later for

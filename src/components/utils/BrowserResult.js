@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme) => ({
   result: {
-    maxHeight: "100px",
+    maxHeight: "400px",
     maxWidth: "350px",
     overflowY: "scroll",
   },

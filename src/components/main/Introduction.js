@@ -104,7 +104,7 @@ const Introduction = (props) => {
           </p>
 
           <Box pl={3}>
-            <Grid container justify="left" spacing={2}>
+            <Grid container spacing={2}>
               <Grid item>
                 <Link href={"https://www.signal.org/"}>
                   <SvgIcon>
@@ -199,7 +199,7 @@ const Introduction = (props) => {
             </p>
             <p>Asymmetric encryption is also handled via openPGP.js</p>
             <p>
-              Currently all asymmetric keys generated are RSA 4096 bits. If
+              Currently all asymmetric keys generated are RSA 2048, 3072, or 4096 bits. If
               additional encryption algorithms or bit lengths are needed, drop a
               line in github. We can add them in real quick.
             </p>

@@ -123,7 +123,7 @@ const PassPhrase = (props) => {
 
   let handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({ ...errors, passPhraseMissingError: false });
+    setErrors({ confirmError: false, passPhraseMissingError: false });
     const err = props.handleSubmit(e);
 
     if (!passPhrase) {

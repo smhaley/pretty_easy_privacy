@@ -8,6 +8,7 @@ import Introduction from "./components/main/Introduction";
 import GetStarted from "./components/main/GetStarted";
 import Resources from "./components/main/Resources";
 import ScrollToTop from "./components/utils/ScrollToTop";
+import Footer from "./components/main/Footer";
 
 const Encrypt = React.lazy(() => import("./components/encrypt/Encrypt"));
 const Decrypt = React.lazy(() => import("./components/decrypt/Decrypt"));
@@ -80,6 +81,8 @@ const App = () => {
           </Paper>
         </div>
       </main>
+
+      <Footer/>
     </div>
   );
 };

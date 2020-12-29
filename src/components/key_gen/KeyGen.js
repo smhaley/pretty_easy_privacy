@@ -2,7 +2,20 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PassPhrase from "../utils/Passphrase";
 import Display from "../utils/BrowserResult";
-import { Box, Typography, Button, TextField } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  IconButton,
+  Tooltip,
+  Grid,
+} from "@material-ui/core";
 import { generateKey } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
@@ -11,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
   pwInput: {
     width: "350px",
+  },
+  dropSelect: {
+    width: "250px",
   },
 
   main: {
@@ -33,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const KeyGen = (props) => {
   const classes = useStyles();
   const [key, setKey] = useState(undefined);
+  const [bits, setBits] = useState(2048)
   const [keyFields, setKeyFields] = useState({ name: "", email: "", pw: "" });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -46,7 +63,7 @@ const KeyGen = (props) => {
     setLoading(true);
     const key = await generateKey({
       userIds: [{ name: keyFields.name, email: keyFields.email }],
-      rsaBits: 4096, // RSA key size
+      rsaBits: bits, // RSA key size
       passphrase: passKey,
     });
     setKey(key);
@@ -114,7 +131,7 @@ const KeyGen = (props) => {
               <Box pb={4} pt={2}>
                 Creating Keys is simple. Just fill out this form.
                 <br />
-                No worries if you don't want to use your name or email addres.
+                No worries if you don't want to use your name or email address.
                 Just make one up!
                 <br />
                 <br />
@@ -133,7 +150,7 @@ const KeyGen = (props) => {
                 />
               </Box>
 
-              <Box>
+              <Box pb={4}>
                 {" "}
                 <TextField
                   required
@@ -147,6 +164,46 @@ const KeyGen = (props) => {
                   }
                   variant="outlined"
                 />
+              </Box>
+              <Box style={{ width: "350px" }}>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <FormControl
+                      variant="outlined"
+                      className={classes.formControl}
+                      error={errors.fileTypeErr ? true : false}
+                    >
+                      <InputLabel id="demo-simple-select-outlined-label">
+                        RSA Key Size
+                      </InputLabel>
+                      <Select
+                        required
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        value={bits}
+                        onChange={(e)=>setBits(e.target.value)}
+                        className={classes.dropSelect}
+                        label="Text FIle Type"
+                      >
+                        <MenuItem value={4096}>4096</MenuItem>
+                        <MenuItem value={3072}>3072</MenuItem>
+                        <MenuItem value={2048}>2048</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <div>
+                      <Tooltip title={`This controls key length. The larger the value, the stronger the encryption. The default is pretty good.`}>
+                        <IconButton
+                          disableFocusRipple={true}
+                          disableRipple={true}
+                        >
+                          <HelpIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  </Grid>
+                </Grid>
               </Box>
             </div>
             <PassPhrase
