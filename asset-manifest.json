@@ -7,12 +7,12 @@
     "static/js/2.cdcb73f0.chunk.js": "/static/js/2.cdcb73f0.chunk.js",
     "static/js/2.cdcb73f0.chunk.js.map": "/static/js/2.cdcb73f0.chunk.js.map",
     "main.css": "/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/static/js/main.38427b9f.chunk.js",
-    "main.js.map": "/static/js/main.38427b9f.chunk.js.map",
+    "main.js": "/static/js/main.230d99af.chunk.js",
+    "main.js.map": "/static/js/main.230d99af.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.295a808a.js",
     "runtime-main.js.map": "/static/js/runtime-main.295a808a.js.map",
-    "static/js/5.78a67c6e.chunk.js": "/static/js/5.78a67c6e.chunk.js",
-    "static/js/5.78a67c6e.chunk.js.map": "/static/js/5.78a67c6e.chunk.js.map",
+    "static/js/5.1af8fcf2.chunk.js": "/static/js/5.1af8fcf2.chunk.js",
+    "static/js/5.1af8fcf2.chunk.js.map": "/static/js/5.1af8fcf2.chunk.js.map",
     "static/js/6.4b174115.chunk.js": "/static/js/6.4b174115.chunk.js",
     "static/js/6.4b174115.chunk.js.map": "/static/js/6.4b174115.chunk.js.map",
     "static/js/7.8eb0a3b7.chunk.js": "/static/js/7.8eb0a3b7.chunk.js",
@@ -20,20 +20,20 @@
     "static/js/8.214c76cd.chunk.js": "/static/js/8.214c76cd.chunk.js",
     "static/js/8.214c76cd.chunk.js.map": "/static/js/8.214c76cd.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.e37ad8ced88c849101654244b605a820.js": "/precache-manifest.e37ad8ced88c849101654244b605a820.js",
+    "precache-manifest.67522e844c7991d16231178776c030b7.js": "/precache-manifest.67522e844c7991d16231178776c030b7.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/static/css/main.5ecd60fb.chunk.css.map",
     "static/js/0.b7ffe3c8.chunk.js.LICENSE.txt": "/static/js/0.b7ffe3c8.chunk.js.LICENSE.txt",
     "static/js/1.3cd75500.chunk.js.LICENSE.txt": "/static/js/1.3cd75500.chunk.js.LICENSE.txt",
-    "static/js/5.78a67c6e.chunk.js.LICENSE.txt": "/static/js/5.78a67c6e.chunk.js.LICENSE.txt",
+    "static/js/5.1af8fcf2.chunk.js.LICENSE.txt": "/static/js/5.1af8fcf2.chunk.js.LICENSE.txt",
     "static/media/signalSVG.82d9fde0.svg": "/static/media/signalSVG.82d9fde0.svg",
     "static/media/telegram.4b85f90f.svg": "/static/media/telegram.4b85f90f.svg",
     "static/media/whatsapp.5b9110d6.svg": "/static/media/whatsapp.5b9110d6.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.295a808a.js",
-    "static/js/5.78a67c6e.chunk.js",
+    "static/js/5.1af8fcf2.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.38427b9f.chunk.js"
+    "static/js/main.230d99af.chunk.js"
   ]
 }
