@@ -110,6 +110,7 @@ const NavBar = (props) => {
       <List>
         {staticRoutes.map((route, index) => (
           <NavLink
+            // tag={RouterLink}
             to={route.path}
             className={classes.sideNaveButtons}
             key={index}

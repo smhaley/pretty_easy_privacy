@@ -199,9 +199,9 @@ const Introduction = (props) => {
             </p>
             <p>Asymmetric encryption is also handled via openPGP.js</p>
             <p>
-              Currently all asymmetric keys generated are RSA 2048, 3072, or 4096 bits. If
-              additional encryption algorithms or bit lengths are needed, drop a
-              line in github. We can add them in real quick.
+              Currently all asymmetric keys generated are RSA 2048, 3072, or
+              4096 bits. If additional encryption algorithms or bit lengths are
+              needed, drop a line in github. We can add them in real quick.
             </p>
             <p>
               And yes, we know there is no key signing. For messaging and
