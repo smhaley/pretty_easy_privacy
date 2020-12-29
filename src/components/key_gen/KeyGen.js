@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import PassPhrase from "../utils/Passphrase";
-
 import Display from "../utils/BrowserResult";
-
-const openpgp = require("openpgp");
+import { Box, Typography, Button, TextField } from "@material-ui/core";
+import { generateKey } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
   formField: {
@@ -49,7 +44,7 @@ const KeyGen = (props) => {
 
   const handleCreate = async (passKey) => {
     setLoading(true);
-    const key = await openpgp.generateKey({
+    const key = await generateKey({
       userIds: [{ name: keyFields.name, email: keyFields.email }],
       rsaBits: 4096, // RSA key size
       passphrase: passKey,

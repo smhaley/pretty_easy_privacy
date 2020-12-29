@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { snackLocation } from "../utils/config";
 import InFile from "../utils/InFile";
-import Typography from "@material-ui/core/Typography";
-
-const openpgp = require("openpgp");
+import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
+import { key } from "openpgp";
+import {
+  TextField,
+  Button,
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  Snackbar,
+  CircularProgress,
+  Typography,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   buttonProgress: {
@@ -175,7 +176,7 @@ const KeyInput = (props) => {
   };
 
   const handlePublicKey = async (byteKey) => {
-    let rsaKey = (await openpgp.key.readArmored(byteKey)).keys[0];
+    let rsaKey = (await key.readArmored(byteKey)).keys[0];
     if (!rsaKey) {
       setAlert(keyError);
       return { key: undefined, error: true };
@@ -189,7 +190,7 @@ const KeyInput = (props) => {
     try {
       const {
         keys: [privateKey],
-      } = await openpgp.key.readArmored(byteKey);
+      } = await key.readArmored(byteKey);
       await privateKey.decrypt(passPhrase);
       output = [privateKey];
       return { key: output, error: false };

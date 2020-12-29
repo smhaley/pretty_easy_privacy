@@ -4,8 +4,8 @@ import Encrypt from "../components/encrypt/Encrypt";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import { privKey, pubKey, testPw } from "../__mocks__/keys";
-
-const openpgp = require("openpgp");
+import {key, message as pgpMessage, decrypt} from "openpgp"
+// const openpgp = require("openpgp");
 
 describe("Encryption Tests", () => {
   describe("Passphrase Tests", () => {
@@ -39,11 +39,11 @@ describe("Encryption Tests", () => {
       let encResult = getNodeText(pre);
 
       let encIn = {
-        message: await openpgp.message.readArmored(encResult),
+        message: await pgpMessage.readArmored(encResult),
         passwords: pw,
       };
 
-      const { data: decrypted } = await openpgp.decrypt(encIn);
+      const { data: decrypted } = await decrypt(encIn);
 
       expect(decrypted).toBe(message);
     });
@@ -102,18 +102,18 @@ describe("Encryption Tests", () => {
 
       const {
         keys: [privateKey],
-      } = await openpgp.key.readArmored(privKey);
+      } = await key.readArmored(privKey);
       await privateKey.decrypt(testPw);
       let output = [privateKey];
 
       let encResult = getNodeText(pre);
 
       let enc = {
-        message: await openpgp.message.readArmored(encResult),
+        message: await pgpMessage.readArmored(encResult),
         privateKeys: output,
       };
 
-      const { data: decrypted } = await openpgp.decrypt(enc);
+      const { data: decrypted } = await decrypt(enc);
 
       expect(decrypted).toBe(message);
     });
@@ -148,18 +148,18 @@ describe("Encryption Tests", () => {
 
       const {
         keys: [privateKey],
-      } = await openpgp.key.readArmored(privKey);
+      } = await key.readArmored(privKey);
       await privateKey.decrypt(testPw);
       let output = [privateKey];
 
       let encResult = getNodeText(pre);
 
       let enc = {
-        message: await openpgp.message.readArmored(encResult),
+        message: await pgpMessage.readArmored(encResult),
         privateKeys: output,
       };
 
-      const { data: decrypted } = await openpgp.decrypt(enc);
+      const { data: decrypted } = await decrypt(enc);
 
       expect(decrypted).toBe(message);
     });

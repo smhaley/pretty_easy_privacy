@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {Box, Typography} from "@material-ui/core"
+import { Box, Typography, Snackbar } from "@material-ui/core";
 import Result from "./DecResult";
 import EncTypeTab from "../utils/EncTypeTab";
 import DecryptForm from "./DecryptForm";
 import Alert from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
 import * as utils from "../utils/utils";
 import { snackLocation } from "../utils/config";
-import {decrypt, message} from "openpgp"
-// const openpgp = require("openpgp");
+import { decrypt, message } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -121,7 +119,11 @@ const Decrypt = (props) => {
         <div className={classes.header}>
           {!success && <EncTypeTab handleType={handleDecType} />}
           <Typography variant="h5" gutterBottom>
-            {encType === 0 ? <b>Passphrase Decryption</b>: <b>Key Decryption</b>}
+            {encType === 0 ? (
+              <b>Passphrase Decryption</b>
+            ) : (
+              <b>Key Decryption</b>
+            )}
           </Typography>
         </div>
         {success ? <Result reset={reset} outbound={outbound} /> : form}

@@ -1,15 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { Typography, Box, Link, Grid } from "@material-ui/core";
 import openpgpjs50 from "../imgs/openpgpjs50.png";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import Link from "@material-ui/core/Link";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as SignalSVG } from "../imgs/signalSVG.svg";
 import { ReactComponent as Whatsapp } from "../imgs/whatsapp.svg";
 import { ReactComponent as Telegram } from "../imgs/telegram.svg";
-import Grid from "@material-ui/core/Grid";
 import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({

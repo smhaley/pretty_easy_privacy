@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 import Result from "./EncResult";
 import EncTypeTab from "../utils/EncTypeTab";
 import EncryptForm from "./EncryptForm";
-import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { resetAlert, encSuccess, encError } from "../utils/utils";
 import { snackLocation } from "../utils/config";
-
-const openpgp = require("openpgp");
+import { Box, Typography, Snackbar } from "@material-ui/core";
+import { message as pgpMessage, encrypt } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +39,8 @@ const Encrypt = () => {
       setLoader(true);
 
       let inputMessage = binInd
-        ? openpgp.message.fromBinary(uploadedFile)
-        : openpgp.message.fromText(uploadedFile);
+        ? pgpMessage.fromBinary(uploadedFile)
+        : pgpMessage.fromText(uploadedFile);
 
       let encIn = {
         message: inputMessage,
@@ -52,7 +49,7 @@ const Encrypt = () => {
 
       pubKey ? (encIn.publicKeys = pubKey) : (encIn.passwords = [passPhrase]);
 
-      const { message } = await openpgp.encrypt(encIn);
+      const { message } = await encrypt(encIn);
       binInd && message.packets.write();
 
       setArmorTxt({ armorTxt: message.armor(), ext: ext });

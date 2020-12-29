@@ -8,9 +8,9 @@ export const mimes = {
 };
 
 export const extSelect = async (decrypted, decType) => {
-  let bufferType
-  if (decType.fileType==='byte'){
-    bufferType =  await FileType.fromBuffer(decrypted);
+  let bufferType;
+  if (decType.fileType === "byte") {
+    bufferType = await FileType.fromBuffer(decrypted);
   }
 
   if (bufferType) {
@@ -51,7 +51,7 @@ export const encSuccess = {
   show: true,
   message: "Encryption Complete",
   severity: "success",
-}
+};
 
 export const encError = {
   show: true,
@@ -64,7 +64,6 @@ export const resetAlert = {
   message: "",
   severity: "",
 };
-
 
 export const keyError = {
   show: true,

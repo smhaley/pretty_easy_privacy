@@ -1,23 +1,24 @@
 import React from "react";
 import { staticRoutes, lazyRoutes } from "../../routes";
-// import {Link as RouterLink}  from "react-router-dom";
-import Link from "@material-ui/core/Link";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import { useLocation } from "react-router-dom";
 import { NavLink, withRouter, Link as RouterLink } from "react-router-dom";
+import {
+  Link,
+  AppBar,
+  CssBaseline,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 
 const drawerWidth = 254;
 const drawerPercent = "20%";

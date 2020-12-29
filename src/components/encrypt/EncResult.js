@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { Button, Box, Typography } from "@material-ui/core";
 import Display from "../utils/BrowserResult";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,12 +50,12 @@ const Result = (props) => {
           Encrypted Data:
         </Typography>
         <Box>
-          Here are your results.<br/>
-           We recommend downloading the file.<br/>
-          
-            Don't worry, if you prefer working with text yourself, we provide
-            that too.{" "}
-          <br/>
+          Here are your results.
+          <br />
+          We recommend downloading the file.
+          <br />
+          Don't worry, if you prefer working with text yourself, we provide that
+          too. <br />
           <br />
         </Box>
         <Box mb={2} pr={4}>

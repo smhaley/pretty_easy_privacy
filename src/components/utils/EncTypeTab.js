@@ -1,8 +1,6 @@
 import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
+import { Tabs, Tab, Typography } from "@material-ui/core";
 
 const AntTabs = withStyles({
   root: {
@@ -46,7 +44,6 @@ const AntTab = withStyles((theme) => ({
   selected: {},
 }))((props) => <Tab disableRipple {...props} />);
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -63,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EncTypeTab(props) {
-
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 

@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import KeyInput from "../utils/KeyInput";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import InFile from "../utils/InFile";
+import {
+  TextField,
+  Button,
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  FormHelperText,
+  CircularProgress,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   textBox: {
@@ -141,7 +143,7 @@ const DecryptForm = (props) => {
         handleDelete={handleDelete}
         label="Browse for Encrypted File"
         uploading={uploading}
-        errMessage={'Text File Required'}
+        errMessage={"Text File Required"}
       />
     );
   }

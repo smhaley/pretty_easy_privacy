@@ -1,12 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
 import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
-import IconButton from "@material-ui/core/IconButton";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import {
+  Button,
+  Box,
+  IconButton,
+  FormLabel,
+  FormHelperText,
+  CircularProgress,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   hidden: {
@@ -44,12 +46,13 @@ const InFile = (props) => {
         color="secondary"
         disabled={props.uploading}
       >
-        {props.uploading &&
-        <CircularProgress
-          size={24}
-          color="secondary"
-          className={classes.buttonProgress}
-        />}
+        {props.uploading && (
+          <CircularProgress
+            size={24}
+            color="secondary"
+            className={classes.buttonProgress}
+          />
+        )}
         {props.label}
       </Button>
 

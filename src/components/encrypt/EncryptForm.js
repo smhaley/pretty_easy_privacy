@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 import PassPhrase from "../utils/Passphrase";
 import KeyInput from "../utils/KeyInput";
 import InFile from "../utils/InFile";
+import {
+  TextField,
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-
   textBox: {
     maxWidth: "700px",
   },
@@ -38,28 +39,26 @@ const EncryptForm = (props) => {
   const [uploadedFile, setUploadedFile] = useState();
   const [fileMetaData, setFileMetaData] = useState();
   const [uploading, setUploading] = useState(false);
-  
-  
+
   const readFile = (e) => {
-    
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
-    setUploading(true)
+    setUploading(true);
 
     reader.onloadend = () => {
       setUploadedFile(new Uint8Array(reader.result));
       setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
-      setUploading(false)
+      setUploading(false);
     };
 
     reader.onerror = () => {
-      setUploading(false)
-      setUploadedFile(undefined)};
+      setUploading(false);
+      setUploadedFile(undefined);
+    };
   };
 
- 
   const handleDelete = () => {
     setUploadedFile(undefined);
     setFileMetaData(undefined);
@@ -98,12 +97,12 @@ const EncryptForm = (props) => {
         formByteInputError={formByteInputError}
         readFile={readFile}
         handleDelete={handleDelete}
-        label='Browse for File'
+        label="Browse for File"
         uploading={uploading}
       />
     );
   }
-  
+
   const handleFormSubmit = () => {
     setFormTextInputError(false);
     setFormByteInputError(false);
@@ -139,7 +138,8 @@ const EncryptForm = (props) => {
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <div className={classes.main}>
         <Box pt={2} pb={2}>
-          To Encrypt, simply fill out this form.<br/>
+          To Encrypt, simply fill out this form.
+          <br />
           {props.encType === 0 && <b>Just don't lose your Passphrase!</b>}
         </Box>
         <Box mb={2}>
