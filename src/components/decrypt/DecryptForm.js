@@ -144,6 +144,7 @@ const DecryptForm = (props) => {
         label="Browse for Encrypted File"
         uploading={uploading}
         errMessage={"Text File Required"}
+        inId="decIn"
       />
     );
   }

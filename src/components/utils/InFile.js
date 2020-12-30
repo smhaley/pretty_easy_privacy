@@ -30,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
 const InFile = (props) => {
   const classes = useStyles();
 
+  let hiddenId = props.inId;
+
   const selectedFile = props.fileMetaData && (
     <div>
       <FormLabel>{`Selected: ${props.fileMetaData.name}`}</FormLabel>
@@ -41,7 +43,7 @@ const InFile = (props) => {
   return (
     <Box>
       <Button
-        onClick={() => document.getElementById("inp").click()}
+        onClick={() => document.getElementById(hiddenId).click()}
         variant="outlined"
         color="secondary"
         disabled={props.uploading}
@@ -57,7 +59,7 @@ const InFile = (props) => {
       </Button>
 
       <input
-        id="inp"
+        id={hiddenId}
         type="file"
         className={classes.hidden}
         onChange={props.readFile}

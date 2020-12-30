@@ -78,6 +78,7 @@ const KeyInput = (props) => {
   };
 
   const readKey = (e) => {
+    console.log("FIRE");
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
@@ -123,6 +124,7 @@ const KeyInput = (props) => {
         handleDelete={handleDelete}
         readFile={readKey}
         uploading={uploading}
+        inId="keyIn"
       />
     );
   }

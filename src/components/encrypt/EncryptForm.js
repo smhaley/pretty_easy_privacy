@@ -99,6 +99,7 @@ const EncryptForm = (props) => {
         handleDelete={handleDelete}
         label="Browse for File"
         uploading={uploading}
+        inId="encIn"
       />
     );
   }
