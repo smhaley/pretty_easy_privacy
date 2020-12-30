@@ -78,6 +78,7 @@ const Decrypt = (props) => {
       e.message ===
         "Error decrypting message: Session key decryption failed." &&
         setAlert(utils.decPW);
+        setLoader(false);
       return;
     }
   };
