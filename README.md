@@ -2,4 +2,4 @@
 
 Simplifying PGP encryption.
 
-<a href='https://smhaley.github.io/pretty_easy_privacy/'>prettyeasyprivacy.xyz</a>
+<a href='https://prettyeasyprivacy.xyz/'>prettyeasyprivacy.xyz</a>
