@@ -7,6 +7,7 @@ import * as serviceWorker from "./serviceWorker";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import deepPurple from "@material-ui/core/colors/deepPurple";
 import teal from "@material-ui/core/colors/teal";
+require('typeface-roboto')
 
 const theme = createMuiTheme({
   palette: {
