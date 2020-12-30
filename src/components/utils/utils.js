@@ -7,6 +7,20 @@ export const mimes = {
   css: "text/css",
 };
 
+export const copy = (inputId) => {
+  let copyText = document.getElementById(inputId).textContent;
+  const textArea = document.createElement("textarea");
+  textArea.setAttribute("id", "copy");
+  textArea.textContent = copyText;
+  document.body.append(textArea);
+  textArea.select();
+  textArea.setSelectionRange(0, 99999); /*For mobile devices*/
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+  textArea.remove();
+};
+
 export const extSelect = async (decrypted, decType) => {
   let bufferType;
   if (decType.fileType === "byte") {

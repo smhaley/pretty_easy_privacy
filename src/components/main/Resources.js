@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Box, Link, Paper } from "@material-ui/core";
+import {
+  Typography,
+  Box,
+  Link,
+  Tooltip,
+  Paper,
+  Snackbar,
+  IconButton,
+} from "@material-ui/core";
 import ReactPlayer from "react-player/youtube";
 import { Link as RouterLink } from "react-router-dom";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import { copy } from "../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
   image: {
     verticalAlign: "bottom",
   },
   result: {
-    height: "180px",
-    width: "450px",
+    maxHeight: "400px",
+    maxWidth: "400px",
     overflowY: "scroll",
   },
   pre: {
@@ -38,10 +48,30 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "56.25%;", // Percentage ratio for 16:9
     position: "relative", // Set to relative
   },
+  copy: {
+    textAlign: "right",
+    maxWidth: "400px",
+  },
 }));
 
-const Resources = (props) => {
+const Resources = () => {
   const classes = useStyles();
+  const [openSnack, setOpenSnack] = useState({
+    open: false,
+    vertical: "bottom",
+    horizontal: "left",
+  });
+  const { vertical, horizontal, open } = openSnack;
+  let inputId = "sampleEnc";
+
+  const handleClose = () => {
+    setOpenSnack({ ...openSnack, open: false });
+  };
+  const handleCopy = () => {
+    setOpenSnack({ ...openSnack, open: true });
+    copy(inputId);
+  };
+
   return (
     <div className={classes.main}>
       <Box pt={2}>
@@ -55,8 +85,15 @@ const Resources = (props) => {
             So what does encrypted data look like?
           </Typography>
           <p>Here is an example:</p>
+          <div className={classes.copy}>
+            <Tooltip title="Copy">
+              <IconButton aria-label="Copy" onClick={handleCopy}>
+                <FileCopyIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
           <Paper className={classes.result}>
-            <pre>
+            <pre id={inputId}>
               {`-----BEGIN PGP MESSAGE-----
 Version: OpenPGP.js v4.10.8
 Comment: https://openpgpjs.org
@@ -81,7 +118,7 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
             <br />
             Select <b>Paste my gibberish</b>.
             <br />
-            Select .txt file type.
+            Select <b>.txt</b> file type.
             <br />
             Enter <b>bad!</b> into the password field.
             <br />
@@ -107,7 +144,7 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           <Typography variant="h6" gutterBottom>
             How about that Asymmetric thing?
           </Typography>
-          <p>This gives a good idea without inviting Alice or Bob</p>
+          <p>This gives a good idea without inviting Alice or Bob.</p>
           <div className={classes.playerWrapper}>
             <ReactPlayer
               className="react-player"
@@ -118,6 +155,13 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           <br />
         </Box>
       </Box>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message="Copied to clipboard"
+        key={vertical + horizontal}
+      />
     </div>
   );
 };
