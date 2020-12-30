@@ -2,4 +2,4 @@
 
 Simplifying PGP encryption.
 
-<a href='prettyeasyprivacy.xyz'>prettyeasyprivacy.xyz</a>
+<a href='https://prettyeasyprivacy.xyz/'>prettyeasyprivacy.xyz</a>
