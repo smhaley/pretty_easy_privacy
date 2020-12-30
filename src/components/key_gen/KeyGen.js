@@ -20,10 +20,10 @@ import { generateKey } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
   formField: {
-    width: "350px",
+    width: "300px",
   },
   pwInput: {
-    width: "350px",
+    width: "300px",
   },
   dropSelect: {
     width: "250px",

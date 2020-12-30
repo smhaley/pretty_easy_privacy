@@ -137,8 +137,11 @@ const GetStarted = (props) => {
             with passphrase encryption.
           </p>
           <p>
-            Check the <b>Resources</b> section for more info on how asymmetric
-            encryption works.
+            Check the{" "}
+            <Link component={RouterLink} to={"/resources"}>
+              <b>Resources</b>
+            </Link>{" "}
+            section for more info on how asymmetric encryption works.
           </p>
           <p>If you think it's right for you, check out below.</p>
           <br />
@@ -153,7 +156,7 @@ const GetStarted = (props) => {
             </p>
             <p>
               First, head over to{" "}
-              <Link component={RouterLink} to={"/resource"}>
+              <Link component={RouterLink} to={"/resources"}>
                 <b>Resources</b>
               </Link>{" "}
               and learn a bit about how this works.
@@ -176,7 +179,7 @@ const GetStarted = (props) => {
             </p>
             <p>
               Select an RSA Key Size. We default the size to 2048 bits, but
-              offer much larger options.
+              offer much larger options. The larger the stronger the encryption.
             </p>
             <p>
               The passphrase is how you can access your private key later for
@@ -185,7 +188,7 @@ const GetStarted = (props) => {
             <p>You will get two keys. One public and one private.</p>
             <p>
               You can give out the public key to your friends. It's sole purpose
-              is to encrypt files that
+              is to encrypt files that{" "}
               <b>only your private key and passphrase can decrypt</b>.
             </p>
             <Typography color="error">
@@ -212,7 +215,7 @@ const GetStarted = (props) => {
               Decrypt the asymmetric way.
             </Typography>
             <p>
-              Remember that top selector we mentioned for asymmetric encrytion?
+              Remember that top selector we mentioned for asymmetric encryption?
               Same deal for decryption.
             </p>
             <p>

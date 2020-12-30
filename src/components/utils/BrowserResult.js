@@ -7,14 +7,15 @@ import IconButton from "@material-ui/core/IconButton";
 const useStyles = makeStyles((theme) => ({
   result: {
     maxHeight: "400px",
-    maxWidth: "350px",
+    maxWidth: "400px",
     overflowY: "scroll",
   },
   button: {
     margin: "5px",
   },
   copy: {
-    marginLeft: "318px",
+    textAlign: "right",
+    maxWidth: "400px",
   },
 }));
 
@@ -41,7 +42,7 @@ const Display = (props) => {
     textArea.select();
     textArea.setSelectionRange(0, 99999); /*For mobile devices*/
 
-    /* Copy the text inside the text field */
+
     document.execCommand("copy");
     textArea.remove();
   };

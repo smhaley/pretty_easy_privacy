@@ -71,6 +71,8 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           <br />
           <Typography>Try it out!</Typography>
           <Box pl={2}>
+            Copy the above text block.
+            <br />
             Head over to{" "}
             <Link component={RouterLink} to={"/decrypt"}>
               <b>Decrypt</b>

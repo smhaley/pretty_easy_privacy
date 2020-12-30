@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { HashRouter } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import deepPurple from "@material-ui/core/colors/deepPurple";
@@ -19,14 +19,11 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  // <React.Fragment>
-  <HashRouter>
+  <Router>
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>
-
-    {/* </React.Fragment>, */}
-  </HashRouter>,
+  </Router>,
   document.getElementById("root")
 );
 

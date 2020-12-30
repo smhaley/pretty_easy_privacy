@@ -14,8 +14,8 @@ const Encrypt = React.lazy(() => import("./components/encrypt/Encrypt"));
 const Decrypt = React.lazy(() => import("./components/decrypt/Decrypt"));
 const KeyGen = React.lazy(() => import("./components/key_gen/KeyGen"));
 
-const drawerWidth = 254;
-const drawerPercent = "25%";
+const drawerWidth = 220;
+const drawerPercent = "22%";
 
 const useStyles = makeStyles((theme) => ({
   root: {

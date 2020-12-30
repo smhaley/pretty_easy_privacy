@@ -70,7 +70,7 @@ export default function EncTypeTab(props) {
   return (
     <div className={classes.root}>
       <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-        <AntTab label="Passhrase (Symmetric)" />
+        <AntTab label="Passphrase (Symmetric)" />
         <AntTab label="Key Pair (Asymmetric)" />
       </AntTabs>
       <Typography className={classes.padding} />

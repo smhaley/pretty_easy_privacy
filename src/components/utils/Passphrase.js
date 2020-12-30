@@ -162,7 +162,6 @@ const PassPhrase = (props) => {
               type="password"
               label={"PassPhrase"}
               variant="outlined"
-              // variant="filled"
             />
           </Grid>
           {passPhrase.length > 0 && (
