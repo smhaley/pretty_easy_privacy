@@ -169,7 +169,7 @@ const NavBar = (props) => {
 
           <div style={{ marginLeft: "auto" }}>
             <IconButton aria-label="github.com">
-              <Link href="https://github.com/shawnh87/pretty_easy_privacy">
+              <Link href="https://github.com/smhaley/pretty_easy_privacy">
                 <GitHubIcon color="secondary" />
               </Link>
             </IconButton>

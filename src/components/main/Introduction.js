@@ -143,7 +143,7 @@ const Introduction = (props) => {
           </p>
           <p>
             <Link
-              href="https://github.com/shawnh87/pretty_easy_privacy"
+              href="https://github.com/smhaley/pretty_easy_privacy"
               color="primary"
             >
               <GitHubIcon style={{ fontSize: 18 }} color="disabled" /> Check the
