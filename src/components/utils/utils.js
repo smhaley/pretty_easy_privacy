@@ -76,3 +76,9 @@ export const privKeyPassError = {
   message: "Incorrect Passphrase! Please try again.",
   severity: "error",
 };
+
+export const pubKeyDecError = {
+  show: true,
+  message: "A Public Key has been supplied. Please provide your Private Key!",
+  severity: "error",
+};

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 import { snackLocation } from "../utils/config";
 import InFile from "../utils/InFile";
-import { resetAlert, keyError, privKeyPassError } from "../utils/utils";
+import { resetAlert, keyError, privKeyPassError, pubKeyDecError } from "../utils/utils";
 import { key } from "openpgp";
 import {
   TextField,
@@ -197,6 +197,8 @@ const KeyInput = (props) => {
       output = [privateKey];
       return { key: output, error: false };
     } catch (e) {
+      e.message === "Nothing to decrypt in a public key" &&
+        setAlert(pubKeyDecError);
       e.message === "Incorrect key passphrase" && setAlert(privKeyPassError);
       e.message === "privateKey is undefined" && setAlert(keyError);
       e.message === "Cannot read property 'decrypt' of undefined" &&
