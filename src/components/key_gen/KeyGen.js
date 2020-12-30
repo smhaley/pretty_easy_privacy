@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import PassPhrase from "../utils/Passphrase";
-import Display from "../utils/BrowserResult";
+import PassPhrase from "../shared/Passphrase";
+import Display from "../shared/BrowserResult";
 import HelpIcon from "@material-ui/icons/Help";
 import {
   Box,

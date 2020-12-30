@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import PassPhrase from "../utils/Passphrase";
-import KeyInput from "../utils/KeyInput";
-import InFile from "../utils/InFile";
+import PassPhrase from "../shared/Passphrase";
+import KeyInput from "../shared/KeyInput";
+import InFile from "../shared/InFile";
 import {
   TextField,
   Box,

@@ -1,13 +1,13 @@
 import React, { Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import NavBar from "./components/main/NavBar";
-import DelayedFallback from "./components/utils/DelayedFallback";
+import DelayedFallback from "./components/shared/DelayedFallback";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Introduction from "./components/main/Introduction";
 import GetStarted from "./components/main/GetStarted";
 import Resources from "./components/main/Resources";
-import ScrollToTop from "./components/utils/ScrollToTop";
+import ScrollToTop from "./components/shared/ScrollToTop";
 import Footer from "./components/main/Footer";
 
 const Encrypt = React.lazy(() => import("./components/encrypt/Encrypt"));

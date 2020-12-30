@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Box, Typography } from "@material-ui/core";
-import Display from "../utils/BrowserResult";
+import Display from "../shared/BrowserResult";
 import { mimes } from "../utils/utils";
 
 const useStyles = makeStyles((theme) => ({

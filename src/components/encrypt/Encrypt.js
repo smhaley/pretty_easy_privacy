@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Result from "./EncResult";
-import EncTypeTab from "../utils/EncTypeTab";
+import EncTypeTab from "../shared/EncTypeTab";
 import EncryptForm from "./EncryptForm";
 import Alert from "@material-ui/lab/Alert";
 import { resetAlert, encSuccess, encError } from "../utils/utils";

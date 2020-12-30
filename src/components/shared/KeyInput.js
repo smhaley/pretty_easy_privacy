@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 import { snackLocation } from "../utils/config";
-import InFile from "../utils/InFile";
+import InFile from "./InFile";
 import { resetAlert, keyError, privKeyPassError, pubKeyDecError } from "../utils/utils";
 import { key } from "openpgp";
 import {

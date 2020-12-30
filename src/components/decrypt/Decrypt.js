@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Snackbar } from "@material-ui/core";
 import Result from "./DecResult";
-import EncTypeTab from "../utils/EncTypeTab";
+import EncTypeTab from "../shared/EncTypeTab";
 import DecryptForm from "./DecryptForm";
 import Alert from "@material-ui/lab/Alert";
 import * as utils from "../utils/utils";
