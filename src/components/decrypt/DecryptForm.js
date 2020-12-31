@@ -21,10 +21,8 @@ const useStyles = makeStyles((theme) => ({
   textBox: {
     maxWidth: "700px",
   },
-
-  dropSelect: {
-    width: "225px",
-  },
+  select: { maxWidth: "225px" },
+  dropSelect: { width: "100%" },
   buttonProgress: {
     position: "absolute",
     top: "50%",
@@ -260,10 +258,10 @@ const DecryptForm = (props) => {
           </FormControl>
         </Box>
         <Box pb={4}>{inputType}</Box>
-        <Box pb={2}>
+        <Box pb={2} className={classes.select}>
           <FormControl
             variant="outlined"
-            className={classes.formControl}
+            className={classes.dropSelect}
             error={errors.fileTypeErr ? true : false}
           >
             <InputLabel id="demo-simple-select-outlined-label">
@@ -275,7 +273,6 @@ const DecryptForm = (props) => {
               id="demo-simple-select-outlined"
               value={fileExt}
               onChange={handleFileType}
-              className={classes.dropSelect}
               label="Text FIle Type"
             >
               <MenuItem value={"txt"}>.txt</MenuItem>

@@ -19,16 +19,25 @@ import {
 import { generateKey } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
+  form: {
+    maxWidth: "350px",
+    [theme.breakpoints.down(600 + theme.spacing(3) * 2)]: {
+      maxWidth: "225px",
+    },
+  },
   formField: {
-    width: "300px",
+    width: "100%",
   },
   pwInput: {
-    width: "300px",
+    maxWidth: "225px",
   },
   dropSelect: {
-    width: "250px",
+    maxWidth: "241px",
+    [theme.breakpoints.down(600 + theme.spacing(3) * 2)]: {
+      maxWidth: "170px",
+    },
   },
-
+  formControl: { width: "100%" },
   main: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
@@ -49,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 const KeyGen = (props) => {
   const classes = useStyles();
   const [key, setKey] = useState(undefined);
-  const [bits, setBits] = useState(2048)
+  const [bits, setBits] = useState(2048);
   const [keyFields, setKeyFields] = useState({ name: "", email: "", pw: "" });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -137,74 +146,78 @@ const KeyGen = (props) => {
                 <br />
                 <b>Just don't lose you Private Key and Passphrase!</b>
               </Box>
-              <Box pb={4}>
-                <TextField
-                  required
-                  className={classes.formField}
-                  id="outlined-required"
-                  label="Name"
-                  onChange={handleName}
-                  error={errors.name}
-                  helperText={errors.name && "Text Required!"}
-                  variant="outlined"
-                />
-              </Box>
+              <div className={classes.form}>
+                <Box pb={4}>
+                  <TextField
+                    required
+                    className={classes.formField}
+                    id="outlined-required"
+                    label="Name"
+                    onChange={handleName}
+                    error={errors.name}
+                    helperText={errors.name && "Text Required!"}
+                    variant="outlined"
+                  />
+                </Box>
 
-              <Box pb={4}>
-                {" "}
-                <TextField
-                  required
-                  className={classes.formField}
-                  id="outlined-disabled"
-                  label="email"
-                  onChange={handleEmail}
-                  error={errors.emailNull || errors.emailFormat}
-                  helperText={
-                    (errors.emailNull || errors.emailFormat) && errors.emMessage
-                  }
-                  variant="outlined"
-                />
-              </Box>
-              <Box style={{ width: "350px" }}>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                      error={errors.fileTypeErr ? true : false}
-                    >
-                      <InputLabel id="demo-simple-select-outlined-label">
-                        RSA Key Size
-                      </InputLabel>
-                      <Select
-                        required
-                        labelId="demo-simple-select-outlined-label"
-                        id="demo-simple-select-outlined"
-                        value={bits}
-                        onChange={(e)=>setBits(e.target.value)}
-                        className={classes.dropSelect}
-                        label="Text FIle Type"
+                <Box pb={4}>
+                  {" "}
+                  <TextField
+                    required
+                    className={classes.formField}
+                    id="outlined-disabled"
+                    label="email"
+                    onChange={handleEmail}
+                    error={errors.emailNull || errors.emailFormat}
+                    helperText={
+                      (errors.emailNull || errors.emailFormat) &&
+                      errors.emMessage
+                    }
+                    variant="outlined"
+                  />
+                </Box>
+                <Box>
+                  <Grid container spacing={2}>
+                    <Grid item container className={classes.dropSelect}>
+                      <FormControl
+                        variant="outlined"
+                        className={classes.formControl}
+                        error={errors.fileTypeErr ? true : false}
                       >
-                        <MenuItem value={4096}>4096</MenuItem>
-                        <MenuItem value={3072}>3072</MenuItem>
-                        <MenuItem value={2048}>2048</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item>
-                    <div>
-                      <Tooltip title={`This controls key length. The larger the value, the stronger the encryption. The default is pretty good.`}>
-                        <IconButton
-                          disableFocusRipple={true}
-                          disableRipple={true}
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          RSA Key Size
+                        </InputLabel>
+                        <Select
+                          required
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={bits}
+                          onChange={(e) => setBits(e.target.value)}
+                          label="Text FIle Type"
                         >
-                          <HelpIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
+                          <MenuItem value={4096}>4096</MenuItem>
+                          <MenuItem value={3072}>3072</MenuItem>
+                          <MenuItem value={2048}>2048</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item>
+                      <div>
+                        <Tooltip
+                          title={`This controls key length. The larger the value, the stronger the encryption. The default is pretty good.`}
+                        >
+                          <IconButton
+                            disableFocusRipple={true}
+                            disableRipple={true}
+                          >
+                            <HelpIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Box>
+                </Box>
+              </div>
             </div>
             <PassPhrase
               class={classes.pwInput}
