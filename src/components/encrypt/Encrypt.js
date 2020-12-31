@@ -1,46 +1,32 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import Result from "./EncResult";
-import EncTypeTab from "../utils/EncTypeTab";
+import EncTypeTab from "../shared/EncTypeTab";
 import EncryptForm from "./EncryptForm";
-import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { resetAlert, encSuccess, encError } from "../utils/utils";
-import {snackLocation} from '../utils/config';
-
-
-const openpgp = require("openpgp");
+import { snackLocation } from "../utils/config";
+import { Box, Typography, Snackbar } from "@material-ui/core";
+import { message as pgpMessage, encrypt } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    // marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
-  pre: {
-    fontSize: "inherit",
-    color: "inherit",
-    border: "initial",
-    padding: "initial",
-    fontFamily: "inherit",
-  },
   root: {
     display: "flex",
     "& > * + *": {
       marginLeft: theme.spacing(2),
     },
   },
-  alert: {
-    width: "95%",
-    // paddingTop: "5px",
-    margin: "auto",
+  header: {
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+    },
   },
 }));
 
-const Encrypt = (props) => {
-
+const Encrypt = () => {
   const classes = useStyles();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -48,39 +34,28 @@ const Encrypt = (props) => {
   const [alert, setAlert] = useState(resetAlert);
   const [armorTxt, setArmorTxt] = useState();
 
-  const byteEncrypt = async (
-    passPhrase,
-    pubKey,
-    uploadedFile,
-    ext,
-    binInd
-  ) => {
-
+  const byteEncrypt = async (passPhrase, pubKey, uploadedFile, ext, binInd) => {
     try {
-    setLoader(true);
+      setLoader(true);
 
-    let inputMessage =
-    binInd
-        ? openpgp.message.fromBinary(uploadedFile)
-        : openpgp.message.fromText(uploadedFile);
+      let inputMessage = binInd
+        ? pgpMessage.fromBinary(uploadedFile)
+        : pgpMessage.fromText(uploadedFile);
 
-    let encIn = {
-      message: inputMessage,
-      armor: false,
-    };
+      let encIn = {
+        message: inputMessage,
+        armor: false,
+      };
 
-    pubKey
-      ? (encIn.publicKeys = pubKey)
-      : (encIn.passwords = [passPhrase]);
+      pubKey ? (encIn.publicKeys = pubKey) : (encIn.passwords = [passPhrase]);
 
-    const { message } = await openpgp.encrypt(encIn);
-    binInd && message.packets.write();
+      const { message } = await encrypt(encIn);
+      binInd && message.packets.write();
 
-
-    setArmorTxt({ armorTxt: message.armor(), ext: ext });
-    outputHandler();
-  } catch (e) {
-    setAlert(encError);
+      setArmorTxt({ armorTxt: message.armor(), ext: ext });
+      outputHandler();
+    } catch (e) {
+      setAlert(encError);
     }
   };
 
@@ -116,7 +91,7 @@ const Encrypt = (props) => {
   );
 
   return (
-    <>
+    <div>
       {alert.show && (
         <Snackbar
           anchorOrigin={snackLocation}
@@ -129,25 +104,21 @@ const Encrypt = (props) => {
           </Alert>
         </Snackbar>
       )}
+      <Box p={2}>
+        <div className={classes.header}>
+          {!success && <EncTypeTab handleType={handleEncType} />}
 
-      {!success && <EncTypeTab handleType={handleEncType} />}
-      <Grid container wrap="nowrap" spacing={0}>
-        <Grid item></Grid>
-        <Grid item xs>
           <Typography className={classes.heading} variant="h5" gutterBottom>
-            {encType === 0 ? "AES 256 Encryption" : "RSA  Encryption"}
+            {encType === 0 ? (
+              <b>Passphrase Encryption</b>
+            ) : (
+              <b>Key Encryption</b>
+            )}
           </Typography>
-          {success ? (
-            <Result
-              reset={reset}
-              armorTxt={armorTxt}
-            />
-          ) : (
-            form
-          )}
-        </Grid>
-      </Grid>
-    </>
+        </div>
+        {success ? <Result reset={reset} armorTxt={armorTxt} /> : form}
+      </Box>
+    </div>
   );
 };
 

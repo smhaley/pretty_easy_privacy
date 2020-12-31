@@ -1,29 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import teal from '@material-ui/core/colors/teal';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import { HashRouter as Router } from "react-router-dom";
+import * as serviceWorker from "./serviceWorker";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import deepPurple from "@material-ui/core/colors/deepPurple";
+import teal from "@material-ui/core/colors/teal";
+require('typeface-roboto')
 
 const theme = createMuiTheme({
   palette: {
     primary: deepPurple,
     secondary: teal,
+    background: {
+      default: "#ffffff",
+    },
   },
-},
-);
-
+});
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Router>
     <ThemeProvider theme={theme}>
-    <App />
+      <App />
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </Router>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

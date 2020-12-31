@@ -1,28 +1,16 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Display from "../utils/BrowserResult";
+import { Button, Box, Typography } from "@material-ui/core";
+import Display from "../shared/BrowserResult";
 import { mimes } from "../utils/utils";
-import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
-  result: {
-    // marginTop: '200px',
-    height: "100px",
-    width: "350px",
-    overflowY: "scroll",
-  },
-  paper: {
-    height: "100px",
-    width: "350px",
+  main: {
+    padding: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      padding: theme.spacing(2),
+    },
   },
   button: {
     margin: "5px",
@@ -54,35 +42,29 @@ const Result = (props) => {
       "pep_output_" +
       element.href.split("/")[3].split("-")[0] +
       "." +
-      decryptedVal.ext; //make random name
+      decryptedVal.ext;
     element.click();
     element.remove();
   };
 
   return (
-    <Grid container wrap="nowrap" spacing={0}>
-      <Grid item></Grid>
-      <Grid item xs>
-        <Typography className={classes.heading} variant="h6" gutterBottom>
-          Retrieve Encrypted Data
+    <div className={classes.main}>
+      <Box pt={2}>
+        <Typography variant="h6" gutterBottom>
+          Decrypted Data:
         </Typography>
-        <Box mb={2}>
-              <Button
-                disabled={disableCopy}
-                onClick={() => setOpenEnc(!openEnc)}
-                variant="outlined"
-                color={"secondary"}
-                className={classes.button}
-              >
-                In Browser
-              </Button>
-          {disableCopy && (
-            <FormHelperText style={{ paddingLeft: "8px" }}>
-              Result too Large
-            </FormHelperText>
-          )}
+
+        <Box mb={2} pr={4}>
           <Button
-            // onClick={() => props.outputTag.click()}
+            disabled={disableCopy}
+            onClick={() => setOpenEnc(!openEnc)}
+            variant="outlined"
+            color={"secondary"}
+            className={classes.button}
+          >
+            {!openEnc ? "In Browser" : "Hide"}
+          </Button>
+          <Button
             onClick={() => outputHandler(outbound)}
             variant="outlined"
             color={"secondary"}
@@ -103,8 +85,8 @@ const Result = (props) => {
             New Decryption{" "}
           </Button>
         </Box>
-      </Grid>
-    </Grid>
+      </Box>
+    </div>
   );
 };
 

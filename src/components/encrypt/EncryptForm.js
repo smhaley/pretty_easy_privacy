@@ -1,112 +1,69 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
-import IconButton from "@material-ui/core/IconButton";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import PassPhrase from "../utils/Passphrase";
-import KeyInput from "../utils/KeyInput";
+import PassPhrase from "../shared/Passphrase";
+import KeyInput from "../shared/KeyInput";
+import InFile from "../shared/InFile";
+import {
+  TextField,
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
-  pwMeter: {
-    width: "225px",
-  },
-  pw: {
-    color: "#777fa7",
-    marginTop: "18px",
-  },
   textBox: {
     maxWidth: "700px",
   },
+  main: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
+  },
 }));
-
-const InFile = (props) => {
-  // const classes = useStyles();
-
-  const handleDelete = () => {
-    props.setUploadedFile(null);
-    props.setFileMetaData(null);
-  };
-  const selectedFile = props.fileMetaData && (
-    <>
-      <FormLabel>{`Selected: ${props.fileMetaData.name}`}</FormLabel>
-      <IconButton onClick={handleDelete}>
-        <DeleteOutlineSharpIcon />
-      </IconButton>
-    </>
-  );
-  return (
-    <Box>
-      <FormLabel component="legend">Select a File Object:</FormLabel>
-      <Box mt={1}>
-        <Button
-          onClick={() => document.getElementById("inp").click()}
-          variant="outlined"
-          color="secondary"
-        >
-          Browse
-        </Button>{" "}
-        {selectedFile}
-        {props.formByteInputError && (
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
-            id="pw-in-helper-text"
-          >
-            File Required
-          </p>
-        )}
-        <input
-          id="inp"
-          type="file"
-          style={{ visibility: "hidden" }}
-          onChange={props.readFile}
-        />
-      </Box>
-    </Box>
-  );
-};
 
 const EncryptForm = (props) => {
   const classes = useStyles();
 
-  //update-> handle all Files wor here. send up to handle enc + output
-  //on unmout clear all state
-  //is pw comp to handle all passphrase work
-
-  const [inputTypeSelect, setInputTypeSelect] = useState("text");
+  const [inputTypeSelect, setInputTypeSelect] = useState("byte");
   const [textInput, textInputState] = useState("");
   const [formTextInputError, setFormTextInputError] = useState(false);
   const [formByteInputError, setFormByteInputError] = useState(false);
-
   const [uploadedFile, setUploadedFile] = useState();
   const [fileMetaData, setFileMetaData] = useState();
+  const [uploading, setUploading] = useState(false);
 
   const readFile = (e) => {
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
-    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+    setUploading(true);
 
-    reader.onload = function () {
+    reader.onloadend = () => {
       setUploadedFile(new Uint8Array(reader.result));
+      setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+      setUploading(false);
     };
 
-    reader.onerror = function () {};
+    reader.onerror = () => {
+      setUploading(false);
+      setUploadedFile(undefined);
+    };
   };
 
-  //text input
+  const handleDelete = () => {
+    setUploadedFile(undefined);
+    setFileMetaData(undefined);
+  };
+
   const handleTextInput = (e) => {
     textInputState(e.target.value);
   };
@@ -139,15 +96,15 @@ const EncryptForm = (props) => {
         fileMetaData={fileMetaData}
         formByteInputError={formByteInputError}
         readFile={readFile}
-        setUploadedFile={setUploadedFile}
-        setFileMetaData={setFileMetaData}
+        handleDelete={handleDelete}
+        label="Browse for File"
+        uploading={uploading}
+        inId="encIn"
       />
     );
   }
 
   const handleFormSubmit = () => {
-    //TODO Needed?
-    // e && e.preventDefault();
     setFormTextInputError(false);
     setFormByteInputError(false);
 
@@ -180,34 +137,40 @@ const EncryptForm = (props) => {
 
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
-      <Box mt={4} mb={4}>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Input Format</FormLabel>
-          <RadioGroup
-            row
-            aria-label="position"
-            name="position"
-            value={inputTypeSelect}
-            defaultValue="top"
-            onChange={handleInputType}
-          >
-            <FormControlLabel
-              value="text"
-              control={<Radio color="primary" />}
-              label="Text Input"
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value="byte"
-              control={<Radio color="secondary" />}
-              label="File Input"
-              labelPlacement="start"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Box>
-      {inputType}
+      <div className={classes.main}>
+        <Box pt={2} pb={2}>
+          To Encrypt, simply fill out this form.
+          <br />
+          {props.encType === 0 && <b>Just don't lose your Passphrase!</b>}
+        </Box>
+        <Box mb={2}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={inputTypeSelect}
+              defaultValue="top"
+              onChange={handleInputType}
+            >
+              <FormControlLabel
+                value="byte"
+                control={<Radio color="secondary" />}
+                label="Load my secret"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="text"
+                control={<Radio color="primary" />}
+                label="Type my secret"
+                labelPlacement="end"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
 
+        <Box>{inputType}</Box>
+      </div>
       {props.encType === 0 ? (
         <PassPhrase
           mainButtonText={"Encrypt"}

@@ -7,10 +7,24 @@ export const mimes = {
   css: "text/css",
 };
 
+export const copy = (inputId) => {
+  let copyText = document.getElementById(inputId).textContent;
+  const textArea = document.createElement("textarea");
+  textArea.setAttribute("id", "copy");
+  textArea.textContent = copyText;
+  document.body.append(textArea);
+  textArea.select();
+  textArea.setSelectionRange(0, 99999); /*For mobile devices*/
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+  textArea.remove();
+};
+
 export const extSelect = async (decrypted, decType) => {
-  let bufferType
-  if (decType.fileType==='byte'){
-    bufferType =  await FileType.fromBuffer(decrypted);
+  let bufferType;
+  if (decType.fileType === "byte") {
+    bufferType = await FileType.fromBuffer(decrypted);
   }
 
   if (bufferType) {
@@ -51,7 +65,7 @@ export const encSuccess = {
   show: true,
   message: "Encryption Complete",
   severity: "success",
-}
+};
 
 export const encError = {
   show: true,
@@ -65,7 +79,6 @@ export const resetAlert = {
   severity: "",
 };
 
-
 export const keyError = {
   show: true,
   message: "Invalid RSA Key! Please try again.",
@@ -78,3 +91,8 @@ export const privKeyPassError = {
   severity: "error",
 };
 
+export const pubKeyDecError = {
+  show: true,
+  message: "A Public Key has been supplied. Please provide your Private Key!",
+  severity: "error",
+};

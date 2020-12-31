@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Display from "../utils/BrowserResult";
-import FormHelperText from "@material-ui/core/FormHelperText";
-
-//todo disbale in browser if 'larger'
+import { Button, Box, Typography } from "@material-ui/core";
+import Display from "../shared/BrowserResult";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
+  main: {
+    padding: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      padding: theme.spacing(2),
+    },
   },
+
   result: {
-    // marginTop: '200px',
-    height: "100px",
-    width: "350px",
+    maxHeight: "100px",
+    maxWidth: "350px",
     overflowY: "scroll",
   },
   paper: {
@@ -29,8 +25,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "5px",
   },
 }));
-
-//id, armorTxt
 
 const Result = (props) => {
   const classes = useStyles();
@@ -44,20 +38,27 @@ const Result = (props) => {
     const element = document.createElement("a");
     const file = new Blob([textVal.armorTxt], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download =
-      `${element.href.split("/")[3]}_${textVal.ext}_.aes"`;
+    element.download = `${element.href.split("/")[3]}.aes"`;
     element.click();
     element.remove();
   };
 
   return (
-    <Grid container wrap="nowrap" spacing={0}>
-      <Grid item></Grid>
-      <Grid item xs>
-        <Typography className={classes.heading} variant="h6" gutterBottom>
-          Retrieve Encrypted Data
+    <div className={classes.main}>
+      <Box pt={2}>
+        <Typography variant="h6" gutterBottom>
+          Encrypted Data:
         </Typography>
-        <Box mb={2}>
+        <Box>
+          Here are your results.
+          <br />
+          We recommend downloading the file.
+          <br />
+          Don't worry, if you prefer working with text yourself, we provide that
+          too. <br />
+          <br />
+        </Box>
+        <Box mb={2} pr={4}>
           <Button
             disabled={disableCopy}
             onClick={() => setOpenEnc(!openEnc)}
@@ -65,7 +66,7 @@ const Result = (props) => {
             color={"secondary"}
             className={classes.button}
           >
-            In Browser
+            {!openEnc ? "In Browser" : "Hide"}
           </Button>
 
           <Button
@@ -76,18 +77,8 @@ const Result = (props) => {
           >
             Download
           </Button>
-          {disableCopy && (
-            <FormHelperText style={{ paddingLeft: "8px" }}>
-              Result too Large
-            </FormHelperText>
-          )}
           {openEnc && <Display val={armorTxt.armorTxt} id="encryptedResult" />}
         </Box>
-        {/* <Paper className={classes.paper}>
-        <div className={classes.result}>
-          <pre id={'test'}>{props.armorTxt}</pre>
-        </div>
-      </Paper> */}
         <Box>
           <Button
             onClick={props.reset}
@@ -99,8 +90,8 @@ const Result = (props) => {
             New Encryption{" "}
           </Button>
         </Box>
-      </Grid>
-    </Grid>
+      </Box>
+    </div>
   );
 };
 

@@ -1,106 +1,50 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
-import IconButton from "@material-ui/core/IconButton";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import KeyInput from "../utils/KeyInput";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import FormHelperText from "@material-ui/core/FormHelperText";
-
-//todo file type (text, csv) or image based
+import KeyInput from "../shared/KeyInput";
+import InFile from "../shared/InFile";
+import {
+  TextField,
+  Button,
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  FormHelperText,
+  CircularProgress,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
-  pwMeter: {
-    width: "225px",
-  },
-  pw: {
-    color: "#777fa7",
-    marginTop: "18px",
-  },
   textBox: {
     maxWidth: "700px",
   },
-
-  dropSelect: {
-    width: "225px",
-  },
+  select: { maxWidth: "225px" },
+  dropSelect: { width: "100%" },
   buttonProgress: {
-    // color: green[500],
     position: "absolute",
     top: "50%",
     left: "50%",
     marginTop: -12,
     marginLeft: -12,
   },
+  main: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
+  },
 }));
-
-const InFile = (props) => {
-  // const classes = useStyles();
-
-  const handleDelete = () => {
-    props.setUploadedFile(null);
-    props.setFileMetaData(null);
-  };
-  const selectedFile = props.fileMetaData && (
-    <>
-      <FormLabel>{`Selected: ${props.fileMetaData.name}`}</FormLabel>
-      <IconButton onClick={handleDelete}>
-        <DeleteOutlineSharpIcon />
-      </IconButton>
-    </>
-  );
-  return (
-    <Box>
-      <FormLabel component="legend">Select a File Object:</FormLabel>
-      <Box mt={1}>
-        <Button
-          onClick={() => document.getElementById("inp").click()}
-          variant="outlined"
-          color="secondary"
-        >
-          Browse
-        </Button>{" "}
-        {selectedFile}
-        {props.formByteInputError && (
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
-            id="pw-in-helper-text"
-          >
-            File Required
-          </p>
-        )}
-        <input
-          id="inp"
-          type="file"
-          style={{ visibility: "hidden" }}
-          onChange={props.readFile}
-        />
-      </Box>
-    </Box>
-  );
-};
 
 const DecryptForm = (props) => {
   const classes = useStyles();
-
-  //update-> handle all Files wor here. send up to handle enc + output
-  //on unmout clear all state
-  //is pw comp to handle all passphrase work
 
   let resetErrors = {
     formTextInputError: false,
@@ -109,17 +53,22 @@ const DecryptForm = (props) => {
     fileTypeErr: false,
     fileExtErr: false,
   };
-  const [inputTypeSelect, setInputTypeSelect] = useState("text");
+  const [inputTypeSelect, setInputTypeSelect] = useState("byte");
   const [textInput, textInputState] = useState("");
   const [errors, setErrors] = useState(resetErrors);
   const [passPhrase, passPhraseState] = useState("");
-  const [uploadedFile, setUploadedFile] = useState();
   const [fileType, setFileType] = useState("");
   const [fileExt, setFileExt] = useState("");
   const [fileMetaData, setFileMetaData] = useState();
+  const [uploading, setUploading] = useState(false);
 
   const handlePassPhrase = (e) => {
     passPhraseState(e.target.value);
+  };
+
+  const handleDelete = () => {
+    textInputState(undefined);
+    setFileMetaData(undefined);
   };
 
   const handleFileType = (e) => {
@@ -135,15 +84,22 @@ const DecryptForm = (props) => {
   const readFile = (e) => {
     var file = e.target.files[0];
     if (!file) return;
-    var reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    setFileMetaData({ name: file.name, type: file.type.replace("/", "_") });
+    let reader = new FileReader();
+    setUploading(true);
 
-    reader.onload = function () {
-      setUploadedFile(new Uint8Array(reader.result));
+    reader.readAsText(file);
+    let metaData = { name: file.name, type: file.type.replace("/", "_") };
+
+    reader.onloadend = () => {
+      setFileMetaData(metaData);
+      textInputState(reader.result);
+      setUploading(false);
     };
-    reader.onerror = function () {};
 
+    reader.onerror = () => {
+      textInputState(undefined);
+      setUploading(false);
+    };
   };
 
   //text input
@@ -169,7 +125,7 @@ const DecryptForm = (props) => {
         fullWidth={true}
         error={errors.formTextInputError}
         id="outlined-multiline-static"
-        label="Text to Encrypt"
+        label="Enter something like: -----BEGIN PGP MESSAGE-----"
         multiline
         rows={10}
         onChange={handleTextInput}
@@ -182,8 +138,11 @@ const DecryptForm = (props) => {
         fileMetaData={fileMetaData}
         formByteInputError={errors.formByteInputError}
         readFile={readFile}
-        setUploadedFile={setUploadedFile}
-        setFileMetaData={setFileMetaData}
+        handleDelete={handleDelete}
+        label="Browse for Encrypted File"
+        uploading={uploading}
+        errMessage={"Text File Required"}
+        inId="decIn"
       />
     );
   }
@@ -192,10 +151,10 @@ const DecryptForm = (props) => {
     e && e.preventDefault();
     setErrors(resetErrors);
 
-    let byteErr,
-      textErr,
-      pwErr,
-      fileTypeErr,
+    let byteErr = false,
+      textErr = false,
+      pwErr = false,
+      fileTypeErr = false,
       fileExtErr = false;
 
     let totalErr = false;
@@ -203,7 +162,7 @@ const DecryptForm = (props) => {
     if (inputTypeSelect === "text" && (!textInput || textInput === "")) {
       textErr = true;
       totalErr = true;
-    } else if (inputTypeSelect === "byte" && !uploadedFile) {
+    } else if (inputTypeSelect === "byte" && (!textInput || textInput === "")) {
       totalErr = true;
       byteErr = true;
     }
@@ -243,81 +202,95 @@ const DecryptForm = (props) => {
     let aes, rsa;
     props.encType === 0 ? (aes = encryptionKey) : (rsa = encryptionKey);
 
-    if (fileType === "text") {
-      props.byteDecrypt(aes, rsa, textInput, {
-        fileType: fileType,
-        ext: fileExt,
-      });
-    } else if (fileType === "byte") {
-      props.byteDecrypt(aes, rsa, textInput, {
-        fileType: fileType,
-        ext: fileExt,
-      });
-    }
+    props.byteDecrypt(aes, rsa, textInput, {
+      fileType: fileType,
+      ext: fileExt,
+    });
   };
+
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
-      <Box mt={4} mb={4}>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Input Format</FormLabel>
-          <RadioGroup
-            row
-            aria-label="position"
-            name="position"
-            value={inputTypeSelect}
-            defaultValue="top"
-            onChange={handleInputType}
-          >
-            <FormControlLabel
-              value="text"
-              control={<Radio color="primary" />}
-              label="Text Input"
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value="byte"
-              control={<Radio color="secondary" />}
-              label="File Input"
-              labelPlacement="start"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Box>
-      {inputType}
-
-      <Box mt={4} mb={4}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          error={errors.fileTypeErr ? true : false}
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            File Type
-          </InputLabel>
-          <Select
-            required
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={fileExt}
-            onChange={handleFileType}
+      <div className={classes.main}>
+        <Box mb={2}>
+          <Box pt={2} pb={2}>
+            Simply supply your encrypted file or text.
+            <br />
+            Let us know the expected output format.
+            <br />
+            {props.encType === 0 ? (
+              <>
+                {" "}
+                Supply your passphrase.
+                <br />{" "}
+              </>
+            ) : (
+              <>
+                Supply your private key and passphrase.
+                <br />
+              </>
+            )}
+            Decrypt.
+            <br />
+          </Box>
+          <FormControl component="fieldset">
+            {/* <FormLabel component="legend">Input Format</FormLabel> */}
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={inputTypeSelect}
+              defaultValue="top"
+              onChange={handleInputType}
+            >
+              <FormControlLabel
+                value="byte"
+                control={<Radio color="secondary" />}
+                label="Load my gibberish"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="text"
+                control={<Radio color="primary" />}
+                label="Paste my gibberish"
+                labelPlacement="end"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
+        <Box pb={4}>{inputType}</Box>
+        <Box pb={2} className={classes.select}>
+          <FormControl
+            variant="outlined"
             className={classes.dropSelect}
-            label="Text FIle Type"
+            error={errors.fileTypeErr ? true : false}
           >
-            <MenuItem value={"txt"}>.txt</MenuItem>
-            <MenuItem value={"csv"}>.csv</MenuItem>
-            <MenuItem value={"byte"}>Something Else</MenuItem>
-          </Select>
-          {errors.fileTypeErr && (
-            <FormHelperText>
-              Please enter the format of the decrypted file
-            </FormHelperText>
-          )}
-        </FormControl>
-      </Box>
+            <InputLabel id="demo-simple-select-outlined-label">
+              File Type
+            </InputLabel>
+            <Select
+              required
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={fileExt}
+              onChange={handleFileType}
+              label="Text FIle Type"
+            >
+              <MenuItem value={"txt"}>.txt</MenuItem>
+              <MenuItem value={"csv"}>.csv</MenuItem>
+              <MenuItem value={"byte"}>Something Else</MenuItem>
+            </Select>
+            {errors.fileTypeErr && (
+              <FormHelperText>
+                Please enter the format of the decrypted file
+              </FormHelperText>
+            )}
+          </FormControl>
+        </Box>
+      </div>
 
       {props.encType === 0 ? (
-        <>
-          <Box mt={4} mb={4}>
+        <div className={classes.main}>
+          <Box>
             <TextField
               required
               helperText={
@@ -349,7 +322,7 @@ const DecryptForm = (props) => {
               )}
             </Button>
           </Box>
-        </>
+        </div>
       ) : (
         <KeyInput
           loading={props.loader}

@@ -1,50 +1,64 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import PassPhrase from "../utils/Passphrase";
-
-
-import Display from '../utils/BrowserResult'
-
-const openpgp = require("openpgp");
+import PassPhrase from "../shared/Passphrase";
+import Display from "../shared/BrowserResult";
+import HelpIcon from "@material-ui/icons/Help";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  IconButton,
+  Tooltip,
+  Grid,
+} from "@material-ui/core";
+import { generateKey } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
+  form: {
+    maxWidth: "350px",
+    [theme.breakpoints.down(600 + theme.spacing(3) * 2)]: {
+      maxWidth: "225px",
+    },
+  },
   formField: {
-    width: "350px",
+    width: "100%",
   },
   pwInput: {
-    width: "350px",
+    maxWidth: "225px",
   },
-
+  dropSelect: {
+    maxWidth: "241px",
+    [theme.breakpoints.down(600 + theme.spacing(3) * 2)]: {
+      maxWidth: "170px",
+    },
+  },
+  formControl: { width: "100%" },
   main: {
-    marginTop: "50px",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
   },
 
-  heading: {
-    marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
   button: {
     margin: "5px",
-  },
-  // copy: {
-  //   marginLeft: "318px",
-  // },
-  alert: {
-    // marginRight: "310px",
-    width: "200px",
-    height: "10px",
   },
 }));
 
 const KeyGen = (props) => {
   const classes = useStyles();
   const [key, setKey] = useState(undefined);
+  const [bits, setBits] = useState(2048);
   const [keyFields, setKeyFields] = useState({ name: "", email: "", pw: "" });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -56,9 +70,9 @@ const KeyGen = (props) => {
 
   const handleCreate = async (passKey) => {
     setLoading(true);
-    const key = await openpgp.generateKey({
+    const key = await generateKey({
       userIds: [{ name: keyFields.name, email: keyFields.email }],
-      rsaBits: 4096, // RSA key size
+      rsaBits: bits, // RSA key size
       passphrase: passKey,
     });
     setKey(key);
@@ -115,63 +129,112 @@ const KeyGen = (props) => {
   };
 
   return (
-    <>
+    <Box p={2}>
       {typeof key == "undefined" ? (
         <>
-          <Typography className={classes.heading} variant="h5" gutterBottom>
-            RSA Key Generation
-          </Typography>
-          <div className={classes.main}>
-            <form onSubmit={(e) => handleFormSubmit(e)}>
-              <Box mb={3}>
-                <TextField
-                  required
-                  className={classes.formField}
-                  id="outlined-required"
-                  label="Name"
-                  onChange={handleName}
-                  error={errors.name}
-                  helperText={errors.name && "Text Required!"}
-                  // defaultValue="Hello World"
-                  variant="outlined"
-                />
+          <form onSubmit={(e) => handleFormSubmit(e)}>
+            <div className={classes.main}>
+              <Typography className={classes.heading} variant="h5" gutterBottom>
+                <b> RSA Key Generation</b>
+              </Typography>
+              <Box pb={4} pt={2}>
+                Creating Keys is simple. Just fill out this form.
+                <br />
+                No worries if you don't want to use your name or email address.
+                Just make one up!
+                <br />
+                <br />
+                <b>Just don't lose you Private Key and Passphrase!</b>
               </Box>
+              <div className={classes.form}>
+                <Box pb={4}>
+                  <TextField
+                    required
+                    className={classes.formField}
+                    id="outlined-required"
+                    label="Name"
+                    onChange={handleName}
+                    error={errors.name}
+                    helperText={errors.name && "Text Required!"}
+                    variant="outlined"
+                  />
+                </Box>
 
-              <Box mb={3}>
-                {" "}
-                <TextField
-                  required
-                  className={classes.formField}
-                  id="outlined-disabled"
-                  label="email"
-                  onChange={handleEmail}
-                  error={errors.emailNull || errors.emailFormat}
-                  helperText={
-                    (errors.emailNull || errors.emailFormat) && errors.emMessage
-                  }
-                  // defaultValue="Hello World"
-                  variant="outlined"
-                />
-              </Box>
-              <Box mb={3}></Box>
-              <PassPhrase
-                class={classes.pwInput}
-                loading={loading}
-                mainButtonText={"Generate"}
-                modalButtonText={"Submit"}
-                handleSubmit={handleFormSubmit}
-                handleConfirm={handleConfirm}
-              />
-            </form>
-          </div>
+                <Box pb={4}>
+                  {" "}
+                  <TextField
+                    required
+                    className={classes.formField}
+                    id="outlined-disabled"
+                    label="email"
+                    onChange={handleEmail}
+                    error={errors.emailNull || errors.emailFormat}
+                    helperText={
+                      (errors.emailNull || errors.emailFormat) &&
+                      errors.emMessage
+                    }
+                    variant="outlined"
+                  />
+                </Box>
+                <Box>
+                  <Grid container spacing={2}>
+                    <Grid item container className={classes.dropSelect}>
+                      <FormControl
+                        variant="outlined"
+                        className={classes.formControl}
+                        error={errors.fileTypeErr ? true : false}
+                      >
+                        <InputLabel id="demo-simple-select-outlined-label">
+                          RSA Key Size
+                        </InputLabel>
+                        <Select
+                          required
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={bits}
+                          onChange={(e) => setBits(e.target.value)}
+                          label="Text FIle Type"
+                        >
+                          <MenuItem value={4096}>4096</MenuItem>
+                          <MenuItem value={3072}>3072</MenuItem>
+                          <MenuItem value={2048}>2048</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item>
+                      <div>
+                        <Tooltip
+                          title={`This controls key length. The larger the value, the stronger the encryption. The default is pretty good.`}
+                        >
+                          <IconButton
+                            disableFocusRipple={true}
+                            disableRipple={true}
+                          >
+                            <HelpIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </div>
+            </div>
+            <PassPhrase
+              class={classes.pwInput}
+              loading={loading}
+              mainButtonText={"Generate"}
+              modalButtonText={"Submit"}
+              handleSubmit={handleFormSubmit}
+              handleConfirm={handleConfirm}
+            />
+          </form>
         </>
       ) : (
         <Result encKeys={key} />
       )}
-    </>
+    </Box>
   );
 };
-
 
 const Result = (props) => {
   const classes = useStyles();
@@ -179,80 +242,106 @@ const Result = (props) => {
   const [openPub, setOpenPub] = useState(false);
   const [openPriv, setOpenPriv] = useState(false);
 
-  const dlKey = (key,name) => {
+  const dlKey = (key, name) => {
     const element = document.createElement("a");
     const file = new Blob([key], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = name+'.txt'
-    element.click()
-    element.remove()
+    element.download = name + ".txt";
+    element.click();
+    element.remove();
   };
 
   let encKeys = props.encKeys;
 
   return (
-    <>
-      <Grid container wrap="nowrap" spacing={0}>
-        <Grid item></Grid>
-        <Grid item xs>
-          <Typography className={classes.heading} variant="h5" gutterBottom>
-            Key Result
-          </Typography>
+    <div className={classes.main}>
+      <Box>
+        <Typography className={classes.heading} variant="h5" gutterBottom>
+          <b> Key Results </b>
+        </Typography>
+        <br />
+        <br />
 
-          <Typography className={classes.heading} variant="h6" gutterBottom>
-            Private Key
-          </Typography>
-          <Box mb={2}>
-            <Button
-              onClick={() => setOpenPriv(!openPriv)}
-              variant="outlined"
-              color={"primary"}
-              className={classes.button}
-            >
-              {openPriv ? "Hide" : "In Browser"}
-            </Button>
-            <Button
-              onClick={() => dlKey(encKeys.privateKeyArmored, 'private_key')}
-              variant="outlined"
-              color={"primary"}
-              className={classes.button}
-            >
-              Download
-            </Button>
+        <Typography
+          className={classes.heading}
+          color="primary"
+          variant="h6"
+          gutterBottom
+        >
+          Private Key
+        </Typography>
 
-            {openPriv && (
-              <Display val={encKeys.privateKeyArmored} id="privateKey" />
-            )}
-          </Box>
-          <Typography className={classes.heading} variant="h6" gutterBottom>
-            Public Key
+        <Box pb={2}>
+          <Typography color="error">
+            <b>The private key is private. NEVER SHARE YOUR PRIVATE KEY</b>
           </Typography>
-          <Box mb={2}>
-            <Button
-              onClick={() => setOpenPub(!openPub)}
-              variant="outlined"
-              color={"secondary"}
-              className={classes.button}
-            >
-              {openPub ? "Hide" : "In Browser"}
-            </Button>
-            <Button
-              onClick={() => dlKey(encKeys.publicKeyArmored, 'public_key')}
-              variant="outlined"
-              color={"secondary"}
-              className={classes.button}
-            >
-              Download
-            </Button>
+          <p>
+            Use the private key for decrypting data encrypted with your public
+            key.
+          </p>
+        </Box>
+        <Box pb={4}>
+          <Button
+            onClick={() => setOpenPriv(!openPriv)}
+            variant="outlined"
+            color={"primary"}
+            data-testid="privateKey"
+            className={classes.button}
+          >
+            {openPriv ? "Hide" : "In Browser"}
+          </Button>
+          <Button
+            onClick={() => dlKey(encKeys.privateKeyArmored, "private_key")}
+            variant="outlined"
+            color={"primary"}
+            className={classes.button}
+          >
+            Download
+          </Button>
 
-            {openPub && (
-              <Display val={encKeys.publicKeyArmored} id="publicKey" />
-            )}
-          </Box>
-          <Box></Box>
-        </Grid>
-      </Grid>
-    </>
+          {openPriv && (
+            <Display val={encKeys.privateKeyArmored} id="privateKey" />
+          )}
+        </Box>
+        <Typography
+          color="secondary"
+          className={classes.heading}
+          variant="h6"
+          gutterBottom
+        >
+          Public Key
+        </Typography>
+
+        <Box pb={2}>
+          <p>The public key is public. You could share it with anyone.</p>
+          <p>
+            The public key encrypts files that only your private key can
+            decrypt.
+          </p>
+        </Box>
+        <Box mb={2}>
+          <Button
+            onClick={() => setOpenPub(!openPub)}
+            variant="outlined"
+            color={"secondary"}
+            data-testid="publicKey"
+            className={classes.button}
+          >
+            {openPub ? "Hide" : "In Browser"}
+          </Button>
+          <Button
+            onClick={() => dlKey(encKeys.publicKeyArmored, "public_key")}
+            variant="outlined"
+            color={"secondary"}
+            className={classes.button}
+          >
+            Download
+          </Button>
+
+          {openPub && <Display val={encKeys.publicKeyArmored} id="publicKey" />}
+        </Box>
+      </Box>
+    </div>
   );
 };
 export default KeyGen;

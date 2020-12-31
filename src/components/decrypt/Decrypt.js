@@ -1,43 +1,28 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import { Box, Typography, Snackbar } from "@material-ui/core";
 import Result from "./DecResult";
-import EncTypeTab from "../utils/EncTypeTab";
+import EncTypeTab from "../shared/EncTypeTab";
 import DecryptForm from "./DecryptForm";
 import Alert from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
 import * as utils from "../utils/utils";
 import { snackLocation } from "../utils/config";
-
-const openpgp = require("openpgp");
+import { decrypt, message } from "openpgp";
 
 const useStyles = makeStyles((theme) => ({
-  heading: {
-    // marginTop: "15px",
-    marginBottom: "30px",
-    textAlign: "left",
-  },
-  pre: {
-    fontSize: "inherit",
-    color: "inherit",
-    border: "initial",
-    padding: "initial",
-    fontFamily: "inherit",
-  },
-  main: {
-    width: "80%",
+  header: {
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+    },
   },
   root: {
     display: "flex",
     "& > * + *": {
       marginLeft: theme.spacing(2),
     },
-  },
-  alert: {
-    width: "95%",
-    // paddingTop: "5px",
-    margin: "auto",
   },
 }));
 
@@ -63,7 +48,7 @@ const Decrypt = (props) => {
     let encIn;
     try {
       encIn = {
-        message: await openpgp.message.readArmored(textInput),
+        message: await message.readArmored(textInput),
       };
     } catch (e) {
       let format =
@@ -79,7 +64,7 @@ const Decrypt = (props) => {
     decType.fileType === "byte" && (encIn.format = "binary");
 
     try {
-      const { data: decrypted } = await openpgp.decrypt(encIn);
+      const { data: decrypted } = await decrypt(encIn);
 
       let outFileType = await utils.extSelect(decrypted, decType);
 
@@ -93,6 +78,7 @@ const Decrypt = (props) => {
       e.message ===
         "Error decrypting message: Session key decryption failed." &&
         setAlert(utils.decPW);
+        setLoader(false);
       return;
     }
   };
@@ -117,7 +103,7 @@ const Decrypt = (props) => {
   );
 
   return (
-    <>
+    <div>
       {alert.show && (
         <Snackbar
           anchorOrigin={snackLocation}
@@ -130,25 +116,20 @@ const Decrypt = (props) => {
           </Alert>
         </Snackbar>
       )}
-
-      {!success && <EncTypeTab handleType={handleDecType} />}
-
-      {/* <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          minHeight="100vh"
-          > */}
-
-      <Grid container wrap="nowrap" spacing={0}>
-        <Grid item xs>
-          <Typography className={classes.heading} variant="h5" gutterBottom>
-            {encType === 0 ? "AES 256 Decryption" : "RSA  Decryption"}
+      <Box p={2}>
+        <div className={classes.header}>
+          {!success && <EncTypeTab handleType={handleDecType} />}
+          <Typography variant="h5" gutterBottom>
+            {encType === 0 ? (
+              <b>Passphrase Decryption</b>
+            ) : (
+              <b>Key Decryption</b>
+            )}
           </Typography>
-          {success ? <Result reset={reset} outbound={outbound} /> : form}
-        </Grid>
-      </Grid>
-    </>
+        </div>
+        {success ? <Result reset={reset} outbound={outbound} /> : form}
+      </Box>
+    </div>
   );
 };
 
