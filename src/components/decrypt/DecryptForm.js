@@ -300,7 +300,7 @@ const DecryptForm = (props) => {
               error={errors.passPhraseMissingError}
               id="pw-in"
               type="password"
-              label={"PassPhrase"}
+              label={"Passphrase"}
               variant="outlined"
             />
           </Box>
