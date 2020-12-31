@@ -252,7 +252,7 @@ const KeyInput = (props) => {
         </Box>
         <Box>
           <FormLabel component="legend"></FormLabel>
-          <Box mt={3}>{inputType}</Box>
+          <Box mt={2}>{inputType}</Box>
         </Box>
         {privateKey && (
           <Box pt={3}>

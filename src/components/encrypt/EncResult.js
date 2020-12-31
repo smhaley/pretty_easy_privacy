@@ -38,7 +38,7 @@ const Result = (props) => {
     const element = document.createElement("a");
     const file = new Blob([textVal.armorTxt], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = `${element.href.split("/")[3]}.aes"`;
+    element.download = `${element.href.split("/")[3]}.asc`;
     element.click();
     element.remove();
   };
