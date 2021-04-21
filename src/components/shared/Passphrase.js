@@ -16,7 +16,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   pwInput: {
-    width: "225px",
+    maxWidth: "225px",
   },
   pw: {
     color: "#777fa7",
@@ -169,6 +169,7 @@ const PassPhrase = (props) => {
       <Box pt={3}>
         <Button
           type="submit"
+          className={classes.pwInput}
           variant="contained"
           color={"primary"}
           disabled={props.loading}

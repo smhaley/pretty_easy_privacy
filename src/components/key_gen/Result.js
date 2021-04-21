@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Display from "../shared/BrowserResult";
 import { Box, Typography, Button } from "@material-ui/core";
-import { RestoreOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   main: {
