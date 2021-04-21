@@ -20,7 +20,7 @@ export default function Footer() {
 
   return (
     <>
-      <AppBar position="fixed" elevation={1} className={classes.appBar}>
+      <AppBar position="relative" elevation={1} className={classes.appBar}>
         <Toolbar>
           <div className={classes.footer}>
             © {new Date().getFullYear()}•Pretty Easy Privacy•smhaley

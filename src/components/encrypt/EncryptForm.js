@@ -169,17 +169,18 @@ const EncryptForm = (props) => {
           </FormControl>
         </Box>
 
-        <Box>{inputType}</Box>
+        <Box mb={props.encType === 0 ? 4 : 2}>{inputType}</Box>
+        {props.encType === 0 && (
+          <PassPhrase
+            mainButtonText={"Encrypt"}
+            modalButtonText={"Submit"}
+            handleSubmit={handleFormSubmit}
+            handleConfirm={handleEncrypt}
+            loading={props.loader}
+          />
+        )}
       </div>
-      {props.encType === 0 ? (
-        <PassPhrase
-          mainButtonText={"Encrypt"}
-          modalButtonText={"Submit"}
-          handleSubmit={handleFormSubmit}
-          handleConfirm={handleEncrypt}
-          loading={props.loader}
-        />
-      ) : (
+      {props.encType === 1 && (
         <KeyInput
           loading={props.loader}
           privateKey={false}

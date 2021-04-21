@@ -41,11 +41,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "0%",
 
     [theme.breakpoints.up("lg")]: {
-      marginRight: "20%",
+      marginRight: "8%",
     },
-    [theme.breakpoints.up("xl")]: {
-      marginRight: "20%",
-    },
+
   },
   drawer: {
     zIndex: 0,
@@ -104,13 +102,11 @@ const NavBar = (props) => {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-
       <Divider />
 
       <List>
         {staticRoutes.map((route, index) => (
           <NavLink
-            // tag={RouterLink}
             to={route.path}
             className={classes.sideNaveButtons}
             key={index}

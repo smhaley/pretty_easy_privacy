@@ -29,12 +29,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -12,
     marginLeft: -12,
   },
-  main: {
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      padding: theme.spacing(2),
-    },
-  },
 }));
 
 const PassPhraseConfirm = (props) => {
@@ -146,7 +140,7 @@ const PassPhrase = (props) => {
   };
 
   return (
-    <div className={classes.main}>
+    <>
       <Box>
         <Grid container spacing={1}>
           <Grid item>
@@ -198,7 +192,7 @@ const PassPhrase = (props) => {
         handleConfirm={handleConfirm}
         confirmError={errors.confirmError}
       />
-    </div>
+    </>
   );
 };
 
