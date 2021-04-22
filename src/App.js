@@ -37,17 +37,16 @@ const useStyles = makeStyles((theme) => ({
   },
 
   layout: {
-    maxWidth: "700px",
+    display: "flex",
+    justifyContent: "center",
+    maxWidth: "550px",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
   },
   paper: {
-    display: 'flex',
-    justifyContent:'center',
-    // marginBottom: theme.spacing(3),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginBottom: theme.spacing(6),
-    },
+    // [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+    //   marginBottom: theme.spacing(6),
+    // },
   },
 }));
 
