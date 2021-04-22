@@ -31,16 +31,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -12,
   },
   main: {
+    padding: theme.spacing(2),
+  },
+  submit: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
-  },
+  }
 }));
 
 const DecryptForm = (props) => {
@@ -289,7 +285,7 @@ const DecryptForm = (props) => {
       </div>
 
       {props.encType === 0 ? (
-        <div className={classes.main}>
+        <div className={classes.submit}>
           <Box>
             <TextField
               required

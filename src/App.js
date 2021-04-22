@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 
   content: {
+    minHeight: "calc(100vh - 56px)",
     flexGrow: 1,
     padding: theme.spacing(3),
     [theme.breakpoints.up("sm")]: {
@@ -41,7 +42,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   paper: {
-    marginBottom: theme.spacing(3),
+    display: 'flex',
+    justifyContent:'center',
+    // marginBottom: theme.spacing(3),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginBottom: theme.spacing(6),
     },
@@ -81,7 +84,6 @@ const App = () => {
           </Paper>
         </div>
       </main>
-
       <Footer />
     </div>
   );
