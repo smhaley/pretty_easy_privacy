@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "225px",
   },
   dropSelect: {
-    maxWidth: "241px",
+    maxWidth: "150px",
     [theme.breakpoints.down(600 + theme.spacing(3) * 2)]: {
       maxWidth: "170px",
     },
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   formControl: { width: "100%" },
 
   main: {
-    marginLeft: theme.spacing(2),
+    // marginLeft: theme.spacing(2),
     padding: theme.spacing(2),
 
   },
@@ -181,6 +181,7 @@ const KeyGen = () => {
                         </InputLabel>
                         <Select
                           required
+                          className ={classes.pwInput}
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={bits}

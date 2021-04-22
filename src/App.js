@@ -4,15 +4,9 @@ import NavBar from "./components/main/NavBar";
 import DelayedFallback from "./components/shared/DelayedFallback";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
-import Introduction from "./components/main/Introduction";
-import GetStarted from "./components/main/GetStarted";
-import Resources from "./components/main/Resources";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import Footer from "./components/main/Footer";
-
-const Encrypt = React.lazy(() => import("./components/encrypt/Encrypt"));
-const Decrypt = React.lazy(() => import("./components/decrypt/Decrypt"));
-const KeyGen = React.lazy(() => import("./components/key_gen/KeyGen"));
+import {standardRoutes, suspenseRoutes} from './pages'
 
 const drawerWidth = 220;
 const drawerPercent = "22%";
@@ -43,12 +37,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
   },
-  paper: {
-    // [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-    //   marginBottom: theme.spacing(6),
-    // },
-  },
 }));
+
 
 const App = () => {
   const classes = useStyles();
@@ -57,31 +47,19 @@ const App = () => {
       <NavBar />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <div className={classes.layout}>
-          <Paper className={classes.paper} elevation={0}>
-            <ScrollToTop />
-            <Switch>
-              <Route exact path="/" component={Introduction} />
-              <Route exact path="/resources" component={Resources} />
-              <Route exact path="/get_started" component={GetStarted} />
-              <Route exact path="/encrypt">
-                <Suspense fallback={<DelayedFallback />}>
-                  <Encrypt />
-                </Suspense>
+        <Paper className={classes.layout} elevation={0}>
+          <ScrollToTop />
+          <Switch>
+            {standardRoutes.map(({ path, component }) => (
+              <Route key={path} exact path={path} component={component} />
+            ))}
+            {suspenseRoutes.map(({ path, component }) => (
+              <Route exact path={path}>
+                <Suspense fallback={<DelayedFallback />}>{component}</Suspense>
               </Route>
-              <Route exact path="/decrypt">
-                <Suspense fallback={<DelayedFallback />}>
-                  <Decrypt />
-                </Suspense>
-              </Route>
-              <Route exact path="/keygen">
-                <Suspense fallback={<DelayedFallback />}>
-                  <KeyGen />
-                </Suspense>
-              </Route>
-            </Switch>
-          </Paper>
-        </div>
+            ))}
+          </Switch>
+        </Paper>
       </main>
       <Footer />
     </div>

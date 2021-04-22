@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   textBox: {
     maxWidth: "700px",
   },
-  select: { maxWidth: "225px" },
+  select: { maxWidth: "200px" },
   dropSelect: { width: "100%" },
   buttonProgress: {
     position: "absolute",
@@ -265,6 +265,7 @@ const DecryptForm = (props) => {
             </InputLabel>
             <Select
               required
+              className={classes.select}
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
               value={fileExt}
@@ -298,6 +299,7 @@ const DecryptForm = (props) => {
               type="password"
               label={"Passphrase"}
               variant="outlined"
+              className={classes.select}
             />
           </Box>
           <Box pt={3}>
