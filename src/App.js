@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import Footer from "./components/main/Footer";
-import {standardRoutes, suspenseRoutes} from './pages'
+import { standardRoutes, suspenseRoutes } from "./pages";
 
 const drawerWidth = 220;
 const drawerPercent = "22%";
@@ -19,26 +19,21 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 
   content: {
+    display: "flex",
+    justifyContent: "flex-start",
     minHeight: "calc(100vh - 56px)",
     flexGrow: 1,
     padding: theme.spacing(3),
     [theme.breakpoints.up("sm")]: {
-      marginLeft: drawerWidth,
+      marginLeft: 250,
     },
-    [theme.breakpoints.up("lg")]: {
-      marginLeft: drawerPercent,
+    [theme.breakpoints.up("md")]: {
+      marginLeft: "30%",
     },
   },
 
-  layout: {
-    display: "flex",
-    justifyContent: "center",
-    maxWidth: "550px",
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-  },
+  layout: { maxWidth: "550px", marginTop: "60px" },
 }));
-
 
 const App = () => {
   const classes = useStyles();
