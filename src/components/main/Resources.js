@@ -19,11 +19,24 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "bottom",
   },
   result: {
+
+    [theme.breakpoints.down("xs")]: {
+      maxHeight: "200px",
+      maxWidth: "200px",
+      backgroundColor:'yelllow',
+    },
+    [theme.breakpoints.down("sm")]: {
+      maxHeight: "250px",
+      maxWidth: "250px",
+      backgroundColor:'yelllow',
+    },
+
     maxHeight: "400px",
     maxWidth: "400px",
-    overflowY: "scroll",
+    overflow: "auto",
   },
   pre: {
+
     whiteSpace: "pre-wrap",
     wordBreak: "keep-all",
   },
@@ -51,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
   copy: {
     textAlign: "right",
     maxWidth: "400px",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "250px",
+    },
   },
 }));
 

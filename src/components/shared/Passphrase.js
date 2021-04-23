@@ -16,7 +16,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   pwInput: {
-    width: "225px",
+    maxWidth: "225px",
   },
   pw: {
     color: "#777fa7",
@@ -28,12 +28,6 @@ const useStyles = makeStyles((theme) => ({
     left: "50%",
     marginTop: -12,
     marginLeft: -12,
-  },
-  main: {
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      padding: theme.spacing(2),
-    },
   },
 }));
 
@@ -146,7 +140,7 @@ const PassPhrase = (props) => {
   };
 
   return (
-    <div className={classes.main}>
+    <>
       <Box>
         <Grid container spacing={1}>
           <Grid item>
@@ -198,7 +192,7 @@ const PassPhrase = (props) => {
         handleConfirm={handleConfirm}
         confirmError={errors.confirmError}
       />
-    </div>
+    </>
   );
 };
 

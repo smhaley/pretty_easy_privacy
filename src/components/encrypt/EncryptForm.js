@@ -17,15 +17,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "700px",
   },
   main: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
+    padding: theme.spacing(2),
   },
 }));
 
@@ -169,17 +161,18 @@ const EncryptForm = (props) => {
           </FormControl>
         </Box>
 
-        <Box>{inputType}</Box>
+        <Box mb={props.encType === 0 ? 4 : 2}>{inputType}</Box>
+        {props.encType === 0 && (
+          <PassPhrase
+            mainButtonText={"Encrypt"}
+            modalButtonText={"Submit"}
+            handleSubmit={handleFormSubmit}
+            handleConfirm={handleEncrypt}
+            loading={props.loader}
+          />
+        )}
       </div>
-      {props.encType === 0 ? (
-        <PassPhrase
-          mainButtonText={"Encrypt"}
-          modalButtonText={"Submit"}
-          handleSubmit={handleFormSubmit}
-          handleConfirm={handleEncrypt}
-          loading={props.loader}
-        />
-      ) : (
+      {props.encType === 1 && (
         <KeyInput
           loading={props.loader}
           privateKey={false}

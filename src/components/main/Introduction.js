@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   technical: {
+    borderRadius:'4px',
     backgroundColor: "#FAFAFA",
   },
   main: {

@@ -1,6 +1,6 @@
 {
-  "name": "crypto_demo",
-  "version": "0.1.0",
+  "name": "pretty-easy-privacy",
+  "version": "1.0.0",
   "private": true,
   "homepage": "https://prettyeasyprivacy.xyz",
   "dependencies": {

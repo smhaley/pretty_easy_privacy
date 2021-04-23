@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   textBox: {
     maxWidth: "700px",
   },
-  select: { maxWidth: "225px" },
+  select: { maxWidth: "200px" },
   dropSelect: { width: "100%" },
   buttonProgress: {
     position: "absolute",
@@ -31,16 +31,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -12,
   },
   main: {
+    padding: theme.spacing(2),
+  },
+  submit: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
-  },
+  }
 }));
 
 const DecryptForm = (props) => {
@@ -269,6 +265,7 @@ const DecryptForm = (props) => {
             </InputLabel>
             <Select
               required
+              className={classes.select}
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
               value={fileExt}
@@ -289,7 +286,7 @@ const DecryptForm = (props) => {
       </div>
 
       {props.encType === 0 ? (
-        <div className={classes.main}>
+        <div className={classes.submit}>
           <Box>
             <TextField
               required
@@ -302,6 +299,7 @@ const DecryptForm = (props) => {
               type="password"
               label={"Passphrase"}
               variant="outlined"
+              className={classes.select}
             />
           </Box>
           <Box pt={3}>
