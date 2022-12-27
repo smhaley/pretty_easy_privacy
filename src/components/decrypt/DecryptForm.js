@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-  }
+  },
 }));
 
 const DecryptForm = (props) => {
@@ -207,29 +207,18 @@ const DecryptForm = (props) => {
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <div className={classes.main}>
-        <Box mb={2}>
-          <Box pt={2} pb={2}>
-            Simply supply your encrypted file or text.
-            <br />
-            Let us know the expected output format.
-            <br />
-            {props.encType === 0 ? (
-              <>
-                {" "}
-                Supply your passphrase.
-                <br />{" "}
-              </>
-            ) : (
-              <>
-                Supply your private key and passphrase.
-                <br />
-              </>
-            )}
-            Decrypt.
-            <br />
-          </Box>
+        <Box>
+            <ol>
+              <li>Simply supply your encrypted file or text.</li>
+              <li>Select the expected output format.</li>
+              <li>
+                {props.encType === 0
+                  ? "Supply your passphrase."
+                  : "Supply your private key and passphrase."}
+              </li>
+              <li> Decrypt.</li>
+            </ol>
           <FormControl component="fieldset">
-            {/* <FormLabel component="legend">Input Format</FormLabel> */}
             <RadioGroup
               row
               aria-label="position"
@@ -241,13 +230,13 @@ const DecryptForm = (props) => {
               <FormControlLabel
                 value="byte"
                 control={<Radio color="secondary" />}
-                label="Load my gibberish"
+                label="Load my data"
                 labelPlacement="end"
               />
               <FormControlLabel
                 value="text"
                 control={<Radio color="primary" />}
-                label="Paste my gibberish"
+                label="Paste my data"
                 labelPlacement="end"
               />
             </RadioGroup>

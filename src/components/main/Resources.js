@@ -19,54 +19,23 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "bottom",
   },
   result: {
-
-    [theme.breakpoints.down("xs")]: {
-      maxHeight: "200px",
-      maxWidth: "200px",
-      backgroundColor:'yelllow',
-    },
-    [theme.breakpoints.down("sm")]: {
-      maxHeight: "250px",
-      maxWidth: "250px",
-      backgroundColor:'yelllow',
-    },
-
-    maxHeight: "400px",
-    maxWidth: "400px",
-    overflow: "auto",
+    padding: "10px",
   },
   pre: {
-
     whiteSpace: "pre-wrap",
-    wordBreak: "keep-all",
+    wordBreak: "break-word",
   },
   tryIt: {
     margin: 0,
     padding: 0,
     lineHeight: "20px",
   },
-  main: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
-  },
-
   reactPlayer: {
     paddingTop: "56.25%;", // Percentage ratio for 16:9
     position: "relative", // Set to relative
   },
   copy: {
     textAlign: "right",
-    maxWidth: "400px",
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "250px",
-    },
   },
 }));
 
@@ -89,7 +58,7 @@ const Resources = () => {
   };
 
   return (
-    <div className={classes.main}>
+    <>
       <Box pt={2}>
         <Box pl={2} pr={2} pb={2}>
           <Typography variant="h5" gutterBottom>
@@ -109,7 +78,7 @@ const Resources = () => {
             </Tooltip>
           </div>
           <Paper className={classes.result}>
-            <pre id={inputId}>
+            <pre className={classes.pre} id={inputId}>
               {`-----BEGIN PGP MESSAGE-----
 Version: OpenPGP.js v4.10.8
 Comment: https://openpgpjs.org
@@ -123,27 +92,28 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           </Paper>
           <br />
           <Typography>Try it out!</Typography>
-          <Box pl={2}>
-            Copy the above text block.
-            <br />
-            Head over to{" "}
-            <Link component={RouterLink} to={"/decrypt"}>
-              <b>Decrypt</b>
-            </Link>{" "}
-            .
-            <br />
-            Select <b>Paste my gibberish</b>.
-            <br />
-            Select <b>.txt</b> file type.
-            <br />
-            Enter <b>bad!</b> into the password field.
-            <br />
-            Hit Decrypt!
-            <br />
-            See the result?
-            <br />
-          </Box>
-          <br />
+
+          <ol>
+            <li>Copy the above text block.</li>
+            <li>
+              Head over to
+              <Link component={RouterLink} to={"/decrypt"}>
+                <b>Decrypt</b>
+              </Link>
+            </li>
+            <li>
+              Select <b>Paste my data</b>.
+            </li>
+            <li>
+              Select <b>.txt</b> file type.
+            </li>
+            <li>
+              Enter <b>bad!</b> into the password field.
+            </li>
+            <li>Hit Decrypt!</li>
+            <li>See the result?</li>
+          </ol>
+
           <Typography variant="h6" gutterBottom>
             How does AES 256 work exactly?
           </Typography>
@@ -178,7 +148,7 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
         message="Copied to clipboard"
         key={vertical + horizontal}
       />
-    </div>
+    </>
   );
 };
 

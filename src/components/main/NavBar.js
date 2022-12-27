@@ -112,7 +112,7 @@ const NavBar = (props) => {
             key={index}
           >
             <ListItem selected={location.pathname === route.path}>
-              <ListItemText primary={route.sidebarName} />
+              <ListItemText primaryTypographyProps primary={route.sidebarName} />
             </ListItem>
           </NavLink>
         ))}

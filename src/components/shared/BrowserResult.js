@@ -6,16 +6,17 @@ import { copy } from "../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
   result: {
-    maxHeight: "400px",
-    maxWidth: "400px",
-    overflowY: "scroll",
+    padding: "10px",
+  },
+  pre: {
+    whiteSpace: "pre-wrap",
+    wordBreak: "break-word",
   },
   button: {
     margin: "5px",
   },
   copy: {
     textAlign: "right",
-    maxWidth: "400px",
   },
 }));
 
@@ -50,7 +51,9 @@ const Display = (props) => {
         </Tooltip>
       </div>
       <Paper className={classes.result}>
-        <pre id={inputId}>{keyIn}</pre>
+        <pre className={classes.pre} id={inputId}>
+          {keyIn}
+        </pre>
       </Paper>
 
       <Snackbar

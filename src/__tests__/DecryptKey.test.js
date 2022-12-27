@@ -9,8 +9,8 @@ import { testKeyEnc } from "../__mocks__/decrypt";
 describe("Decrypt: Key Tests", () => {
   test("Decrypt text", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByText("Key Pair"));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -38,8 +38,8 @@ describe("Decrypt: Key Tests", () => {
 
 test("Decrypt with public key", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByText("Key Pair"));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -69,8 +69,8 @@ test("Decrypt with public key", async () => {
 
   test("Decrypt Bad Pkey pw", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByText("Key Pair"));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -100,8 +100,8 @@ test("Decrypt with public key", async () => {
 
   test("Decrypt Bad Input", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByText("Key Pair"));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -131,8 +131,8 @@ test("Decrypt with public key", async () => {
 
   test("Decrypt Bad PKey format", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByText("Key Pair"));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -154,7 +154,7 @@ test("Decrypt with public key", async () => {
       userEvent.click(screen.getByRole("button", { name: /decrypt/i }));
     });
     expect(
-      await screen.findByText("Invalid RSA Key", {
+      await screen.findByText(/Invalid RSA Key/i, {
         exact: false,
         timeout: 5000,
       })

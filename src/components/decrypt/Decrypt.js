@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Snackbar } from "@material-ui/core";
 import Result from "./DecResult";
 import EncTypeTab from "../shared/EncTypeTab";
@@ -8,26 +7,11 @@ import Alert from "@material-ui/lab/Alert";
 import * as utils from "../utils/utils";
 import { snackLocation } from "../utils/config";
 import { decrypt, message } from "openpgp";
+import { useCommonStyles } from "../commonStyles";
 
-const useStyles = makeStyles((theme) => ({
-  header: {
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingRight: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-    },
-  },
-  root: {
-    display: "flex",
-    "& > * + *": {
-      marginLeft: theme.spacing(2),
-    },
-  },
-}));
+const Decrypt = () => {
+  const commonClasses = useCommonStyles();
 
-const Decrypt = (props) => {
-  const classes = useStyles();
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
@@ -101,7 +85,7 @@ const Decrypt = (props) => {
   );
 
   return (
-    <div>
+    <>
       {alert.show && (
         <Snackbar
           anchorOrigin={snackLocation}
@@ -115,19 +99,29 @@ const Decrypt = (props) => {
         </Snackbar>
       )}
       <Box p={2}>
-        <div className={classes.header}>
+        <div className={commonClasses.header}>
           {!success && <EncTypeTab handleType={handleDecType} />}
-          <Typography variant="h5" gutterBottom>
-            {encType === 0 ? (
-              <b>Passphrase Decryption</b>
-            ) : (
-              <b>Key Decryption</b>
-            )}
+
+          <Typography
+            className={commonClasses.heading}
+            variant="h1"
+            gutterBottom
+          >
+            {encType === 0
+              ? "Passphrase Based Decryption"
+              : "Key Based Decryption"}
+          </Typography>
+          <Typography
+            className={commonClasses.subHeading}
+            variant="h2"
+            gutterBottom
+          >
+            {encType === 0 ? "Symmetric" : "Asymmetric"}
           </Typography>
         </div>
         {success ? <Result reset={reset} outbound={outbound} /> : form}
       </Box>
-    </div>
+    </>
   );
 };
 

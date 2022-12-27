@@ -8,7 +8,7 @@ import { pwTest, testPwEnc } from "../__mocks__/decrypt";
 describe("Decrypt: Passphrase Tests", () => {
   test("Decrypt text", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -28,7 +28,7 @@ describe("Decrypt: Passphrase Tests", () => {
   });
   test("Wrong pw", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -47,7 +47,7 @@ describe("Decrypt: Passphrase Tests", () => {
 
   test("bad format", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(

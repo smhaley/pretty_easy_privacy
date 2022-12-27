@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Result from "./EncResult";
 import EncTypeTab from "../shared/EncTypeTab";
 import EncryptForm from "./EncryptForm";
@@ -8,26 +7,11 @@ import { resetAlert, encSuccess, encError } from "../utils/utils";
 import { snackLocation } from "../utils/config";
 import { Box, Typography, Snackbar } from "@material-ui/core";
 import { message as pgpMessage, encrypt } from "openpgp";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    "& > * + *": {
-      marginLeft: theme.spacing(2),
-    },
-  },
-  header: {
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingRight: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-    },
-  },
-}));
+import { useCommonStyles } from "../commonStyles";
 
 const Encrypt = () => {
-  const classes = useStyles();
+  const commonClasses = useCommonStyles();
+
   const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
   const [encType, setEncType] = useState(0);
@@ -59,7 +43,7 @@ const Encrypt = () => {
     }
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -82,7 +66,7 @@ const Encrypt = () => {
     setEncType(type);
   };
 
-  let form = (
+  const form = (
     <EncryptForm
       handleEncrypt={byteEncrypt}
       encType={encType}
@@ -91,7 +75,7 @@ const Encrypt = () => {
   );
 
   return (
-    <div>
+    <>
       {alert.show && (
         <Snackbar
           anchorOrigin={snackLocation}
@@ -105,20 +89,26 @@ const Encrypt = () => {
         </Snackbar>
       )}
       <Box p={2}>
-        <div className={classes.header}>
+        <div className={commonClasses.header}>
           {!success && <EncTypeTab handleType={handleEncType} />}
-
-          <Typography className={classes.heading} variant="h5" gutterBottom>
-            {encType === 0 ? (
-              <b>Passphrase Encryption</b>
-            ) : (
-              <b>Key Encryption</b>
-            )}
+          <Typography
+            className={commonClasses.heading}
+            variant="h1"
+            gutterBottom
+          >
+            {encType === 0 ? "Passphrase Based Encryption" : "Key Encryption"}
+          </Typography>
+          <Typography
+            className={commonClasses.subHeading}
+            variant="h2"
+            gutterBottom
+          >
+            {encType === 0 ? "Symmetric" : "Asymmetric"}
           </Typography>
         </div>
         {success ? <Result reset={reset} armorTxt={armorTxt} /> : form}
       </Box>
-    </div>
+    </>
   );
 };
 

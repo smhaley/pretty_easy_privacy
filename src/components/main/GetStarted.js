@@ -11,23 +11,12 @@ const useStyles = makeStyles((theme) => ({
   technical: {
     backgroundColor: "#FAFAFA",
   },
-  main: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
-  },
 }));
 
 const GetStarted = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.main}>
+    <>
       <Box pt={2}>
         <Box pl={2} pr={2} pb={2}>
           <Typography variant="h5" gutterBottom>
@@ -95,8 +84,8 @@ const GetStarted = (props) => {
             We can't forget about decryption.
           </Typography>
           <p>
-            What goes in must come out! So with your file of encrypted gibberish
-            head on over the{" "}
+            What goes in must come out! So with your file of encrypted data head
+            on over the{" "}
             <Link component={RouterLink} to={"/decrypt"}>
               <b>Decrypt</b>
             </Link>{" "}
@@ -228,7 +217,7 @@ const GetStarted = (props) => {
           </Box>
         </div>
       </Box>
-    </div>
+    </>
   );
 };
 

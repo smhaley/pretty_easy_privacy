@@ -15,26 +15,15 @@ const useStyles = makeStyles((theme) => ({
   },
 
   technical: {
-    borderRadius:'4px',
+    borderRadius: "4px",
     backgroundColor: "#FAFAFA",
-  },
-  main: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
   },
 }));
 
 const Introduction = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.main}>
+    <>
       <Box pt={2}>
         <Box pl={2} pr={2} pb={2}>
           <Typography variant="h5" gutterBottom>
@@ -99,7 +88,7 @@ const Introduction = (props) => {
             PEP doesn't try to be a messaging service. For messaging we
             recommend sticking to applications using the{" "}
             <Link href="https://signal.org/docs/" color="primary">
-              signal protocal
+              signal protocol
             </Link>{" "}
             like:
           </p>
@@ -222,7 +211,7 @@ const Introduction = (props) => {
           </Box>
         </div>
       </Box>
-    </div>
+    </>
   );
 };
 
