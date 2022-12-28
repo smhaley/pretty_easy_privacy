@@ -3,7 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 import { snackLocation } from "../utils/config";
 import InFile from "./InFile";
-import { resetAlert, keyError, privKeyPassError, pubKeyDecError } from "../utils/utils";
+import { useCommonStyles } from "../commonStyles";
+import {
+  resetAlert,
+  keyError,
+  privKeyPassError,
+  pubKeyDecError,
+} from "../utils/utils";
 import { key } from "openpgp";
 import {
   TextField,
@@ -29,8 +35,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   main: {
-    backgroundColor: "#FAFAFA",
-    borderRadius:'4px',
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       padding: theme.spacing(2),
@@ -40,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const KeyInput = (props) => {
   const classes = useStyles();
-
+  const commonClasses = useCommonStyles();
   let privateKey = props.privateKey;
   let encrypt = props.encrypt;
 
@@ -224,7 +228,11 @@ const KeyInput = (props) => {
       )}
       <Box>
         <Box>
-          <Typography color="textPrimary" variant="h6" gutterBottom>
+          <Typography
+            variant="h2"
+            className={commonClasses.subHeadingBold}
+            gutterBottom
+          >
             <b>Key Input</b>
           </Typography>
           <FormControl component="fieldset">

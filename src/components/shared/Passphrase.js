@@ -146,6 +146,7 @@ const PassPhrase = (props) => {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               helperText={
                 errors.passPhraseMissingError && "PassPhrase Required!"
               }

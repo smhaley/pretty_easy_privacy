@@ -16,6 +16,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import { generateKey } from "openpgp";
+import { useCommonStyles } from "../commonStyles";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -39,16 +40,15 @@ const useStyles = makeStyles((theme) => ({
   formControl: { width: "100%" },
 
   main: {
-    // marginLeft: theme.spacing(2),
     padding: theme.spacing(2),
-
   },
 }));
 
 const KeyGen = () => {
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
   const [key, setKey] = useState(undefined);
-  const [bits, setBits] = useState(2048);
+  const [bits, setBits] = useState(4096);
   const [keyFields, setKeyFields] = useState({ name: "", email: "", pw: "" });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -71,7 +71,8 @@ const KeyGen = () => {
 
   let handleEmailValid = (email) => {
     // eslint-disable-next-line
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(email)) {
       return false;
     } else {
@@ -120,19 +121,23 @@ const KeyGen = () => {
   };
 
   return (
-    <Box>
+    <Box p={2}>
       {typeof key == "undefined" ? (
         <>
           <form onSubmit={(e) => handleFormSubmit(e)}>
             <div className={classes.main}>
-              <Typography variant="h5" gutterBottom>
-                <b> RSA Key Generation</b>
+              <Typography
+                variant="h1"
+                gutterBottom
+                className={commonClasses.heading}
+              >
+                RSA Key Generation
               </Typography>
               <Box pb={4} pt={2}>
                 Creating Keys is simple. Just fill out this form.
                 <br />
                 No worries if you don't want to use your name or email address.
-                <br/>
+                <br />
                 Just make one up!
                 <br />
                 <br />
@@ -142,6 +147,7 @@ const KeyGen = () => {
                 <Box pb={4}>
                   <TextField
                     required
+                    disabled={loading}
                     className={classes.formField}
                     id="outlined-required"
                     label="Name"
@@ -156,6 +162,7 @@ const KeyGen = () => {
                   {" "}
                   <TextField
                     required
+                    disabled={loading}
                     className={classes.formField}
                     id="outlined-disabled"
                     label="email"
@@ -172,6 +179,7 @@ const KeyGen = () => {
                   <Grid container spacing={2}>
                     <Grid item container className={classes.dropSelect}>
                       <FormControl
+                        disabled={loading}
                         variant="outlined"
                         className={classes.formControl}
                         error={errors.fileTypeErr ? true : false}
@@ -181,16 +189,16 @@ const KeyGen = () => {
                         </InputLabel>
                         <Select
                           required
-                          className ={classes.pwInput}
+                          className={classes.pwInput}
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
                           value={bits}
                           onChange={(e) => setBits(e.target.value)}
                           label="Text FIle Type"
                         >
+                          <MenuItem value={5120}>5120</MenuItem>
                           <MenuItem value={4096}>4096</MenuItem>
                           <MenuItem value={3072}>3072</MenuItem>
-                          <MenuItem value={2048}>2048</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>

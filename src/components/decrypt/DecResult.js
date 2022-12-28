@@ -52,7 +52,11 @@ const Result = (props) => {
   return (
     <div className={classes.main}>
       <Box pt={2}>
-        <Typography variant="h6" gutterBottom>
+        <Typography
+          variant="h2"
+          className={commonClasses.subHeadingBold}
+          gutterBottom
+        >
           Decrypted Data:
         </Typography>
 

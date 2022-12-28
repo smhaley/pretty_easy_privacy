@@ -6,9 +6,6 @@ const AntTabs = withStyles({
   root: {
     borderBottom: "1px solid #e8e8e8",
   },
-  indicator: {
-    backgroundColor: "#1de9b6",
-  },
 })(Tabs);
 
 const AntTab = withStyles((theme) => ({
@@ -30,15 +27,10 @@ const AntTab = withStyles((theme) => ({
       '"Segoe UI Symbol"',
     ].join(","),
     "&:hover": {
-      color: "#4aedc4",
       opacity: 1,
     },
     "&$selected": {
-      color: "#1de9b6",
       fontWeight: theme.typography.fontWeightMedium,
-    },
-    "&:focus": {
-      color: "#1de9b6",
     },
   },
   selected: {},

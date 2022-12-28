@@ -8,6 +8,9 @@ import ScrollToTop from "./components/shared/ScrollToTop";
 import Footer from "./components/main/Footer";
 import { standardRoutes, suspenseRoutes } from "./pages";
 import { useCommonStyles } from "./components/commonStyles";
+import { darkTheme, lightTheme } from "./muiThemes";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { useDarkMode } from "./components/hooks/useDarkMode";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,36 +35,35 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
   const classes = useStyles();
+  const [mode, setMode] = useDarkMode();
   const commonClasses = useCommonStyles();
   return (
-    <div>
-      <NavBar />
+    <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
+      <NavBar setMode={setMode} mode={mode} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Paper className={classes.layout} elevation={1}>
-          <Paper className={commonClasses.paperContainer}>
-            <div className={commonClasses.container}>
-              <div className={commonClasses.section}>
-                <ScrollToTop />
-                <Switch>
-                  {standardRoutes.map(({ path, component }) => (
-                    <Route key={path} exact path={path} component={component} />
-                  ))}
-                  {suspenseRoutes.map(({ path, component }) => (
-                    <Route exact path={path}>
-                      <Suspense fallback={<DelayedFallback />}>
-                        {component}
-                      </Suspense>
-                    </Route>
-                  ))}
-                </Switch>
-              </div>
+          <div className={commonClasses.container}>
+            <div className={commonClasses.section}>
+              <ScrollToTop />
+              <Switch>
+                {standardRoutes.map(({ path, component }) => (
+                  <Route key={path} exact path={path} component={component} />
+                ))}
+                {suspenseRoutes.map(({ path, component }) => (
+                  <Route exact path={path}>
+                    <Suspense fallback={<DelayedFallback />}>
+                      {component}
+                    </Suspense>
+                  </Route>
+                ))}
+              </Switch>
             </div>
-          </Paper>
+          </div>
         </Paper>
       </main>
       <Footer />
-    </div>
+    </ThemeProvider>
   );
 };
 

@@ -1,23 +1,20 @@
 import { createMuiTheme } from "@material-ui/core";
 import { deepPurple, green, purple } from "@material-ui/core/colors";
 
-export const lightTheme = createMuiTheme({
-  props: {
-    MuiButtonBase: {
-      disableRipple: true,
-    },
-    MuiSvgIcon: {
-      htmlColor: "white",
-    },
-  },
+const typography = {
+  h1: { fontSize: "2rem", fontWeight: "400" },
+  h2: { fontSize: "1.6rem" },
+  h3: { fontSize: "1.35rem", fontWeight: "400" },
+  fontSize: 16,
+};
 
+export const lightTheme = createMuiTheme({
   palette: {
     primary: deepPurple,
     secondary: green,
-    background: {
-      default: "#ffffff",
-    },
+    info: deepPurple,
   },
+  typography,
 });
 
 export const darkTheme = createMuiTheme({
@@ -25,18 +22,16 @@ export const darkTheme = createMuiTheme({
     MuiButtonBase: {
       disableRipple: true,
     },
-    // MuiSvgIcon: {
-    //   htmlColor: "white",
-    // },
   },
+  typography,
 
   palette: {
     type: "dark",
-    primary: {
-      main: "#47b4e2",
-    },
     secondary: {
-      main: purple[300],
+      main: purple[200],
+    },
+    primary: {
+      main: green[400],
     },
   },
 });

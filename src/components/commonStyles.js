@@ -9,14 +9,16 @@ export const useCommonStyles = makeStyles((theme) => ({
   },
   heading: {
     fontWeight: "bold",
-    fontSize: "1.6rem",
   },
   subHeading: {
-    fontSize: "1.25rem",
+    fontWeight: 300,
+  },
+  subHeadingBold: {
+    fontWeight: "bold",
   },
   resultH3: {
     fontWeight: "bold",
-    fontSize: "1.2rem",
+    fontSize: "1.35rem",
   },
   header: {
     paddingRight: theme.spacing(2),
@@ -35,5 +37,10 @@ export const useCommonStyles = makeStyles((theme) => ({
   },
   section: {
     width: 600,
+  },
+  pre: {
+    whiteSpace: "pre-wrap",
+    wordBreak: "break-word",
+    fontSize: 12,
   },
 }));

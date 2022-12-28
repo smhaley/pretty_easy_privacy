@@ -4,7 +4,14 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import { useLocation } from "react-router-dom";
-import { NavLink, withRouter, Link as RouterLink } from "react-router-dom";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
+import BrightnessIcon from "@material-ui/icons/Brightness7";
+
+import {
+  NavLink as RouterNavLink,
+  withRouter,
+  Link as RouterLink,
+} from "react-router-dom";
 import {
   Link,
   AppBar,
@@ -15,7 +22,6 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -43,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       marginRight: "8%",
     },
-
   },
   drawer: {
     zIndex: 0,
@@ -59,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
       zIndex: theme.zIndex.drawer + 1,
     },
   },
+
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
@@ -72,64 +78,75 @@ const useStyles = makeStyles((theme) => ({
     minWidth: drawerWidth,
     padding: theme.spacing(3),
     [theme.breakpoints.up("md")]: {
-      paddingLeft: "5%",
+      paddingLeft: "4%",
     },
   },
 
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
   },
 
   sideNaveButtons: {
-    textDecoration: "none",
-    color: "#37474F",
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
+  navButtonText: {
+    fontWeight: "bold",
+    padding: theme.spacing(1),
+    fontSize: "1.1rem",
   },
 }));
 
 const NavBar = (props) => {
-  const { window } = props;
+  const { window, mode, setMode } = props;
   const classes = useStyles();
+
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const location = useLocation();
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    mobileOpen && setMobileOpen(!mobileOpen);
   };
 
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
-
       <List>
         {staticRoutes.map((route, index) => (
-          <NavLink
+          <Link
+            onClick={handleDrawerToggle}
+            component={RouterNavLink}
             to={route.path}
             className={classes.sideNaveButtons}
             key={index}
           >
             <ListItem selected={location.pathname === route.path}>
-              <ListItemText primaryTypographyProps primary={route.sidebarName} />
+              <span className={classes.navButtonText}>{route.sidebarName}</span>
             </ListItem>
-          </NavLink>
+          </Link>
         ))}
       </List>
-
       <Divider />
       <List>
         {lazyRoutes.map((route, index) => (
-          <NavLink
+          <Link
+            onClick={handleDrawerToggle}
+            component={RouterNavLink}
             to={route.path}
             className={classes.sideNaveButtons}
             key={index}
           >
-            <ListItem selected={location.pathname === route.path}>
-              <ListItemText primary={route.sidebarName} />
+            <ListItem
+              selected={location.pathname === route.path}
+              style={{ fontWeight: "bold" }}
+            >
+              <span className={classes.navButtonText}>{route.sidebarName}</span>
             </ListItem>
-          </NavLink>
+          </Link>
         ))}
       </List>
     </div>
@@ -141,7 +158,11 @@ const NavBar = (props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar
+        position="fixed"
+        color={mode === "dark" ? "inherit" : "primary"}
+        className={classes.appBar}
+      >
         <Toolbar>
           <div className={classes.leftIcons}></div>
           <IconButton
@@ -163,12 +184,22 @@ const NavBar = (props) => {
             </Typography>
           </Link>
 
-          <div style={{ marginLeft: "auto" }}>
-            <IconButton aria-label="github.com">
-              <Link href="https://github.com/smhaley/pretty_easy_privacy">
-                <GitHubIcon color="secondary" />
-              </Link>
+          <div className={classes.titleBarIcons}>
+            <IconButton
+              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+              aria-label="Light mode"
+            >
+              {mode === "light" ? (
+                <Brightness4Icon color="secondary" />
+              ) : (
+                <BrightnessIcon color="secondary" />
+              )}
             </IconButton>
+            <Link href="https://github.com/smhaley/pretty_easy_privacy">
+              <IconButton aria-label="github.com">
+                <GitHubIcon color="secondary" />
+              </IconButton>
+            </Link>
           </div>
           <div className={classes.rightIcons}></div>
         </Toolbar>

@@ -115,7 +115,7 @@ const DecryptForm = (props) => {
   let inputType;
   if (inputTypeSelect === "text") {
     inputType = (
-      <TextField
+    <TextField
         helperText={errors.formTextInputError && "Please Select a file object!"}
         className={classes.textBox}
         fullWidth={true}
@@ -207,7 +207,7 @@ const DecryptForm = (props) => {
   return (
     <form onSubmit={(e) => handleFormSubmit(e)}>
       <div className={classes.main}>
-        <Box>
+        <Box pb={2} >
             <ol>
               <li>Simply supply your encrypted file or text.</li>
               <li>Select the expected output format.</li>

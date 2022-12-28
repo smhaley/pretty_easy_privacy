@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Display from "../shared/BrowserResult";
 import { Box, Typography, Button } from "@material-ui/core";
+import { useCommonStyles } from "../commonStyles";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Result = (props) => {
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
 
   const [openPub, setOpenPub] = useState(false);
   const [openPriv, setOpenPriv] = useState(false);
@@ -41,13 +43,17 @@ const Result = (props) => {
   return (
     <div className={classes.main}>
       <Box>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h1" gutterBottom className={commonClasses.heading}>
           <b> Key Results </b>
         </Typography>
         <br />
         <br />
 
-        <Typography color="primary" variant="h6" gutterBottom>
+        <Typography
+          variant="h2"
+          className={commonClasses.subHeadingBold}
+          gutterBottom
+        >
           Private Key
         </Typography>
 

@@ -13,6 +13,17 @@ import ReactPlayer from "react-player/youtube";
 import { Link as RouterLink } from "react-router-dom";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { copy } from "../utils/utils";
+import { useCommonStyles } from "../commonStyles";
+
+const demoEnc = `-----BEGIN PGP MESSAGE-----
+Version: OpenPGP.js v4.10.8
+Comment: https://openpgpjs.org
+
+wy4ECQMIO1ERG1WRJ1Tgkrf8eCpDp2FqVLCZJ3rFO7Th6uZHVDM0POrulLas
+h8WB0ksBI6AFxdv/TcM9MIY6YNMzTjYUO/+OPnrVC14DihZxnbp75lwWvAQW
+zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
+=Id/5
+-----END PGP MESSAGE-----`;
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -20,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
   result: {
     padding: "10px",
-  },
-  pre: {
-    whiteSpace: "pre-wrap",
-    wordBreak: "break-word",
   },
   tryIt: {
     margin: 0,
@@ -41,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Resources = () => {
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
+
   const [openSnack, setOpenSnack] = useState({
     open: false,
     vertical: "bottom",
@@ -59,14 +68,22 @@ const Resources = () => {
 
   return (
     <>
-      <Box pt={2}>
+      <Box p={3}>
         <Box pl={2} pr={2} pb={2}>
-          <Typography variant="h5" gutterBottom>
-            <b>Just a few resources</b>
+          <Typography
+            variant="h1"
+            gutterBottom
+            className={commonClasses.heading}
+          >
+            Just a few resources
           </Typography>
         </Box>
         <Box p={2}>
-          <Typography variant="h6" gutterBottom>
+          <Typography
+            variant="h2"
+            className={commonClasses.subHeadingBold}
+            gutterBottom
+          >
             So what does encrypted data look like?
           </Typography>
           <p>Here is an example:</p>
@@ -77,17 +94,9 @@ const Resources = () => {
               </IconButton>
             </Tooltip>
           </div>
-          <Paper className={classes.result}>
-            <pre className={classes.pre} id={inputId}>
-              {`-----BEGIN PGP MESSAGE-----
-Version: OpenPGP.js v4.10.8
-Comment: https://openpgpjs.org
-
-wy4ECQMIO1ERG1WRJ1Tgkrf8eCpDp2FqVLCZJ3rFO7Th6uZHVDM0POrulLas
-h8WB0ksBI6AFxdv/TcM9MIY6YNMzTjYUO/+OPnrVC14DihZxnbp75lwWvAQW
-zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
-=Id/5
------END PGP MESSAGE-----`}
+          <Paper elevation={2} className={classes.result}>
+            <pre className={commonClasses.pre} id={inputId}>
+              {demoEnc}
             </pre>
           </Paper>
           <br />
@@ -114,7 +123,11 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
             <li>See the result?</li>
           </ol>
 
-          <Typography variant="h6" gutterBottom>
+          <Typography
+            variant="h2"
+            className={commonClasses.subHeadingBold}
+            gutterBottom
+          >
             How does AES 256 work exactly?
           </Typography>
           <p>There are tons of resources. Here is a nice place to start.</p>
@@ -127,7 +140,11 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           </div>
           <br />
           <br />
-          <Typography variant="h6" gutterBottom>
+          <Typography
+            variant="h2"
+            className={commonClasses.subHeadingBold}
+            gutterBottom
+          >
             How about that Asymmetric thing?
           </Typography>
           <p>This gives a good idea without inviting Alice or Bob.</p>
