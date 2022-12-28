@@ -37,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
   },
   leftIcons: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(2),
     [theme.breakpoints.up("md")]: {
-      marginLeft: "7%",
+      marginLeft: "5%",
     },
   },
 
@@ -108,11 +108,11 @@ const NavBar = (props) => {
   const location = useLocation();
 
   const handleDrawerToggle = () => {
-    mobileOpen && setMobileOpen(!mobileOpen);
+    setMobileOpen(!mobileOpen);
   };
 
   const drawer = (
-    <div>
+    <>
       <div className={classes.toolbar} />
       <Divider />
       <List>
@@ -149,7 +149,7 @@ const NavBar = (props) => {
           </Link>
         ))}
       </List>
-    </div>
+    </>
   );
 
   const container =
