@@ -36,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
   const [mode, setMode] = useDarkMode();
+
   const commonClasses = useCommonStyles();
+
   return (
     <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
       <NavBar setMode={setMode} mode={mode} />
@@ -51,7 +53,7 @@ const App = () => {
                   <Route key={path} exact path={path} component={component} />
                 ))}
                 {suspenseRoutes.map(({ path, component }) => (
-                  <Route  key={path} exact path={path}>
+                  <Route key={path} exact path={path}>
                     <Suspense fallback={<DelayedFallback />}>
                       {component}
                     </Suspense>
