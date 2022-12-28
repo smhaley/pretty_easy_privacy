@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { staticRoutes, lazyRoutes } from "../../routes";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-  const { window, mode, setMode } = props;
+  const { mode, setMode } = props;
   const classes = useStyles();
 
   const theme = useTheme();
@@ -108,8 +108,24 @@ const NavBar = (props) => {
   const location = useLocation();
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    isMobile && setMobileOpen(!mobileOpen);
   };
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
+
+  useEffect(() => {
+    const resizeHandler = () => {
+      const width = window.innerWidth;
+      if (!isMobile && width < 600) {
+        setIsMobile(true);
+      }
+      if (isMobile && width >= 600) {
+        setIsMobile(false);
+        mobileOpen && setMobileOpen(!mobileOpen);
+      }
+    };
+    window.addEventListener("resize", resizeHandler);
+    return () => window.removeEventListener("resize", resizeHandler);
+  }, [isMobile, mobileOpen]);
 
   const drawer = (
     <>
@@ -152,9 +168,6 @@ const NavBar = (props) => {
     </>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -175,7 +188,11 @@ const NavBar = (props) => {
             <MenuIcon />
           </IconButton>
 
-          <Link component={RouterLink} to={"/"}>
+          <Link
+            component={RouterLink}
+            to={"/"}
+            style={{ textDecoration: "none" }}
+          >
             <Typography color="secondary" variant="h5" noWrap>
               <span role="img" aria-label="Lock and Key">
                 🔐
@@ -208,7 +225,6 @@ const NavBar = (props) => {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
             anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
