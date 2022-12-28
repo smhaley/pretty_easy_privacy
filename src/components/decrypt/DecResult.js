@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Box, Typography } from "@material-ui/core";
 import Display from "../shared/BrowserResult";
 import { mimes } from "../utils/utils";
+import { useCommonStyles } from "../commonStyles";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Result = (props) => {
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
 
   let outbound = props.outbound;
 
@@ -50,7 +52,11 @@ const Result = (props) => {
   return (
     <div className={classes.main}>
       <Box pt={2}>
-        <Typography variant="h6" gutterBottom>
+        <Typography
+          variant="h2"
+          className={commonClasses.subHeadingBold}
+          gutterBottom
+        >
           Decrypted Data:
         </Typography>
 
@@ -81,8 +87,7 @@ const Result = (props) => {
             className={classes.button}
             color={"primary"}
           >
-            {" "}
-            New Decryption{" "}
+            New Decryption
           </Button>
         </Box>
       </Box>

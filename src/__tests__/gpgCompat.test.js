@@ -15,7 +15,7 @@ import {
 describe("Cross Compatability with GPG", () => {
   test("Decrypt text", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -36,8 +36,8 @@ describe("Cross Compatability with GPG", () => {
 
   test("Decrypt with RSA Key", async () => {
     render(<Decrypt />);
-    userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
-    userEvent.click(screen.getByLabelText(/Paste my gibberish/i));
+    userEvent.click(screen.getByText("Key Pair"));
+    userEvent.click(screen.getByLabelText(/Paste my data/i));
 
     userEvent.type(
       screen.getByLabelText(
@@ -68,7 +68,7 @@ describe("Cross Compatability with GPG", () => {
 
     let message = "PEP Test.";
 
-    userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
+    userEvent.click(screen.getByText("Key Pair"));
     userEvent.click(screen.getByLabelText(/type my secret/i));
 
     const encIn = screen.getByLabelText(/text to encrypt/i);

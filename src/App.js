@@ -7,9 +7,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import Footer from "./components/main/Footer";
 import { standardRoutes, suspenseRoutes } from "./pages";
-
-const drawerWidth = 220;
-const drawerPercent = "22%";
+import { useCommonStyles } from "./components/commonStyles";
+import { darkTheme, lightTheme } from "./muiThemes";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { useDarkMode } from "./components/hooks/useDarkMode";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,44 +21,49 @@ const useStyles = makeStyles((theme) => ({
 
   content: {
     display: "flex",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     minHeight: "calc(100vh - 56px)",
     flexGrow: 1,
     padding: theme.spacing(3),
     [theme.breakpoints.up("sm")]: {
       marginLeft: 250,
     },
-    [theme.breakpoints.up("md")]: {
-      marginLeft: "30%",
-    },
   },
 
-  layout: { maxWidth: "550px", marginTop: "60px" },
+  layout: { maxWidth: "800px", width: "100%", marginTop: "60px" },
 }));
 
 const App = () => {
   const classes = useStyles();
+  const [mode, setMode] = useDarkMode();
+  const commonClasses = useCommonStyles();
   return (
-    <div>
-      <NavBar />
+    <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
+      <NavBar setMode={setMode} mode={mode} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Paper className={classes.layout} elevation={0}>
-          <ScrollToTop />
-          <Switch>
-            {standardRoutes.map(({ path, component }) => (
-              <Route key={path} exact path={path} component={component} />
-            ))}
-            {suspenseRoutes.map(({ path, component }) => (
-              <Route exact path={path}>
-                <Suspense fallback={<DelayedFallback />}>{component}</Suspense>
-              </Route>
-            ))}
-          </Switch>
+        <Paper className={classes.layout} elevation={1}>
+          <div className={commonClasses.container}>
+            <div className={commonClasses.section}>
+              <ScrollToTop />
+              <Switch>
+                {standardRoutes.map(({ path, component }) => (
+                  <Route key={path} exact path={path} component={component} />
+                ))}
+                {suspenseRoutes.map(({ path, component }) => (
+                  <Route  key={path} exact path={path}>
+                    <Suspense fallback={<DelayedFallback />}>
+                      {component}
+                    </Suspense>
+                  </Route>
+                ))}
+              </Switch>
+            </div>
+          </div>
         </Paper>
       </main>
       <Footer />
-    </div>
+    </ThemeProvider>
   );
 };
 

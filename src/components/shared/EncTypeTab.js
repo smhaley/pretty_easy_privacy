@@ -6,9 +6,6 @@ const AntTabs = withStyles({
   root: {
     borderBottom: "1px solid #e8e8e8",
   },
-  indicator: {
-    backgroundColor: "#1de9b6",
-  },
 })(Tabs);
 
 const AntTab = withStyles((theme) => ({
@@ -30,15 +27,10 @@ const AntTab = withStyles((theme) => ({
       '"Segoe UI Symbol"',
     ].join(","),
     "&:hover": {
-      color: "#4aedc4",
       opacity: 1,
     },
     "&$selected": {
-      color: "#1de9b6",
       fontWeight: theme.typography.fontWeightMedium,
-    },
-    "&:focus": {
-      color: "#1de9b6",
     },
   },
   selected: {},
@@ -70,8 +62,8 @@ export default function EncTypeTab(props) {
   return (
     <div className={classes.root}>
       <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-        <AntTab label="Passphrase (Symmetric)" />
-        <AntTab label="Key Pair (Asymmetric)" />
+        <AntTab label="Passphrase" />
+        <AntTab label="Key Pair" />
       </AntTabs>
       <Typography className={classes.padding} />
     </div>

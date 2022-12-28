@@ -13,65 +13,43 @@ import ReactPlayer from "react-player/youtube";
 import { Link as RouterLink } from "react-router-dom";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { copy } from "../utils/utils";
+import { useCommonStyles } from "../commonStyles";
+
+const demoEnc = `-----BEGIN PGP MESSAGE-----
+Version: OpenPGP.js v4.10.8
+Comment: https://openpgpjs.org
+
+wy4ECQMIO1ERG1WRJ1Tgkrf8eCpDp2FqVLCZJ3rFO7Th6uZHVDM0POrulLas
+h8WB0ksBI6AFxdv/TcM9MIY6YNMzTjYUO/+OPnrVC14DihZxnbp75lwWvAQW
+zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
+=Id/5
+-----END PGP MESSAGE-----`;
 
 const useStyles = makeStyles((theme) => ({
   image: {
     verticalAlign: "bottom",
   },
   result: {
-
-    [theme.breakpoints.down("xs")]: {
-      maxHeight: "200px",
-      maxWidth: "200px",
-      backgroundColor:'yelllow',
-    },
-    [theme.breakpoints.down("sm")]: {
-      maxHeight: "250px",
-      maxWidth: "250px",
-      backgroundColor:'yelllow',
-    },
-
-    maxHeight: "400px",
-    maxWidth: "400px",
-    overflow: "auto",
-  },
-  pre: {
-
-    whiteSpace: "pre-wrap",
-    wordBreak: "keep-all",
+    padding: "10px",
   },
   tryIt: {
     margin: 0,
     padding: 0,
     lineHeight: "20px",
   },
-  main: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
-  },
-
   reactPlayer: {
     paddingTop: "56.25%;", // Percentage ratio for 16:9
     position: "relative", // Set to relative
   },
   copy: {
     textAlign: "right",
-    maxWidth: "400px",
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "250px",
-    },
   },
 }));
 
 const Resources = () => {
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
+
   const [openSnack, setOpenSnack] = useState({
     open: false,
     vertical: "bottom",
@@ -89,15 +67,23 @@ const Resources = () => {
   };
 
   return (
-    <div className={classes.main}>
-      <Box pt={2}>
+    <>
+      <Box p={3}>
         <Box pl={2} pr={2} pb={2}>
-          <Typography variant="h5" gutterBottom>
-            <b>Just a few resources</b>
+          <Typography
+            variant="h1"
+            gutterBottom
+            className={commonClasses.heading}
+          >
+            Just a few resources
           </Typography>
         </Box>
         <Box p={2}>
-          <Typography variant="h6" gutterBottom>
+          <Typography
+            variant="h2"
+            className={commonClasses.subHeadingBold}
+            gutterBottom
+          >
             So what does encrypted data look like?
           </Typography>
           <p>Here is an example:</p>
@@ -108,43 +94,40 @@ const Resources = () => {
               </IconButton>
             </Tooltip>
           </div>
-          <Paper className={classes.result}>
-            <pre id={inputId}>
-              {`-----BEGIN PGP MESSAGE-----
-Version: OpenPGP.js v4.10.8
-Comment: https://openpgpjs.org
-
-wy4ECQMIO1ERG1WRJ1Tgkrf8eCpDp2FqVLCZJ3rFO7Th6uZHVDM0POrulLas
-h8WB0ksBI6AFxdv/TcM9MIY6YNMzTjYUO/+OPnrVC14DihZxnbp75lwWvAQW
-zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
-=Id/5
------END PGP MESSAGE-----`}
+          <Paper elevation={2} className={classes.result}>
+            <pre className={commonClasses.pre} id={inputId}>
+              {demoEnc}
             </pre>
           </Paper>
           <br />
           <Typography>Try it out!</Typography>
-          <Box pl={2}>
-            Copy the above text block.
-            <br />
-            Head over to{" "}
-            <Link component={RouterLink} to={"/decrypt"}>
-              <b>Decrypt</b>
-            </Link>{" "}
-            .
-            <br />
-            Select <b>Paste my gibberish</b>.
-            <br />
-            Select <b>.txt</b> file type.
-            <br />
-            Enter <b>bad!</b> into the password field.
-            <br />
-            Hit Decrypt!
-            <br />
-            See the result?
-            <br />
-          </Box>
-          <br />
-          <Typography variant="h6" gutterBottom>
+
+          <ol>
+            <li>Copy the above text block.</li>
+            <li>
+              Head over to
+              <Link component={RouterLink} to={"/decrypt"}>
+                <b>Decrypt</b>
+              </Link>
+            </li>
+            <li>
+              Select <b>Paste my data</b>.
+            </li>
+            <li>
+              Select <b>.txt</b> file type.
+            </li>
+            <li>
+              Enter <b>bad!</b> into the password field.
+            </li>
+            <li>Hit Decrypt!</li>
+            <li>See the result?</li>
+          </ol>
+
+          <Typography
+            variant="h2"
+            className={commonClasses.subHeadingBold}
+            gutterBottom
+          >
             How does AES 256 work exactly?
           </Typography>
           <p>There are tons of resources. Here is a nice place to start.</p>
@@ -157,7 +140,11 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
           </div>
           <br />
           <br />
-          <Typography variant="h6" gutterBottom>
+          <Typography
+            variant="h2"
+            className={commonClasses.subHeadingBold}
+            gutterBottom
+          >
             How about that Asymmetric thing?
           </Typography>
           <p>This gives a good idea without inviting Alice or Bob.</p>
@@ -178,7 +165,7 @@ zKsgySAxAIcWhmRG6/EY3wg63MOluAIgqxNn27Y0+nOeHdY=
         message="Copied to clipboard"
         key={vertical + horizontal}
       />
-    </div>
+    </>
   );
 };
 

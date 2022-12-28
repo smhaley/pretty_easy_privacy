@@ -3,24 +3,23 @@ import { makeStyles } from "@material-ui/core/styles";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { Tooltip, Paper, Snackbar, IconButton } from "@material-ui/core";
 import { copy } from "../utils/utils";
+import { useCommonStyles } from "../commonStyles";
 
 const useStyles = makeStyles((theme) => ({
   result: {
-    maxHeight: "400px",
-    maxWidth: "400px",
-    overflowY: "scroll",
+    padding: "10px",
   },
   button: {
     margin: "5px",
   },
   copy: {
     textAlign: "right",
-    maxWidth: "400px",
   },
 }));
 
 const Display = (props) => {
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
   const [openSnack, setOpenSnack] = useState({
     open: false,
     vertical: "bottom",
@@ -50,7 +49,9 @@ const Display = (props) => {
         </Tooltip>
       </div>
       <Paper className={classes.result}>
-        <pre id={inputId}>{keyIn}</pre>
+        <pre className={commonClasses.pre} id={inputId}>
+          {keyIn}
+        </pre>
       </Paper>
 
       <Snackbar

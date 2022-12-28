@@ -133,7 +133,11 @@ const EncryptForm = (props) => {
         <Box pt={2} pb={2}>
           To Encrypt, simply fill out this form.
           <br />
-          {props.encType === 0 && <b>Just don't lose your Passphrase!</b>}
+          {props.encType === 0 ? (
+            <b>Just don't lose your Passphrase!</b>
+          ) : (
+            <br />
+          )}
         </Box>
         <Box mb={2}>
           <FormControl component="fieldset">
@@ -161,15 +165,17 @@ const EncryptForm = (props) => {
           </FormControl>
         </Box>
 
-        <Box mb={props.encType === 0 ? 4 : 2}>{inputType}</Box>
+        <Box mb={2}>{inputType}</Box>
         {props.encType === 0 && (
-          <PassPhrase
-            mainButtonText={"Encrypt"}
-            modalButtonText={"Submit"}
-            handleSubmit={handleFormSubmit}
-            handleConfirm={handleEncrypt}
-            loading={props.loader}
-          />
+          <Box pt={2}>
+            <PassPhrase
+              mainButtonText={"Encrypt"}
+              modalButtonText={"Submit"}
+              handleSubmit={handleFormSubmit}
+              handleConfirm={handleEncrypt}
+              loading={props.loader}
+            />
+          </Box>
         )}
       </div>
       {props.encType === 1 && (

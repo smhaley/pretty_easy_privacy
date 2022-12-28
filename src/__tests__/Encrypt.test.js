@@ -76,7 +76,7 @@ describe("Encryption Tests", () => {
 
       let message = "PEP Test.";
 
-      userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
+      userEvent.click(screen.getByText("Key Pair"));
       userEvent.click(screen.getByLabelText(/type my secret/i));
 
       const encIn = screen.getByLabelText(/text to encrypt/i);
@@ -123,7 +123,7 @@ describe("Encryption Tests", () => {
 
       let message = "PEP Test.";
 
-      userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
+      userEvent.click(screen.getByText("Key Pair"));
       userEvent.click(screen.getByLabelText(/type my secret/i));
 
       const encIn = screen.getByLabelText(/text to encrypt/i);
@@ -166,7 +166,7 @@ describe("Encryption Tests", () => {
 
     test("Invalid Key", async () => {
       render(<Encrypt />);
-      userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
+      userEvent.click(screen.getByText("Key Pair"));
       userEvent.click(screen.getByLabelText(/type my secret/i));
 
       const encIn = screen.getByLabelText(/text to encrypt/i);
@@ -188,7 +188,7 @@ describe("Encryption Tests", () => {
 
     test("Missing Key, text input", async () => {
       render(<Encrypt />);
-      userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
+      userEvent.click(screen.getByText("Key Pair"));
       userEvent.click(screen.getByLabelText(/type my secret/i));
 
       const encIn = screen.getByLabelText(/text to encrypt/i);
@@ -204,7 +204,7 @@ describe("Encryption Tests", () => {
     });
     test("Missing Key, file input", async () => {
       render(<Encrypt />);
-      userEvent.click(screen.getByText("Key Pair (Asymmetric)"));
+      userEvent.click(screen.getByText("Key Pair"));
       userEvent.click(screen.getByLabelText(/type my secret/i));
 
       const encIn = screen.getByLabelText(/text to encrypt/i);

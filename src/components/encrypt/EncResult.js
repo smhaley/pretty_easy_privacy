@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Box, Typography } from "@material-ui/core";
 import Display from "../shared/BrowserResult";
+import { useCommonStyles } from "../commonStyles";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Result = (props) => {
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
 
   const [openEnc, setOpenEnc] = useState(false);
 
@@ -46,19 +48,20 @@ const Result = (props) => {
   return (
     <div className={classes.main}>
       <Box pt={2}>
-        <Typography variant="h6" gutterBottom>
+        <Typography
+          className={commonClasses.resultH3}
+          variant="h3"
+          gutterBottom
+        >
           Encrypted Data:
         </Typography>
-        <Box>
-          Here are your results.
+        <Box m={1}>
+          Your encrypted data is below
           <br />
-          We recommend downloading the file.
-          <br />
-          Don't worry, if you prefer working with text yourself, we provide that
-          too. <br />
+          It is recommended to download the file.
           <br />
         </Box>
-        <Box mb={2} pr={4}>
+        <Box mb={2} mt={5} pr={4}>
           <Button
             disabled={disableCopy}
             onClick={() => setOpenEnc(!openEnc)}
