@@ -51,7 +51,7 @@ const App = () => {
                   <Route key={path} exact path={path} component={component} />
                 ))}
                 {suspenseRoutes.map(({ path, component }) => (
-                  <Route exact path={path}>
+                  <Route  key={path} exact path={path}>
                     <Suspense fallback={<DelayedFallback />}>
                       {component}
                     </Suspense>
